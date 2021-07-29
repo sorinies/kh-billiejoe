@@ -1,0 +1,13 @@
+/.metadata/
+apache-maven-3.8.1/lib/
+apache-maven-3.8.1/repository/
+billiejoe/.settings/
+billiejoe/target/
+Servers/
+
+### Java ###
+# Compiled class file
+*.class
+
+# Log file
+*.log
