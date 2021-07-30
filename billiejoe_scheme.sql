@@ -268,7 +268,7 @@ DROP TABLE tag;
 
 CREATE TABLE tag (
 	tag_no	NUMBER		NOT NULL,
-	tag_name	VARCHAR2(30)		NOT NULL
+	tag_name	VARCHAR2(50)		NOT NULL
 );
 
 --------------------------------------------------------------------------------
@@ -279,7 +279,7 @@ DROP TABLE reservation_state;
 
 CREATE TABLE reservation_state (
 	state_no	NUMBER		NOT NULL,
-	state_name	VARCHAR2(10)		NOT NULL
+	state_name	VARCHAR2(20)		NOT NULL
 );
 
 COMMENT ON COLUMN reservation_state.state_name IS '예약 상태 이름';
