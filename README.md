@@ -46,7 +46,8 @@ Spring Framework(boot 아니고...)와 mybatis를 사용한 공간 대여 시스
 CREATE USER billiejoe IDENTIFIED BY billiejoe_a0316;
 GRANT RESOURCE, CONNECT, CREATE VIEW TO billiejoe;
 ```
-3. 이 저장소의 루트에 있는 `billiejoe_scheme.xml` 파일을 `billiejoe` 사용자 권한으로 실행합니다. DROP 구문을 포함하고 있기 때문에 **반드시 한 구문씩 정상작동이 되는지 확인하면서 실행하세요!**
+3. 이 저장소의 루트에 있는 `billiejoe_scheme.sql` 파일을 `billiejoe` 사용자 권한으로 실행합니다. DROP 구문을 포함하고 있기 때문에 **반드시 한 구문씩 정상작동이 되는지 확인하면서 실행하세요!**
 4. 테이블과 시퀀스가 정상적으로 생성됐는지 확인하세요.
-5. 작업 중 **테이블 구조의 변경** 혹은 **새로운 시퀀스나 VIEW의 생성/수정**이 필요한 경우에는 팀원들에게 사전에 공유합니다.
-6. 이후 팀 채널에 변경에 필요한 SQL 구문을 공유하고 그와 함께 변경되는 내용(SQL 구문)을 `billiejoe_scheme.xml`에 포함하여 커밋/푸시 합니다.
+5. `billiejoe_init.sql` 파일은 프로젝트를 실행하기 위해 필요해 DB에 있어야 할 값 등을 입력할 때 사용하는 SQL 파일입니다. 자신의 파트에서 미리 입력되어 있어야 하는 데이터(예약 상태 같은 상수...)가 있다면 `INSERT` 구문을 추가해주세요.
+6. 작업 중 **테이블 구조의 변경** 혹은 **새로운 시퀀스나 VIEW의 생성/수정**이 필요한 경우에는 팀원들에게 사전에 공유합니다.
+7. 이후 팀 채널에 변경에 필요한 SQL 구문을 공유하고 그와 함께 변경되는 내용(SQL 구문)을 `billiejoe_scheme.sql`에 포함하여 커밋/푸시 합니다.
