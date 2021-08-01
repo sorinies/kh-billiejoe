@@ -1,6 +1,7 @@
 package kr.co.billiejoe.place.model.vo;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Place {
 	private int placeNo;
@@ -13,11 +14,16 @@ public class Place {
 	private String placeStatus; // 삭제 상태
 	private Timestamp placeDate; // 작성일
 	private int memberNo;
-	
-	public Place() {}
+	private int likeCount; // 좋아요수
+	private List<Attachment> atList;
+
+	public Place() {
+	}
 
 	public Place(int placeNo, String placeName, String placeSummary, String placeAddr, String placeContent,
-			int placeCharge, String placeIsAvailable, String placeStatus, Timestamp placeDate, int memberNo) {
+			int placeCharge, String placeIsAvailable, String placeStatus, Timestamp placeDate, int memberNo,
+			int likeCount) {
+		super();
 		this.placeNo = placeNo;
 		this.placeName = placeName;
 		this.placeSummary = placeSummary;
@@ -28,6 +34,23 @@ public class Place {
 		this.placeStatus = placeStatus;
 		this.placeDate = placeDate;
 		this.memberNo = memberNo;
+		this.likeCount = likeCount;
+	}
+
+	public List<Attachment> getatList() {
+		return atList;
+	}
+
+	public void setatList(List<Attachment> atList) {
+		this.atList = atList;
+	}
+
+	public int getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
 	}
 
 	public int getPlaceNo() {
@@ -115,8 +138,7 @@ public class Place {
 		return "Place [placeNo=" + placeNo + ", placeName=" + placeName + ", placeSummary=" + placeSummary
 				+ ", placeAddr=" + placeAddr + ", placeContent=" + placeContent + ", placeCharge=" + placeCharge
 				+ ", placeIsAvailable=" + placeIsAvailable + ", placeStatus=" + placeStatus + ", placeDate=" + placeDate
-				+ ", memberNo=" + memberNo + "]";
+				+ ", memberNo=" + memberNo + ", likeCount=" + likeCount + ", atList=" + atList + "]";
 	}
-	
-	
+
 }
