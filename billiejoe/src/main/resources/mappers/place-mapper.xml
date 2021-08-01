@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="placeMapper">
+
+	<!-- 파일 정보 조회용 resultMap -->
+	<resultMap type="Attachment" id="attachment_rm">
+		<id property="fileNo" column="FILE_NO"/>
+		
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="fileName" column="FILE_NAME"/>
+		<result property="fileLevel" column="FILE_LEVEL"/>
+		<result property="boardNo" column="BOARD_NO"/>
+	</resultMap>
+	<!-- place 조회용 resultMap -->
+	<resultMap type="Place" id="place_rm">
+		<id property="placeNo" column="PLACE_NO"/> 
+
+		<result property="placeName" column="PLACE_NAME" />
+		<result property="placeSummary" column="PLACE_SUMMARY"/>
+		<result property="placeAddr" column="PLACE_ADDR" />
+		<result property="placeContent" column="PLACE_CONTENT"/>
+		<result property="placeCharge" column="PLACE_CHARGE" />
+		<result property="placeDate" column="PLACE_DATE" />
+		<result property="memberNo" column="MEMBERNO" />
+		<result property="likeCount" column="LIKE_COUNT" />
+		
+		 <collection property="atList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Attachment" select="selectAttachment"/>
+	</resultMap >
+	<!-- 업로드된 이미지 조회 -->
+	<select id="selectAttachment" parameterType="_int" resultMap="attachment_rm">
+		SELECT * FROM ATTACHMENT WHERE PLACE_NO = #{placeNo} ORDER BY FILE_LEVEL
+	</select>
+	
+	<!-- 게시글 상세조회 (수정예정)  -->	
+	<select id="placeView" parameterType="_int" resultMap="place_rm">
+		SELECT * FROM PLACE_VIEW
+		WHERE PLACE_NO = #{placeNo} AND PLACE_IS_AVAILABLE = 'Y' AND PLACE_STATUS = 'Y'
+	</select>
+	
+</mapper>
