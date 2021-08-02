@@ -49,7 +49,7 @@
         width: 45px;
         height: 40px;
         text-align: center;
-        background-color: grey;
+        background-color: rgb(218, 213, 213);
         margin-bottom: 0px;
     }   
     
@@ -102,6 +102,7 @@
 
         <!--제목 한줄소개 해시태크  -->
         <br><br>
+        
         <div class="row">
             <div>
                 <h2>${place.placeName}</h2>
@@ -125,19 +126,32 @@
             <div class="col-sm-8">
                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
+                    <c:if test="${!empty place.atList[0] }">
                       <div class="carousel-item active">
                         <img src="${place.atList[0].filePath }${place.atList[0].fileName }" class="d-block w-100" alt="...">
                       </div>
+                    </c:if>
+                    
+                    <c:if test="${!empty place.atList[1] }">
                       <div class="carousel-item">
-                        <img src="${place.atList[1].filePath }${place.atList[0].fileName }" class="d-block w-100" alt="...">
+                        <img src="${place.atList[1].filePath }${place.atList[1].fileName }" class="d-block w-100" alt="...">
                       </div>
+                    </c:if>
+                    
+                    <c:if test="${!empty place.atList[2] }">
                       <div class="carousel-item">
-
-                        <img src="${place.atList[2].filePath }${place.atList[0].fileName }" class="d-block w-100" alt="...">
+                        <img src="${place.atList[2].filePath }${place.atList[2].fileName }" class="d-block w-100" alt="...">
                       </div>
+                    </c:if>
+                    
+                    
+                    <c:if test="${!empty place.atList[3] }">
                       <div class="carousel-item">
-                        <img src="${place.atList[3].filePath }${place.atList[0].fileName }" class="d-block w-100" alt="...">
+                        <img src="${place.atList[3].filePath }${place.atList[3].fileName }" class="d-block w-100" alt="...">
                       </div>
+                    </c:if>
+                    
+                    
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -163,13 +177,14 @@
                 <!-- 글내용 -->
                 <div id="content">${place.placeContent }</div>
                 <hr>
-                <p style="font-size: x-large;">찾아오시는 길</p>
+                <p style="font-size: x-large;">찾아오시는 길 </p>
                 <p>${place.placeAddr}</p>
                 <!-- 지도 -->
                 <div id="map" style="width:100%;height:350px;"></div><br><br>
             </div>
             <div class="col-sm-1"></div>
             <div class="col-sm-3" style="padding-left: 15px;">
+                    <form action="#" method="get">
                 <div id="datebox">
                     <br>
 
@@ -179,15 +194,19 @@
                     
                     <div id="time">
                         <p style="font-size: x-large;">날짜를 선택해주세요</p>
-                    </div>
+                    </div><br>
                     <div id="price-zone">
                         <p>가격</p>
                         <p>${place.placeCharge}/시간 </p>
                         <p id="price">예약 시간을 선택해주세요</p>
                     </div>
-                    <button class="btn btn-secondary" type="button">채팅문의</button>
-                    <button class="btn btn-primary" type="submit">예약하기</button><br><br>
-
+	                    <button class="btn btn-secondary" type="button">채팅문의</button>
+	                    <button class="btn btn-primary" type="submit">예약하기</button><br><br>
+                    	
+                    	<input type="hidden" name="sumPrice" id="hidden-price">
+                    	<input type="hidden" name="day" id="hidden-day">
+                    </form>
+	
                 </div>
             </div>
         </div>
@@ -199,34 +218,61 @@
 	const name = '${place.placeName}'
 	const price = '${place.placeCharge}'
 	const priceInt = parseInt(price);
+	console.log(price)
     $(function(){
         /* 날짜 선택 관련 스크립트 */
         $("#date3").datepicker({
             onSelect:function(dateText, inst) {
+			const selectedMonth = inst.selectedMonth+1
+			const selectedDay = inst.selectedDay
+			console.log(selectedMonth);
                 $("#time").children().remove()
-                
+                function leftPad(value) { 
+                	if (value >= 10) { return value; }
+                	return "0"+selectedMonth; 
+                	}
+                function leftPad2(value) { 
+                	if (value >= 10) { return value; }
+                	return "0"+selectedDay; 
+                	}
+
                
-                const date = inst.selectedYear +'-'+(inst.selectedMonth+1)+'-'+inst.selectedDay;
+                const date = inst.selectedYear +'-'+leftPad(selectedMonth)+'-'+leftPad2(selectedDay);
+                
+                /* 예약일 데이터 넘기기 */
+                $("#hidden-day").val(date)
                 
                 $.ajax({
                 	url :"reservationCheck",
                 	data : {"date" : date},
                 	type : "post",
-                	success : function(){},
+                	success : function(reslut){
+                		const f = [1,2,3,4]
+                        function check(array,value){
+                            return array.some(function(arrayValue){
+                                return value==arrayValue;
+                            })
+                        }
+                        for(i=0; i<24; i++){
+                            if(check(reslut.time,i)){
+                                
+                                let inputPhone = $("<input>",{type : "checkbox",id:"check"+i, name : "checkbox", value : i,ONCLICK:"check_all();"})
+                                let label = $("<label for = check"+i+">"+i+"</label>")
+                                $("#time").append(inputPhone).append(label);
+
+
+                            }else{
+                            	let label = $("<label class='no-checkbox'>"+i+"</label>")
+                                $("#time").append(label);
+                            }
+                        }
+                	},
                 	error : function(){}
                 });
-                for(i=0; i<24; i++){
-                    if(i==1){
-                        let label = $("<label class='no-checkbox'>"+i+"</label>")
-                        $("#time").append(label);
-
-                    }else{
-                        let inputPhone = $("<input>",{type : "checkbox",id:"check"+i, name : "checkbox", value : i,ONCLICK:"check_all();"})
-                        let label = $("<label for = check"+i+">"+i+"</label>")
-                        $("#time").append(inputPhone).append(label);
-
-                    }
-                }
+                
+             // 배열에 값이 중복되는지 확인하는 함수
+             
+             	
             },
             minDate: '-0d'
         });
@@ -293,6 +339,8 @@
             var hourlyPrice = $("<p>"+priceInt.toLocaleString()+"원/시간</p>");
             var sumPrice = $("<p id = 'price'>"+ (priceInt*$("input:checkbox[name='checkbox']:checked").length).toLocaleString()+"원</p>");
             $("#price-zone").append(price).append(hourlyPrice).append(sumPrice);
+            $("#hidden-price").val(priceInt*$("input:checkbox[name='checkbox']:checked").length)
+            
         }else {
             oldCheckValue = obj.value;    // 체크된 값이 없으면 처음 체크된 값을 oldCheckValue 담아준해준다.
         }
