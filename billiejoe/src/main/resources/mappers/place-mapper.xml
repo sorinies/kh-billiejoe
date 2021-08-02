@@ -26,6 +26,31 @@
 		
 		 <collection property="atList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Attachment" select="selectAttachment"/>
 	</resultMap >
+	
+	<!-- 예약가능시간 확인resultMap -->
+	<resultMap type="PlaceAvailable" id="placeAvailable_rm">
+		<id property="availableNo" column="AVAILABLE_NO"/>
+		
+		<result property="placeNo" column="PLACE_NO"/>
+		<result property="start" column="AVAILABLE_START"/>
+		<result property="end" column="AVAILABLE_END"/>
+	
+	</resultMap>
+	
+	<!--예약되어있는 시간 확인 resultMap  -->
+	<resultMap type="Reservation" id="reservation_rm">
+		
+		<id property="reserveNo" column="RESERVE_NO"/>
+		
+		<result property="useDate" column="RESERVE_USE_DATE"/>
+		<result property="useStart" column="RESERVE_USE_START"/>
+		<result property="useEnd" column="RESERVE_USE_END"/>
+		<result property="reserveDate" column="RESERVE_DATE"/>
+		<result property="placeNo" column="PLACE_NO"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="stateNo" column="STATE_NO"/>
+	
+	</resultMap>
 	<!-- 업로드된 이미지 조회 -->
 	<select id="selectAttachment" parameterType="_int" resultMap="attachment_rm">
 		SELECT * FROM ATTACHMENT WHERE PLACE_NO = #{placeNo} ORDER BY FILE_LEVEL
@@ -35,6 +60,14 @@
 	<select id="placeView" parameterType="_int" resultMap="place_rm">
 		SELECT * FROM PLACE_VIEW
 		WHERE PLACE_NO = #{placeNo} AND PLACE_IS_AVAILABLE = 'Y' AND PLACE_STATUS = 'Y'
+	</select>
+	
+	<select id="getAvailable" parameterType="_int" resultMap="placeAvailable_rm">
+		SELECT * FROM PLACE_AVAILABLE WHERE PLACE_NO = #{placeNo}
+	</select>
+	
+	<select id="getTimeList" parameterType="Reservation" resultMap="reservation_rm">
+		SELECT * FROM RESERVATION WHERE PLACE_NO = #{placeNo} AND RESERVE_USE_DATE= #{useDate}
 	</select>
 	
 </mapper>

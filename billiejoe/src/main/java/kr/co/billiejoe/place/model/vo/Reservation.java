@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 public class Reservation {
 	private int reserveNo;
-	private Date useDate; // 이용 예정일
+	private String useDate; // 이용 예정일
 	private int useStart; // 이용 시작시간
 	private int useEnd; // 이용 종료시간
 	private Timestamp reserveDate; // 예약일시
@@ -15,8 +15,11 @@ public class Reservation {
 	
 	public Reservation() {}
 	
-	public Reservation(int reserveNo, Date useDate, int useStart, int useEnd, Timestamp reserveDate, int placeNo,
+	
+
+	public Reservation(int reserveNo, String useDate, int useStart, int useEnd, Timestamp reserveDate, int placeNo,
 			int memberNo, int stateNo) {
+		super();
 		this.reserveNo = reserveNo;
 		this.useDate = useDate;
 		this.useStart = useStart;
@@ -27,6 +30,8 @@ public class Reservation {
 		this.stateNo = stateNo;
 	}
 
+
+
 	public int getReserveNo() {
 		return reserveNo;
 	}
@@ -35,13 +40,19 @@ public class Reservation {
 		this.reserveNo = reserveNo;
 	}
 
-	public Date getUseDate() {
+	
+
+	public String getUseDate() {
 		return useDate;
 	}
 
-	public void setUseDate(Date useDate) {
+
+
+	public void setUseDate(String useDate) {
 		this.useDate = useDate;
 	}
+
+
 
 	public int getUseStart() {
 		return useStart;
