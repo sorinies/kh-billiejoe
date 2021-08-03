@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+ <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,11 +11,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> 
    
 
-<!-- 달력 ui -->
+<!-- <!-- 달력 ui -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"> -->
 <style>
     /* 화면전체 */
     #main{
@@ -110,12 +111,21 @@
             <div>
                 <p>${place.placeSummary}</p>
             </div>
+            	<c:set var="tagList" value="${place.tagList}"></c:set>
             <div class="col-sm-12" id="nav">
-                <span class="badge bg-primary">해시태그</span>
-                <span class="badge bg-primary">해시태그</span>
+            	 <c:forEach items="${tagList}" var="tag"  >
+                	<span class="badge bg-primary">${tag.tagName}</span>
+            	</c:forEach> 
                 <a href="#" class="btn btn-outline-secondary btn-lg"  id ="list">목록</a>
-				<%-- <button type="button" class="btn btn-outline-secondary btn-lg" id="btnLike"><i class="bi bi-heart"></i> <span id="likeCount">${place.likeCount}</span></button> --%>
-                <button type="button" class="btn btn-outline-secondary btn-lg" id="btnLike"><i class="bi bi-heart-fill text-danger"></i> <span id="likeCount">${place.likeCount}</span></button>
+                
+                <c:choose>
+	                <c:when test="${like==0 }">
+						<button type="button" class="btn btn-outline-secondary btn-lg btn-like" id="btnLike"  onclick="like_btn();"><i class="bi bi-heart"></i> <span id="likeCount">${place.likeCount}</span></button>
+	                </c:when>
+                	<c:otherwise>
+		                <button type="button" class="btn btn-outline-secondary btn-lg btn-like" id="btnLike" onclick="like_btn();"><i class="bi bi-heart-fill text-danger"></i> <span id="likeCount">${place.likeCount}</span></button>
+                	</c:otherwise>
+                </c:choose>
                 
             </div>
         </div><br>
@@ -214,18 +224,47 @@
     <!-- 달력 스크립트 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a523483cb174903a659b77049c5b0ee7&libraries=services"></script>
 <script>
+	const like = '${like}'
 	const addr = '${place.placeAddr}'
 	const name = '${place.placeName}'
 	const price = '${place.placeCharge}'
 	const priceInt = parseInt(price);
-	console.log(price)
+	
+	function like_btn() {
+		            
+            $.ajax({
+            	url :"likeCheck",
+            	type :"POST",
+            	data : {"like" : like},
+            	success : function (result) {
+            		console.log(result)
+					if(result == 3){
+						alert("로그인 후 사용해 주세요")
+					}else{
+						location.reload();
+					}
+					
+				},
+				
+				error : function name() {
+					
+				}
+            })
+            
+		
+	}
+
+	
+		
+		
+
+	
     $(function(){
         /* 날짜 선택 관련 스크립트 */
         $("#date3").datepicker({
             onSelect:function(dateText, inst) {
 			const selectedMonth = inst.selectedMonth+1
 			const selectedDay = inst.selectedDay
-			console.log(selectedMonth);
                 $("#time").children().remove()
                 function leftPad(value) { 
                 	if (value >= 10) { return value; }
@@ -247,7 +286,6 @@
                 	data : {"date" : date},
                 	type : "post",
                 	success : function(reslut){
-                		const f = [1,2,3,4]
                         function check(array,value){
                             return array.some(function(arrayValue){
                                 return value==arrayValue;
@@ -257,6 +295,7 @@
                             if(check(reslut.time,i)){
                                 
                                 let inputPhone = $("<input>",{type : "checkbox",id:"check"+i, name : "checkbox", value : i,ONCLICK:"check_all();"})
+                               /*  let inputPhone = $("<input type = checkbox id = check"+i+"name=checkbox value = "+i+"onclick = ckeck_all();</input") */
                                 let label = $("<label for = check"+i+">"+i+"</label>")
                                 $("#time").append(inputPhone).append(label);
 
@@ -386,6 +425,11 @@
             map.setCenter(coords);
         } 
     }); 
+    
+    
+		
+	    
+	
 
 </script>
      

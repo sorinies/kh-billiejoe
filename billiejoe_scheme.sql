@@ -2,15 +2,15 @@
 --------------------------------------------------------------------------------
 -- 회원 테이블 생성 SQL
 --------------------------------------------------------------------------------
-DROP TABLE member;
+DROP TABLE member CASCADE CONSTRAINTS;
 
 CREATE TABLE member (
 	member_no	NUMBER		NOT NULL,
 	member_email	VARCHAR2(50)		NOT NULL,
-	member_pw	VARCHAR2(50)		NOT NULL,
+	member_pw	VARCHAR2(200)		NOT NULL,
 	member_name	VARCHAR2(30)		NOT NULL,
 	member_phone	VARCHAR2(20)		NOT NULL,
-	member_pic	VARCHAR2(100)	DEFAULT '/img/....png'	NOT NULL,
+	member_pic	VARCHAR2(200)	DEFAULT '/img/....png'	NOT NULL,
 	reg_date	TIMESTAMP	DEFAULT SYSTIMESTAMP	NOT NULL,
 	member_status	CHAR(1)	DEFAULT 'Y'	CHECK(member_status IN('Y','N')) NOT NULL,
 	member_is_admin	CHAR(1)	DEFAULT 'N'	CHECK(member_is_admin IN('Y','N')) NOT NULL
@@ -458,3 +458,9 @@ LEFT JOIN (SELECT COUNT(*) LIKE_COUNT ,PLACE_NO
         FROM LIKES
         GROUP BY PLACE_NO) USING (PLACE_NO)
 JOIN MEMBER USING(MEMBER_NO);
+
+--tag조회용 view
+CREATE OR REPLACE FORCE VIEW PLACE_TAG_VIEW (PLACE_NO , TAG_NO, TAG_NAME) AS 
+SELECT PLACE_NO, TAG_NO, TAG_NAME
+FROM PLACE_TAG      
+JOIN TAG USING (TAG_NO);

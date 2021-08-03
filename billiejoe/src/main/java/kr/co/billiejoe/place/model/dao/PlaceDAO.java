@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.co.billiejoe.place.model.vo.Likes;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
 import kr.co.billiejoe.place.model.vo.Reservation;
@@ -27,5 +28,17 @@ public class PlaceDAO {
 	public List<Reservation> getTimeList(Reservation reservation) {
 		// TODO Auto-generated method stub
 		return session.selectList("placeMapper.getTimeList",reservation);
+	}
+
+	public int likeCheck(int memberNo) {
+		return session.selectOne("placeMapper.likeCheck", memberNo);
+	}
+
+	public int insertLike(Likes likes) {
+		return session.insert("placeMapper.insertLike",likes);
+	}
+
+	public int deleteLike(Likes likes) {
+		return session.delete("placeMapper.deleteLike",likes);
 	}
 }
