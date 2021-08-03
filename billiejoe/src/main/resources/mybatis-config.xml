@@ -12,6 +12,8 @@
 	<!-- 별칭 작성 부분 -->
 	<!-- VO클래스의 패키지명 + 클래스명 작성하는 것이 불편하기 때문에 짧은 별칭 부여 -->
 	<typeAliases>
+	
+		<typeAlias type="kr.co.billiejoe.member.model.vo.Member" alias="Member" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Place" alias="place" />
 		
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Attachment" alias="Attachment" />
@@ -29,6 +31,7 @@
 	<!-- mapper 파일(SQL 작성되는파일) 위치 등록 부분 -->
 	<mappers>
 		<mapper resource="/mappers/place-mapper.xml" />
+		<mapper resource="/mappers/member-mapper.xml" />
 	</mappers>
 
 

@@ -17,6 +17,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <!-- sweetalert API 추가 --> 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
   <header class="sticky-top shadow">
@@ -30,14 +33,30 @@
         </select>
         <input class="form-control form-control-dark" type="text" placeholder="Search">
       </div>
+      
       <ul class="navbar-nav">
-        <li class="nav-item text-nowrap">
-          <a class="nav-link px-3" href="#">로그인</a>
-        </li>
-        <li class="nav-item text-nowrap">
-          <a class="nav-link px-3" href="#">회원가입</a>
-        </li>
+		<c:choose>
+			<c:when test="${ empty loginMember }">
+				<li class="nav-item text-nowrap">
+				  <a class="nav-link px-3" href="${contextPath}/member/login">로그인</a>
+				</li>
+		        <li class="nav-item text-nowrap">
+		          <a class="nav-link px-3" href="${contextPath}/member/signUp">회원가입</a>
+		        </li>
+			</c:when>	
+		      
+			<c:otherwise>
+			<%-- 로그아웃 버튼 --%>
+				<li class="nav-item text-nowrap">
+					<a class="nav-link px-3" href="${contextPath}/member/myPage">${loginMember.memberName}</a>
+				</li>
+				<li class="nav-item text-nowrap">
+					<a class="nav-link px-3" href="${contextPath}/member/logout">Logout</a>
+				</li>
+			</c:otherwise>
+		</c:choose>	
       </ul>
+      
       <button class="navbar-toggler me-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" type="button"><span class="navbar-toggler-icon"></span></button>
       <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas">
         <div class="offcanvas-header">
