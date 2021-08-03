@@ -3,6 +3,7 @@ package kr.co.billiejoe.place.model.vo;
 public class Tag {
 	private int tagNo;
 	private String tagName;
+	private int placeNo;
 
 	public Tag() {}
 	
@@ -11,6 +12,15 @@ public class Tag {
 		this.tagName = tagName;
 	}
 	
+	
+	public int getPlaceNo() {
+		return placeNo;
+	}
+
+	public void setPlaceNo(int placeNo) {
+		this.placeNo = placeNo;
+	}
+
 	public int getTagNo() {
 		return tagNo;
 	}
@@ -26,6 +36,8 @@ public class Tag {
 
 	@Override
 	public String toString() {
-		return "Tag [tagNo=" + tagNo + ", tagName=" + tagName + "]";
+		return "Tag [tagNo=" + tagNo + ", tagName=" + tagName + ", placeNo=" + placeNo + "]";
 	}
+
+	
 }

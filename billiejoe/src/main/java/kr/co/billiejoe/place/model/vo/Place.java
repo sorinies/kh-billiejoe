@@ -16,6 +16,7 @@ public class Place {
 	private int memberNo;
 	private int likeCount; // 좋아요수
 	private List<Attachment> atList;
+	private List<Tag> tagList;
 
 	public Place() {
 	}
@@ -36,14 +37,30 @@ public class Place {
 		this.memberNo = memberNo;
 		this.likeCount = likeCount;
 	}
+	
+	
+
+	public List<Attachment> getAtList() {
+		return atList;
+	}
+
+	public void setAtList(List<Attachment> atList) {
+		this.atList = atList;
+	}
+
+	public List<Tag> getTagList() {
+		return tagList;
+	}
+
+	public void setTagList(List<Tag> tagList) {
+		this.tagList = tagList;
+	}
 
 	public List<Attachment> getatList() {
 		return atList;
 	}
 
-	public void setatList(List<Attachment> atList) {
-		this.atList = atList;
-	}
+	
 
 	public int getLikeCount() {
 		return likeCount;
@@ -138,7 +155,10 @@ public class Place {
 		return "Place [placeNo=" + placeNo + ", placeName=" + placeName + ", placeSummary=" + placeSummary
 				+ ", placeAddr=" + placeAddr + ", placeContent=" + placeContent + ", placeCharge=" + placeCharge
 				+ ", placeIsAvailable=" + placeIsAvailable + ", placeStatus=" + placeStatus + ", placeDate=" + placeDate
-				+ ", memberNo=" + memberNo + ", likeCount=" + likeCount + ", atList=" + atList + "]";
+				+ ", memberNo=" + memberNo + ", likeCount=" + likeCount + ", atList=" + atList + ", tagList=" + tagList
+				+ "]";
 	}
+
+	
 
 }

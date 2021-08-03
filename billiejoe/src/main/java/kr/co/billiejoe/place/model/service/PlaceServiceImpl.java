@@ -9,13 +9,16 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.billiejoe.place.model.dao.PlaceDAO;
+import kr.co.billiejoe.place.model.vo.Likes;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
 import kr.co.billiejoe.place.model.vo.Reservation;
 
 @Service
+@Transactional
 public class PlaceServiceImpl implements PlaceService{
 	@Autowired
 	private PlaceDAO dao;
@@ -27,7 +30,14 @@ public class PlaceServiceImpl implements PlaceService{
 	public Place placeView(int placeNo) {
 		return dao.placeView(placeNo);
 	}
-
+	/**로그인한 멤버가 게시물 좋아요 했는지 확인
+	 *
+	 */
+	@Override
+	public int likeCheck(int memberNo) {
+		
+		return dao.likeCheck(memberNo);
+	}
 	/**상세보기중 예약 가능 시간 구하기
 	 *
 	 */
@@ -68,4 +78,18 @@ public class PlaceServiceImpl implements PlaceService{
 		
 		return time;
 	}
+	/**좋아요 추가하기
+	 *
+	 */
+	@Override
+	public int insertLike(Likes likes) {
+		return dao.insertLike(likes);
+	}
+// 	좋아요 삭제하기
+	@Override
+	public int deleteLike(Likes likes) {
+		return dao.deleteLike(likes);
+	}
+
+	
 }
