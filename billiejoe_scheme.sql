@@ -2,15 +2,15 @@
 --------------------------------------------------------------------------------
 -- 회원 테이블 생성 SQL
 --------------------------------------------------------------------------------
-DROP TABLE member;
+DROP TABLE member CASCADE CONSTRAINTS;
 
 CREATE TABLE member (
 	member_no	NUMBER		NOT NULL,
 	member_email	VARCHAR2(50)		NOT NULL,
-	member_pw	VARCHAR2(50)		NOT NULL,
+	member_pw	VARCHAR2(200)		NOT NULL,
 	member_name	VARCHAR2(30)		NOT NULL,
 	member_phone	VARCHAR2(20)		NOT NULL,
-	member_pic	VARCHAR2(100)	DEFAULT '/img/....png'	NOT NULL,
+	member_pic	VARCHAR2(200)	DEFAULT '/img/....png'	NOT NULL,
 	reg_date	TIMESTAMP	DEFAULT SYSTIMESTAMP	NOT NULL,
 	member_status	CHAR(1)	DEFAULT 'Y'	CHECK(member_status IN('Y','N')) NOT NULL,
 	member_is_admin	CHAR(1)	DEFAULT 'N'	CHECK(member_is_admin IN('Y','N')) NOT NULL
@@ -87,11 +87,11 @@ COMMENT ON COLUMN place_available.available_end IS '이용 가능 종료시간';
 --------------------------------------------------------------------------------
 -- 예약 테이블 생성 SQL
 --------------------------------------------------------------------------------
-DROP TABLE reservation;
+DROP TABLE reservation CASCADE CONSTRAINTS;
 
 CREATE TABLE reservation (
 	reserve_no	NUMBER		NOT NULL,
-	reserve_use_date	DATE		NOT NULL,
+	reserve_use_date VARCHAR2(30) NOT NULL,
 	reserve_use_start	NUMBER		NOT NULL,
 	reserve_use_end	NUMBER		NOT NULL,
 	reserve_date	TIMESTAMP	DEFAULT SYSTIMESTAMP	NOT NULL,
@@ -449,3 +449,18 @@ DROP SEQUENCE seq_report;
 --------------------------------------------------------------------------------
 -- VIEW 설정
 --------------------------------------------------------------------------------
+
+--place조회용 view
+CREATE OR REPLACE FORCE VIEW "BILLIEJOE"."PLACE_VIEW" ("PLACE_NO", "PLACE_NAME", "PLACE_SUMMARY", "PLACE_ADDR", "PLACE_CONTENT", "PLACE_CHARGE", "MEMBER_NO", "PLACE_DATE", "LIKE_COUNT", "PLACE_STATUS", "PLACE_IS_AVAILABLE") AS 
+  SELECT PLACE_NO, PLACE_NAME, PLACE_SUMMARY, PLACE_ADDR, PLACE_CONTENT, PLACE_CHARGE, MEMBER_NO, PLACE_DATE, LIKE_COUNT,PLACE_STATUS,PLACE_IS_AVAILABLE
+FROM PLACE
+LEFT JOIN (SELECT COUNT(*) LIKE_COUNT ,PLACE_NO
+        FROM LIKES
+        GROUP BY PLACE_NO) USING (PLACE_NO)
+JOIN MEMBER USING(MEMBER_NO);
+
+--tag조회용 view
+CREATE OR REPLACE FORCE VIEW PLACE_TAG_VIEW (PLACE_NO , TAG_NO, TAG_NAME) AS 
+SELECT PLACE_NO, TAG_NO, TAG_NAME
+FROM PLACE_TAG      
+JOIN TAG USING (TAG_NO);
