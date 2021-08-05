@@ -35,7 +35,40 @@ public class MemberDAO {
 	public int signUp(Member inputMember) {
 		return sqlSession.insert("memberMapper.signUp" , inputMember );
 	}
+	
+	/** 회원 비밀번호 조회 DAO
+	 * @param memberNo
+	 * @return result
+	 */
+	public String selectPassword(int memberNo) {
+		return sqlSession.selectOne("memberMapper.selectPassword" , memberNo );
+	}
 
+	/** 회원 탈퇴 DAO
+	 * @param loginMember
+	 * @return result
+	 */
+	public int secession(int memberNo) {
+		return sqlSession.update("memberMapper.secession" , memberNo );
+	}
+
+	/** 탈퇴 회원 목록 추가 DAO
+	 * @param loginMember
+	 * @return 
+	 */
+	public int secesionInsert(Member loginMember) {
+		return sqlSession.insert("memberMapper.secessionInsert" , loginMember );
+		
+	}
+
+	/** 탈퇴 예정 회원의 예약건 조회
+	 * @param memberNo
+	 * @return result3
+	 */
+	public int selectReservation(int memberNo) {
+		return sqlSession.selectOne("memberMapper.selectReservation", memberNo);
+	}
+	
 	
 	
 	

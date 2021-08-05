@@ -213,14 +213,14 @@ function autoHypenPhone(str) {
 	}
 	return str;
 }
+	var Phone = document.getElementById('phone');
+	Phone.onkeyup = function(event) {
+		event = event || window.event;
+		var _val = this.value.trim();
+		this.value = autoHypenPhone(_val);
+	}
 
 // ------------------------------------------------------------------------------------------------- 로그인 js
-var Phone = document.getElementById('phone');
-Phone.onkeyup = function(event) {
-	event = event || window.event;
-	var _val = this.value.trim();
-	this.value = autoHypenPhone(_val);
-}
 
 	function loginValidate() {
 			if ($("#memberEmail").val().trim().length == 0) {
@@ -243,3 +243,22 @@ Phone.onkeyup = function(event) {
 				return false;
 			}
 		}
+// ------------------------------------------------------------------------------------------------- 회원탈퇴 js
+            function secession() {
+
+                swal({
+                    title: "회원 탈퇴",
+                    text: "정말 탈퇴하시겠습니까?",
+                    icon: "info",
+                    buttons: [
+                        '아니요',
+                        '네'
+                    ],
+                    dangerMode: true,
+                }).then(function (isConfirm) {
+                    if (isConfirm) {
+                        $("#secession").submit();
+                    } 
+                })
+            }
+		

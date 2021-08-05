@@ -101,4 +101,36 @@ public class MemberServiceImpl implements MemberService{
 		return date + str + ext;
 	}
 
+	
+	// 회원 탈퇴 Service
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int secession(String memberPw,  Member loginMember) {
+		String savePwd = dao.selectPassword(loginMember.getMemberNo());
+		
+		int result = 0; // 결과 저장용 변수
+		
+		// 조회한 비밀번호와 입력 받은 현재 비밀번호가 일치하는지 확인
+		if( bCryptPasswordEncoder.matches(memberPw, savePwd) ) {
+			
+			// 예약건이 존재하는지 확인
+			int count = dao.selectReservation(loginMember.getMemberNo());
+			
+			if(count == 0) {
+				result = dao.secession(loginMember.getMemberNo());
+			}
+		}
+		return result; // 탈퇴 실패
+	}
+
+	// 탈퇴 회원 목록 추가 Service
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int secessionInsert(Member loginMember) {
+		
+		  int result2 = dao.secesionInsert(loginMember);
+		 
+		return result2;
+	}
+
 }
