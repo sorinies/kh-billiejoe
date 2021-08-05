@@ -27,5 +27,18 @@ public interface MemberService {
 	 */
 	public abstract int signUp(Member inputMember, MultipartFile images, String webPath, String savePath);
 
+	/** 회원 탈퇴 Service
+	 * @param currentPwd
+	 * @param loginMember
+	 * @return result
+	 */
+	public abstract int secession(String memberPw, Member loginMember);
+
+	/** 탈퇴 회원 목록 추가
+	 * @param loginMember
+	 * @return result2
+	 */
+	public abstract int secessionInsert(Member loginMember);
+
 
 }

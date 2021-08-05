@@ -19,8 +19,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <!-- sweetalert API 추가 --> 
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <!-- <!-- 달력 ui -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -63,6 +62,17 @@
 			</c:otherwise>
 		</c:choose>	
       </ul>
+      
+      <%-- swal 창 --%>
+	  <c:if test="${!empty title}">
+		  <script>
+			  swal({
+				  "icon" : "${icon}",
+	   			  "title" : "${title}",
+				  "text" : "${text}"
+			  });
+		  </script>
+	  </c:if>
       
       <button class="navbar-toggler me-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" type="button"><span class="navbar-toggler-icon"></span></button>
       <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas">
