@@ -2,7 +2,7 @@
 --------------------------------------------------------------------------------
 -- 회원 테이블 생성 SQL
 --------------------------------------------------------------------------------
-DROP TABLE member CASCADE CONSTRAINTS;
+DROP TABLE member;
 
 CREATE TABLE member (
 	member_no	NUMBER		NOT NULL,
@@ -29,14 +29,15 @@ DROP TABLE unreg_member;
 CREATE TABLE unreg_member (
 	member_no	NUMBER		NOT NULL,
 	member_email	VARCHAR2(50)		NOT NULL,
-	member_pw	VARCHAR2(50)		NOT NULL,
+	member_pw	VARCHAR2(200)	DEFAULT 'secession_pw'	NOT NULL,
 	member_name	VARCHAR2(30)		NOT NULL,
-	member_phone	VARCHAR2(20)		NOT NULL,
-	member_pic	VARCHAR2(100)		NOT NULL,
+	member_phone	VARCHAR2(20) DEFAULT '000-0000-0000'		NOT NULL,
+	member_pic	VARCHAR2(200)	DEFAULT '/img/....png'	NOT NULL,
 	reg_date	TIMESTAMP		NOT NULL,
 	member_is_admin	CHAR(1)	DEFAULT 'N'	CHECK(member_is_admin IN('Y','N')) NOT NULL,
-	unreg_date	TIMESTAMP		NOT NULL
+	unreg_date	TIMESTAMP	DEFAULT SYSTIMESTAMP	NOT NULL
 );
+
 
 COMMENT ON COLUMN unreg_member.reg_date IS '회원 가입 일시';
 COMMENT ON COLUMN unreg_member.member_is_admin IS '회원 관리자 여부';
@@ -458,9 +459,3 @@ LEFT JOIN (SELECT COUNT(*) LIKE_COUNT ,PLACE_NO
         FROM LIKES
         GROUP BY PLACE_NO) USING (PLACE_NO)
 JOIN MEMBER USING(MEMBER_NO);
-
---tag조회용 view
-CREATE OR REPLACE FORCE VIEW PLACE_TAG_VIEW (PLACE_NO , TAG_NO, TAG_NAME) AS 
-SELECT PLACE_NO, TAG_NO, TAG_NAME
-FROM PLACE_TAG      
-JOIN TAG USING (TAG_NO);
