@@ -8,6 +8,7 @@ public class ChatMsg {
 	private Timestamp chatMsgDate;
 	private int memberNo;
 	private int chatRoomNo;
+	private String memberName;
 	
 	public ChatMsg() {}
 
@@ -17,6 +18,15 @@ public class ChatMsg {
 		this.chatMsgDate = chatMsgDate;
 		this.memberNo = memberNo;
 		this.chatRoomNo = chatRoomNo;
+	}
+	
+	
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
 	}
 
 	public int getChatMsgNo() {
@@ -62,8 +72,10 @@ public class ChatMsg {
 	@Override
 	public String toString() {
 		return "ChatMsg [chatMsgNo=" + chatMsgNo + ", chatMsgContent=" + chatMsgContent + ", chatMsgDate=" + chatMsgDate
-				+ ", memberNo=" + memberNo + ", chatRoomNo=" + chatRoomNo + "]";
+				+ ", memberNo=" + memberNo + ", chatRoomNo=" + chatRoomNo + ", memberName=" + memberName + "]";
 	}
+
+	
 	
 	
 	
