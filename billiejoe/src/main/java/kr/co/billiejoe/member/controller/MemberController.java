@@ -1,5 +1,7 @@
 package kr.co.billiejoe.member.controller;
 
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -145,6 +147,22 @@ public class MemberController {
 		return result;
 
 	}
+	
+	// 내 정보 수정 화면 전환용 Controller 
+	// /member/myPage 주소로 요청이 오면
+	// /WEB-INF/views/member.myPage.jsp로 요청 위임(forward)
+	@RequestMapping(value="updateMyPage", method=RequestMethod.GET)
+	public String myPage() {
+		return "member/updateMyPage";
+	}
+	
+	// 회원 정보 수정 Controller
+	@RequestMapping(value="updateMyPage")
+	public String updateMember(Member loginMember, String inputName, int inputNum, 
+			@RequestParam("profileImg")	List<MultipartFile> images /*업로드된 이미지 파일*/) {
+		
+	}
+	
 
 	// SweetAlert
 	public static void swalSetMessage(RedirectAttributes ra, String icon, String title, String text) {
