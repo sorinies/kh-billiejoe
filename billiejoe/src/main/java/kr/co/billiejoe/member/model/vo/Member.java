@@ -27,6 +27,14 @@ public class Member {
 		this.memberIsAdmin = memberIsAdmin;
 	}
 	
+	
+	
+	public Member(String memberEmail, String memberName) {
+		super();
+		this.memberEmail = memberEmail;
+		this.memberName = memberName;
+	}
+
 	public Member(int memberNo, String memberEmail, String memberPw, String memberName, String memberPhone,
 			String memberPic, Timestamp regDate, String memberStatus, String memberIsAdmin) {
 		this.memberNo = memberNo;

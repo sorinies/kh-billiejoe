@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- header.jsp -->
 <!DOCTYPE html>
 <html lang="ko">
@@ -18,6 +19,9 @@
   <link href="dist/css/style.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    
+    <!-- sweetalert API 추가 -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <style>
@@ -103,14 +107,14 @@ h5, p{
   <div class="container py-5">
 
 
-    <form class="form-signin" action="${contextPath}/mail/sendMail">
+    <form class="form-signin" action="${contextPath}/mail/sendMail" method="post">
 
       <h5><b>비밀번호 찾기</b></h5><br><br>
       <p>가입시 입력한 이메일과 이름으로 비밀번호 찾기가 가능합니다.</p>
       <p>이메일 주소로 임시 비밀번호를 발송합니다.</p><br>
-      <input type="email" id="inputEmail" class="form-control" placeholder="ID(이메일)을 입력하세요" required autofocus>
+      <input type="email" id="inputEmail" name="memberEmail" class="form-control" placeholder="ID(이메일)을 입력하세요" required autofocus>
 
-      <input type="text" id="inputName" class="form-control" placeholder="이름을 입력하세요" required autofocus>
+      <input type="text" id="inputName" name="memberName" class="form-control" placeholder="이름을 입력하세요" required autofocus>
 
       <button class="btn btn-lg btn-block btn-primary" id="email-btn" type="submit">비밀번호 찾기</button>
      
@@ -124,6 +128,19 @@ h5, p{
       © 2021 billieJoe All Rights Reserved.
     </div>
   </footer>
+  
+  <%-- 	비밀번호 찾기 실패와 같은 메세지가 서버로 부터 전달되어 온 경우 출력 --%>
+	<c:if test="${!empty title }">
+		<script>
+			swal({
+				"icon"  : "${icon}",
+				"title" : "${title}",
+				"text"  : "${text}"
+				
+			});
+		</script>
+		
+	</c:if>
 </body>
 </html>
 <!-- //footer -->

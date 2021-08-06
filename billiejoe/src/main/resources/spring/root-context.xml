@@ -9,16 +9,15 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="dataSource"
-		class="org.apache.commons.dbcp2.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName"
-			value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url"
-			value="jdbc:oracle:thin:@localhost:1521:xe" />
+		class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@115.90.212.22:9000:xe" /> 
 		<property name="username" value="billiejoe" />
 		<property name="password" value="billiejoe_a0316" />
+		
 		<!-- defaultAutoCommit: SQL 수행 후 자동 COMMIT 설정. (기본값 : true) -->
 		<property name="defaultAutoCommit" value="false" />
+		
 		<!-- 커넥션 풀 설정 -->
 		<property name="initialSize" value="10" /> <!-- 초기 커넥션 수, 기본 0 -->
 		<property name="maxTotal" value="500" /> <!-- 최대 커넥션 수, 기본 8 -->
@@ -30,11 +29,10 @@
 	</bean>
 
 	<!-- 마이바티스 SqlSession 등록하기 (xml 방식으로 bean 등록) -->
-	<bean id="sqlSessionFactoryBean"
-		class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+	
 		<!-- mybatis-config.xml 설정 불러오기 -->
-		<property name="configLocation"
-			value="classpath:mybatis-config.xml" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 

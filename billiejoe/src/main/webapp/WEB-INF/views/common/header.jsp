@@ -76,3 +76,18 @@
       </div>
     </nav>
   </header>
+  
+    <%-- 	비밀번호 찾기 실패와 같은 메세지가 서버로 부터 전달되어 온 경우 출력 --%>
+	<c:if test="${!empty title }">
+		<script>
+			swal({
+				"icon"  : "${icon}",
+				"title" : "${title}",
+				"text"  : "${text}"
+				
+			});
+		</script>
+		
+	</c:if>
+  </body>
+  </html>
