@@ -21,7 +21,7 @@
 		<result property="placeContent" column="PLACE_CONTENT"/>
 		<result property="placeCharge" column="PLACE_CHARGE" />
 		<result property="placeDate" column="PLACE_DATE" />
-		<result property="memberNo" column="MEMBERNO" />
+		<result property="memberNo" column="MEMBER_NO" />
 		<result property="likeCount" column="LIKE_COUNT" />
 		
 		 <collection property="atList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Attachment" select="selectAttachment"/>
@@ -94,4 +94,5 @@
 	<delete id="deleteLike" parameterType="Likes">
 		DELETE LIKES WHERE MEMBER_NO = #{memberNo} AND PLACE_NO = #{placeNo}
 	</delete>
+	
 </mapper>

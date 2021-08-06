@@ -27,15 +27,15 @@
 		<typeAlias type="kr.co.billiejoe.place.model.vo.ReservationState" alias="ReservationState" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Review" alias="Review" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Tag" alias="Tag" />
+		<typeAlias type="kr.co.billiejoe.chat.model.vo.ChatRoom" alias="ChatRoom" />
+		<typeAlias type="kr.co.billiejoe.chat.model.vo.ChatMsg" alias="ChatMsg" />
+		<typeAlias type="kr.co.billiejoe.chat.model.vo.ChatList" alias="ChatList" />
 	</typeAliases>
 	<!-- mapper 파일(SQL 작성되는파일) 위치 등록 부분 -->
 	<mappers>
 		<mapper resource="/mappers/place-mapper.xml" />
-
-
-		<mapper resource="/mappers/email-mapper.xml" /> 
 		<mapper resource="/mappers/member-mapper.xml" />
-
+		<mapper resource="/mappers/chat-mapper.xml" />
 	</mappers>
 
 

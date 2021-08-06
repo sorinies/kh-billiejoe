@@ -97,6 +97,8 @@
 <body>
 
     <div id="main">
+    
+    ${place }
         <!-- <div class="col-sm-1">
             One of three columns
           </div> -->
@@ -210,7 +212,16 @@
                         <p>${place.placeCharge}/시간 </p>
                         <p id="price">예약 시간을 선택해주세요</p>
                     </div>
-	                    <button class="btn btn-secondary" type="button">채팅문의</button>
+                    	<c:choose>
+	                    	<c:when test="${place.memberNo == loginMember.memberNo}">
+	                  		  <a class="btn btn-secondary" href="#">채팅문의</a>
+	                    	</c:when>
+	                    	<c:otherwise>
+	                  		  <a class="btn btn-secondary" href="${contextPath}/chat/room?placeMemberNo=${place.memberNo}&placeNo=${place.placeNo}&joinMemberNo=${loginMember.memberNo}">채팅문의</a>
+	                    	
+	                    	</c:otherwise>
+                    	
+                    	</c:choose>
 	                    <button class="btn btn-primary" type="submit">예약하기</button><br><br>
                     	
                     	<input type="hidden" name="sumPrice" id="hidden-price">
