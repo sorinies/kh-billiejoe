@@ -4,7 +4,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.ibatis.reflection.SystemMetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +29,6 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 
-	
 	/**
 	 * 로그인 화면 전환 Controller
 	 * 
@@ -41,8 +39,6 @@ public class MemberController {
 		return "member/login";
 	}
 
-	
-	
 	/**
 	 * 로그인 Controller
 	 * 
@@ -66,7 +62,7 @@ public class MemberController {
 		if (loginMember != null) { // 로그인 성공 시 세션에 올린다!
 
 			model.addAttribute("loginMember", loginMember);
-			
+
 			Cookie cookie = new Cookie("saveEmail", loginMember.getMemberEmail());
 
 			if (save != null) {
@@ -84,25 +80,21 @@ public class MemberController {
 			ra.addFlashAttribute("text", "아이디 또는 비밀번호가 일치하지 않습니다.");
 		}
 		return "redirect:/";
-	} // login end
+	}
 
-	
-	
 	/**
 	 * 로그아웃 Controller
 	 * 
 	 * @param status
 	 * @param referer
-	 * @return "redirect:/"
+	 * @return "redirect:" + referer
 	 */
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logout(SessionStatus status, @RequestHeader("referer") String referer) {
 		status.setComplete();
-		return "redirect:/";
-	} // logout end
+		return "redirect:" + referer;
+	}
 
-	
-	
 	/**
 	 * 회원가입 화면 전환 Controller
 	 * 
@@ -113,8 +105,6 @@ public class MemberController {
 		return "member/signUp";
 	}
 
-	
-	
 	/**
 	 * 회원가입 Controller
 	 * 
@@ -140,10 +130,8 @@ public class MemberController {
 		}
 
 		return "redirect:/";
-	} // signUp end
+	}
 
-	
-	
 	/** 아이디 중복 검사 Controller(ajax)
 	 * @param email
 	 * @return result
@@ -156,78 +144,15 @@ public class MemberController {
 
 		return result;
 
-	} // emailDupCheck end
-	
-	
-	
-	/** 회원 탈퇴 화면 전환 Controller
-	 * @return "redirect:"
-	 */
-	@RequestMapping(value="secession", method=RequestMethod.GET)
-	public String secession() {
-		return "member/secession";
 	}
-	
-	
-	
-	/** 회원 탈퇴 Controller
-	 * @param loginMember
-	 * @param memberPw
-	 * @param ra
-	 * @param status
-	 * @return path
-	 */
-	@RequestMapping(value="secession", method=RequestMethod.POST)
-	public String secession(@ModelAttribute("loginMember") Member loginMember, //  로그인 된 회원 정보
-							@RequestParam("memberPw") String memberPw, // 입력된 현재 비밀번호
-							RedirectAttributes ra, // 메세지 전달용 객체
-							SessionStatus status) { // 세션 상태 관리 객체(세션 만료용, 로그아웃 객체)
-		
-		int result = service.secession(memberPw, loginMember);
-		
-		String path = "redirect:";
-		
-		if( result > 0 ) { // 성공
-			int result2 = service.secessionInsert(loginMember);
-			path += "/";
-			swalSetMessage(ra, "success", "회원탈퇴 성공", "이용해 주셔서 감사합니다.");
-			
-			if(result2>0) {
-				status.setComplete(); // 자동 로그아웃
-			}
-			
-		}else { // 실패
-			path+="secession";
-			swalSetMessage(ra, "error", "회원탈퇴 실패", "모든 예약건은 취소 후 진행해주세요.");
-		}
-		
-		return path;
-		
-	}// secession end
-	
-	
-	// 마이페이지 작업 시작부분
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// 마이페이지 작업 끝
-	
-	
-	
-	// SweetAlert(공용, 맨 아래에 위치)
+
+	// SweetAlert
 	public static void swalSetMessage(RedirectAttributes ra, String icon, String title, String text) {
-		
+
 		ra.addFlashAttribute("icon", icon);
 		ra.addFlashAttribute("title", title);
 		ra.addFlashAttribute("text", text);
-		
-	} // swalSetMessage end
+	}
 	
-} // controller class end
+	
+}
