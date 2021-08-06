@@ -28,7 +28,7 @@
   <!-- jQuery Libs -->
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <!-- Default Style -->
-  <link href="dist/css/style.css" rel="stylesheet">
+  <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
 </head>
 
 <body>
