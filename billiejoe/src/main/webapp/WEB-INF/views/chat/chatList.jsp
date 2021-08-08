@@ -8,6 +8,15 @@
 <head>
 <title>채팅방</title>
 <style>
+	a:link { 
+		color: black; 
+       	text-decoration : none;
+	}
+	a:visited { 
+		color: black; 
+       	text-decoration : none;
+	
+	}
         .chat-box{
             height: 150px;
             width: 90%;

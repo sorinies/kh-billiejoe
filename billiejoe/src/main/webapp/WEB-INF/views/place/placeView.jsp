@@ -1,11 +1,107 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<jsp:include page="../common/header.jsp"></jsp:include>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+ <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+ <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>html문서 제목</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> 
+   
+
+<!-- <!-- 달력 ui -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"> -->
+<style>
+    /* 화면전체 */
+    #main{
+        margin-left: 90px;
+        margin-right: 150px;
+    }
+    /* 캐러셀 */
+    #carouselExampleControls{
+        width: 100%;
+        
+        
+    }
+    /* 날짜 시간예약 div */
+    #datebox{
+        width: 350px;
+        height: 700px;
+        margin-left : 60px;
+        border: black 1px solid;
+        align-items: center;
+        padding-left: 25px;
+    }
+    /* 라벨 디자인 */
+    #datebox input[type=checkbox]+label{
+        border: 1px solid grey;
+        width: 45px;
+        height: 40px;
+        text-align: center;
+        margin-bottom: 0px;
+     }
+    .no-checkbox{
+        border: 1px solid grey;
+        width: 45px;
+        height: 40px;
+        text-align: center;
+        background-color: rgb(218, 213, 213);
+        margin-bottom: 0px;
+    }   
+    
+
+     #datebox input[type=checkbox]:checked+label {
+        border: 1px solid grey;
+        width: 45px;
+        height: 40px;
+        text-align: center;
+        background-color: rgb(87, 103, 243);
+        margin-bottom: 0px;
+     }
+    
+
+
+    /* 체크박스 안보이기 */
+    input[type=checkbox]{
+         display: none;
+    }
+    /* 글내용 */
+    #content{
+        width: 100%;
+        
+    }
+    #price{
+        font-size: 20px;
+        font-weight: bold;
+        color: rgb(97, 143, 243);
+    }
+    #btnLike{
+        float: right;
+    }
+    #list{
+        float: right;
+        margin-left: 15px;
+    }
+    
+    #time{
+    	width: 300px;
+    }
+</style>
+ <jsp:include page="../common/header.jsp"></jsp:include>
+</head>
+<body>
+
 
     <div id="main">
     
-    ${place }
+ 
         <!-- <div class="col-sm-1">
             One of three columns
           </div> -->
@@ -101,8 +197,7 @@
                 <!-- 지도 -->
                 <div id="map" style="width:100%;height:350px;"></div><br><br>
             </div>
-            <div class="col-sm-1"></div>
-            <div class="col-sm-3" style="padding-left: 15px;">
+            <div class="col-sm-4" style="padding-left: 15px;">
                     <form action="#" method="get">
                 <div id="datebox">
                     <br>
@@ -116,20 +211,28 @@
                     </div><br>
                     <div id="price-zone">
                         <p>가격</p>
-                        <p>${place.placeCharge}/시간 </p>
+                        <p><fmt:formatNumber value="${place.placeCharge}" pattern="#,###" />/시간 </p>
                         <p id="price">예약 시간을 선택해주세요</p>
                     </div>
+                    
+                    
                     	<c:choose>
-	                    	<c:when test="${place.memberNo == loginMember.memberNo}">
-	                  		  <a class="btn btn-secondary" href="#">채팅문의</a>
+	                    	<c:when test="${empty loginMember }">
+	                  		  <a class="btn btn-secondary unLogin" href="#">채팅문의</a>
+	                    	  <button class="btn btn-primary unLogin"  type="button">예약하기</button><br><br>
 	                    	</c:when>
+	                    	<c:when test="${place.memberNo == loginMember.memberNo }">
+	                  		  <a class="btn btn-secondary same" href="#">채팅문의</a>
+	                    	  <button type="button" class="btn btn-primary same" >예약하기</button><br><br>
+	                    	</c:when>
+	                    	
 	                    	<c:otherwise>
 	                  		  <a class="btn btn-secondary" href="${contextPath}/chat/room?placeMemberNo=${place.memberNo}&placeNo=${place.placeNo}&joinMemberNo=${loginMember.memberNo}">채팅문의</a>
 	                    	
+	                    	  <button class="btn btn-primary" type="submit">예약하기</button><br><br>
 	                    	</c:otherwise>
                     	
                     	</c:choose>
-	                    <button class="btn btn-primary" type="submit">예약하기</button><br><br>
                     	
                     	<input type="hidden" name="sumPrice" id="hidden-price">
                     	<input type="hidden" name="day" id="hidden-day">
@@ -147,6 +250,16 @@
 	const name = '${place.placeName}'
 	const price = '${place.placeCharge}'
 	const priceInt = parseInt(price);
+	
+	
+		
+		$(".unLogin").click(function () {
+			alert("로그인 후 사용해 주세요")
+		})
+		$(".same").click(function () {
+			alert("본인이 작성한 장소입니다")
+		})
+	
 	
 	function like_btn() {
 		            
@@ -209,17 +322,19 @@
                                 return value==arrayValue;
                             })
                         }
+                        
                         for(i=0; i<24; i++){
                             if(check(reslut.time,i)){
                                 
                                 let inputPhone = $("<input>",{type : "checkbox",id:"check"+i, name : "checkbox", value : i,ONCLICK:"check_all();"})
                                /*  let inputPhone = $("<input type = checkbox id = check"+i+"name=checkbox value = "+i+"onclick = ckeck_all();</input") */
-                                let label = $("<label for = check"+i+">"+i+"</label>")
+                                let label = $("<label for = check"+i+">"+i+"시"+"</label>")
+                                
                                 $("#time").append(inputPhone).append(label);
 
 
                             }else{
-                            	let label = $("<label class='no-checkbox'>"+i+"</label>")
+                            	let label = $("<label class='no-checkbox'>"+i+"시"+"</label>")
                                 $("#time").append(label);
                             }
                         }
@@ -293,7 +408,7 @@
             
             $("#price-zone").children().remove()
             var price = $("<p> 가격</p>");
-            var hourlyPrice = $("<p>"+priceInt.toLocaleString()+"원/시간</p>");
+            var hourlyPrice = $("<p>"+priceInt.toLocaleString()+"원/시간 x "+$("input:checkbox[name='checkbox']:checked").length +" 시간</p>");
             var sumPrice = $("<p id = 'price'>"+ (priceInt*$("input:checkbox[name='checkbox']:checked").length).toLocaleString()+"원</p>");
             $("#price-zone").append(price).append(hourlyPrice).append(sumPrice);
             $("#hidden-price").val(priceInt*$("input:checkbox[name='checkbox']:checked").length)
