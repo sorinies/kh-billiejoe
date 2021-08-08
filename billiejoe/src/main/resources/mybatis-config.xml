@@ -36,6 +36,7 @@
 		<mapper resource="/mappers/place-mapper.xml" />
 		<mapper resource="/mappers/member-mapper.xml" />
 		<mapper resource="/mappers/chat-mapper.xml" />
+		<mapper resource="/mappers/admin-mapper.xml" />
 	</mappers>
 
 

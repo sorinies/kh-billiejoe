@@ -10,6 +10,7 @@ public class Member {
 	private String memberPhone;
 	private String memberPic;
 	private Timestamp regDate;
+	private Timestamp unRegDate;
 	private String memberStatus;
 	private String memberIsAdmin;
 	
@@ -38,6 +39,16 @@ public class Member {
 		this.regDate = regDate;
 		this.memberStatus = memberStatus;
 		this.memberIsAdmin = memberIsAdmin;
+	}
+	
+	
+
+	public Timestamp getUnRegDate() {
+		return unRegDate;
+	}
+
+	public void setUnRegDate(Timestamp unRegDate) {
+		this.unRegDate = unRegDate;
 	}
 
 	public int getMemberNo() {

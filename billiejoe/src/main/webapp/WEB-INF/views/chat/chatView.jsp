@@ -8,10 +8,19 @@
 <head>
 <title>채팅방</title>
 <style>
+
+	a:link { 
+		color: black; 
+       	text-decoration : none;
+	}
+	a:visited { 
+		color: black; 
+       	text-decoration : none;
+	}
 	.chatting-area{ 
 		margin:auto;
-		height: 550px;  
-		width : 550px;
+		height: 600px;  
+		width : 750px;
 		margin-bottom: 50px;
 		margin-top : 50px;
 		border: 2px black solid;
@@ -30,15 +39,15 @@
 	
 	.chat{
 		display: inline-block;
-		border-radius: 20%;
-		padding : 5px;
+		border-radius: 5px;
+		padding : 10px;
 		background-color: #eee;
 	}
 	
 	
 	.input-area{
 		margin:auto;
-		width : 550px;
+		width : 750px;
 		display: flex;
 	}
 	
@@ -54,7 +63,8 @@
 	}
 	
 	.myChat > p{
-		background-color: yellow;
+		background-color: rgb(66,133,244);
+		color: white;
 	}
 	
 	.chatDate{
@@ -73,7 +83,6 @@
         height: 100%;
     }
 	#content{
-		
         border: black 1px solid;
         border-radius: 10px;
         line-height: 50px;
@@ -108,6 +117,10 @@
 		margin-top: 50px;
 		font-size: 3em;
 	}
+	#header-left img {
+		width: 80px;
+		height: 80px;
+	}
 
 </style>
 </head>
@@ -117,17 +130,8 @@
         <div id="chat-header" class="row">
             <div class="col-sm-6" id="header-left">
                 <a href="list"><i class="bi bi-arrow-left"></i></a>
-                <img src="images/pngtree-admin-rolls-glyph-black-icon-png-image_4008300.jpg" alt="" style="border-radius: 50%;">
-                <strong id="name" >
-                <c:set var = "flag" value= "true"/>
-                <c:forEach items="${list}" var="msg">
-                	<c:if test="${flag}">
-						<c:if test="${msg.memberNo != loginMember.memberNo }">
-							${msg.memberName }
-			                <c:set var = "flag" value= "false"/>
-						</c:if>
-                	</c:if>
-				</c:forEach></strong>
+                <img src="${member.memberPic }" alt="" id ="prople"style="border-radius: 50%;">
+                <strong id="name" >${member.memberName }</strong>
             </div>
             <div class="col-sm-6" id="content">
                 <table >
@@ -138,7 +142,7 @@
                         <td class="td">${chatPlace.placeName }</td>
                     </tr>
                     <tr>
-                        <td class="td"><strong>${chatPlace.placeCharge }원/시간</strong></td>
+                        <td class="td"><strong><fmt:formatNumber value="${chatPlace.placeCharge }" pattern="#,###" />원/시간</strong></td>
                     </tr>
                 </table>
 
@@ -202,8 +206,8 @@
 		const memberName = "${loginMember.memberName}";
 		const chatRoomNo = "${chatRoom.chatRoomNo}";
 		
-		$("#inputChatting").keyup(function(e){
-			if(e.keyCode == 13){
+		/* $("#inputChatting").keyup(function(e){
+			if(e.keyCode == 13 ){
 				const chat = $("#inputChatting").val(); // 입력한 채팅 내용
 								
 								if(chat.trim().length == 0){   //채팅 입력이 없을경우
@@ -217,14 +221,13 @@
 									//JSON : 자바스크립트 객체 표기법 , 자바스크립트 객체 모양의 문자열
 									
 									// JSON.stringify() : 자바스크립트 객체를 JSON 문자열로 변환
-									/* 웹소켓 통신 객체를 이용해 /chat 주소로 obj를 JSON으로 변환한 문자열을 전송 */
 									chattingSock.send(JSON.stringify(obj));
 									
 									$("#inputChatting").val("");
 								}
 			}
-		});
-		
+		}); */
+		$(".display-chatting").scrollTop($(".display-chatting")[0].scrollHeight);
 		$("#send").on("click", function(){
 				const chat = $("#inputChatting").val(); // 입력한 채팅 내용
 				
