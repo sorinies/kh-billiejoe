@@ -79,5 +79,10 @@
 	
 	</update>
 	
-	
+		<!-- 회원 비밀번호 변경 -->
+	<update id="changePwd" parameterType="Member">
+		UPDATE MEMBER SET
+		MEMBER_PW = #{memberPw}
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
 </mapper>

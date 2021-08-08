@@ -77,14 +77,13 @@ public class MemberDAO {
 		return sqlSession.update("memberMapper.updateMember", inputMember);
 	}
 
-	/**
+	/** 비밀번호 변경 DAO
 	 * @param loginMember
-	 * @return
+	 * @return result
 	 */
 	public int changePwd(Member loginMember) {
-		return 0;
+		return sqlSession.update("memberMapper.changePwd", loginMember);
 	}
-	
 	
 	
 	

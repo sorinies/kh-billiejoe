@@ -174,9 +174,17 @@ public class MemberController {
 		int result = service.updateMember(inputMember, image, savePath);
 		
 		
+		
 		System.out.println("result : " + result);
 		
 		if (result > 0) {
+			loginMember.setMemberName(memberName);
+			loginMember.setMemberPhone(memberPhone);
+			
+			if(!image.getOriginalFilename().equals("")) {
+				loginMember.setMemberPic(inputMember.getMemberPic());
+			}
+			
 			swalSetMessage(ra, "success", "회원 정보 수정 성공", null);
 		} else {
 			swalSetMessage(ra, "error", "회원 정보 수정 실패", null);
@@ -216,7 +224,7 @@ public class MemberController {
 			
 			if(result > 0) { // 비밀번호 변경 성공
 				swalSetMessage(ra, "success", "비밀번호 변경 성공", null);
-				path += "myPage";
+				path += "updateMyPage";
 				loginMember.setMemberPw(newPwd);
 				
 			}else { // 실패
