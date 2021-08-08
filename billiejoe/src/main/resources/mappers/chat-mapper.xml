@@ -129,4 +129,13 @@
 	<update id="chatRoomDelete" parameterType="ChatRoom">
 		UPDATE CHAT_USER SET CHAT_JOIN_STATUS = 'N' WHERE CHAT_ROOM_NO = #{chatRoomNo} AND MEMBER_NO = #{memberNo}
 	</update>
+	
+	<select id="chatMember" parameterType="ChatRoom" resultMap="opponent_rm">
+		SELECT MEMBER_NO, MEMBER_PIC,MEMBER_NAME
+		FROM CHAT_USER 
+		JOIN MEMBER USING (MEMBER_NO)
+		WHERE MEMBER_NO != #{memberNo}
+		AND CHAT_ROOM_NO = #{chatRoomNo}
+		
+	</select>
 </mapper>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import kr.co.billiejoe.chat.model.vo.ChatList;
 import kr.co.billiejoe.chat.model.vo.ChatMsg;
 import kr.co.billiejoe.chat.model.vo.ChatRoom;
+import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Place;
 
 @Repository
@@ -86,6 +87,15 @@ public class ChatDAO {
 	public int chatRoomDelete(ChatRoom chatRoom) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("chatMapper.chatRoomDelete", chatRoom);
+	}
+
+	/**채팅 대화상대 구하기
+	 * @param chatRoom
+	 * @return
+	 */
+	public Member chatMember(ChatRoom chatRoom) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("chatMapper.chatMember", chatRoom);
 	}
 
 	

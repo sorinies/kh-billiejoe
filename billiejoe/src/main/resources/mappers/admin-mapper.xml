@@ -15,6 +15,23 @@
 		<result property="memberIsAdmin" column="MEMBER_IS_ADMIN" />
 
 	</resultMap>
+	<resultMap type="Member" id="unregMember_rm">
+		<id property="memberNo" column="MEMBER_NO" />
+
+		<result property="memberEmail" column="MEMBER_EMAIL" />
+		<result property="memberPw" column="MEMBER_PW" />
+		<result property="memberName" column="MEMBER_NAME" />
+		<result property="memberPhone" column="MEMBER_PHONE" />
+		<result property="memberPic" column="MEMBER_PIC" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="memberStatus" column="MEMBER_STATUS" />
+		<result property="memberIsAdmin" column="MEMBER_IS_ADMIN" />
+		<result property="unRegDate" column="UNREG_DATE" />
+
+	</resultMap>
+	<insert id="insertUnreg" parameterType="Member">
+		INSERT INTO UNREG_MEMBER VALUES(#{memberNo},#{memberEmail},#{memberPw},#{memberName},#{memberPhone},#{memberPic},#{regDate},DEFAULT,SYSTIMESTAMP)
+	</insert>
 	
 	<!-- 로그인 -->
 	<select id="login" parameterType="string" resultMap="member_rm">
@@ -23,4 +40,88 @@
 		AND MEMBER_EMAIL = #{memberEmail}
 	</select>
 	
+	<!-- 회원수 조회 -->
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER
+	</select>
+	<!-- 회원목록 조회 -->
+	<select id="selectMemberList" resultMap="member_rm">
+		SELECT *  FROM MEMBER ORDER BY MEMBER_NO DESC
+	</select>
+	
+	<select id="getSearchListCount" parameterType="hashmap" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER WHERE
+		<bind name="sv" value="'%'+sv+'%'"></bind>
+		<choose>
+			<when test="sk == 'name'">
+				MEMBER_NAME
+			</when>
+			<when test="sk == 'id'">
+				MEMBER_EMAIL
+			</when>
+		
+		</choose>
+		LIKE #{sv}
+	</select>
+	<select id="getSearchList" parameterType="hashmap" resultMap="member_rm">
+		SELECT *  FROM MEMBER WHERE
+		<bind name="sv" value="'%'+sv+'%'"></bind>
+		<choose>
+			<when test="sk == 'name'">
+				MEMBER_NAME
+			</when>
+			<when test="sk == 'id'">
+				MEMBER_EMAIL
+			</when>
+		
+		</choose>
+		LIKE #{sv}
+		ORDER BY MEMBER_NO DESC
+	</select>
+	
+	<select id="selectDeleteMember" parameterType="_int" resultMap="member_rm">
+		SELECT * FROM MEMBER WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<delete id="deleteMember" parameterType="_int">
+		DELETE FROM MEMBER WHERE MEMBER_NO = #{memberNo} 
+	</delete>
+	
+	<!--탈퇴한 회원수 조회 -->
+	<select id="getUnRegListCount" resultType="_int">
+		SELECT COUNT(*) FROM UNREG_MEMBER
+	</select>
+	<!-- 탈퇴한 회원 목록조회  -->
+	<select id="selectUnRegMemberList" resultMap="unregMember_rm">
+		SELECT *  FROM UNREG_MEMBER ORDER BY UNREG_DATE DESC
+	</select>
+	
+	<!-- 검색된 탈퇴한 회원수  -->
+	<select id="getSearchUnRegListCount" parameterType="hashmap" resultType="_int">
+		SELECT COUNT(*) FROM UNREG_MEMBER WHERE
+		<bind name="sv" value="'%'+sv+'%'"></bind>
+		<choose>
+			<when test="sk == 'name'">
+				MEMBER_NAME
+			</when>
+			<when test="sk == 'id'">
+				MEMBER_EMAIL
+			</when>
+		</choose>
+		LIKE #{sv}
+	</select>
+	<select id="getSearchUnRegList" parameterType="hashmap" resultMap="unregMember_rm">
+		SELECT *  FROM UNREG_MEMBER WHERE
+		<bind name="sv" value="'%'+sv+'%'"></bind>
+		<choose>
+			<when test="sk == 'name'">
+				MEMBER_NAME
+			</when>
+			<when test="sk == 'id'">
+				MEMBER_EMAIL
+			</when>
+		</choose>
+		LIKE #{sv}
+		ORDER BY UNREG_DATE DESC
+	</select>
 </mapper>

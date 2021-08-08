@@ -5,6 +5,7 @@ import java.util.List;
 import kr.co.billiejoe.chat.model.vo.ChatList;
 import kr.co.billiejoe.chat.model.vo.ChatMsg;
 import kr.co.billiejoe.chat.model.vo.ChatRoom;
+import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Place;
 
 public interface ChatService {
@@ -20,6 +21,8 @@ public interface ChatService {
 	List<ChatList> selectChatList(int memberNo);
 
 	int chatRoomDelete(ChatRoom chatRoom);
+
+	Member chatMember(ChatRoom chatRoom);
 
 	
 
