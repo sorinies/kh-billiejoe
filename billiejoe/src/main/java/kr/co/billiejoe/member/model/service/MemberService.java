@@ -40,5 +40,13 @@ public interface MemberService {
 	 */
 	public abstract int secessionInsert(Member loginMember);
 
+	/** 회원 정보 수정
+	 * @param inputMember
+	 * @param image
+	 * @param savePath
+	 * @return result
+	 */
+	public abstract int updateMember(Member inputMember, MultipartFile image, String savePath);
+
 
 }

@@ -19,7 +19,7 @@
 	integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
 	crossorigin="anonymous"></script>
 <link href="../dist/css/admin_sidebars.css" rel="stylesheet">
-
+<jsp:include page="../common/header.jsp"></jsp:include>
 <style>
 a {
 	text-decoration: none;
@@ -71,6 +71,8 @@ h6 {
 </head>
 
 <body>
+
+
 	<main>
 		<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
 			<a href="#"
@@ -94,7 +96,7 @@ h6 {
 		</div>
 		<div class="container py-5">
 			<div class="bg-white rounded container p-3">
-				<form method="POST" action="${contextPath}/member/updateMyPage"
+				<form method="POST" enctype="multipart/form-data" action="${contextPath}/member/updateMyPage"
 					onsubmit="return memberUpdateValidate();" class="form-horizontal"
 					role="form">
 
@@ -109,7 +111,7 @@ h6 {
 							<h6>이메일</h6>
 						</div>
 						<div class="col-md-6">
-							<input type="email" class="form-control" id="memberEmail" name="memberEmail">
+							<h5>${loginMember.memberEmail}</h5>
 						</div>
 					</div>
 					<div class="col-md-6 offset-md-3">
@@ -121,7 +123,7 @@ h6 {
 							<h6>이름</h6>
 						</div>
 						<div class="col-md-6">
-							<input type="text" class="form-control" id="memberName" name="memberName">
+							<input type="text" class="form-control" id="memberName" name="memberName" value="${loginMember.memberName}">
 						</div>
 						<div class="col-md-6 offset-md-3">
 							<span>&nbsp;</span>
@@ -132,7 +134,7 @@ h6 {
 							<h6>전화번호</h6>
 						</div>
 						<div class="col-md-6">
-							<input type="number" class="form-control input-email" id="memberNum" name="memberNum" autocomplete="off" required>
+							<input type="number" class="form-control input-email" id="memberPhone" name="memberPhone" value="${loginMember.memberPhone}" autocomplete="off" required>
 						</div>
 					</div>
 
@@ -153,7 +155,7 @@ h6 {
 							</div>
 						</div>
 
-						<input type="file" id="profileImg" name="profileImg"  accept="image/*">
+						<input type="file" id="profileImg" name="profileImg"  onchange="LoadImg(this,0)" accept="image/*">
 
 					</div>
 
@@ -172,7 +174,46 @@ h6 {
 		</div>
 	</main>
 
-	<script src="../dist/js/admin_sidebars.js"></script>
+<jsp:include page="../common/footer.jsp"></jsp:include>
+	<script src="../dist/js/admin_sidebars.js">
+	
+	
+	
+	// 이미지 영역을 클릭할 때 파일 첨부 창이 뜨도록 설정하는 함수
+	$(function() {
+		$(".profileImg").on("click", function() {
+			var index = $(".profileImg").index(this);
+			$("#profileImg").click();
+		});
+
+	});
+
+	
+	// 각각의 영역에 파일을 첨부 했을 경우 미리 보기가 가능하도록 하는 함수
+	function LoadImg(value, num) {
+		if (value.files && value.files[0]) {
+			var reader = new FileReader();
+			// 자바스크립트 FileReader
+			// 웹 애플리케이션이 비동기적으로 데이터를 읽기 위하여 읽을 파일을 가리키는 File 혹은 Blob객체를 이용해 파일의 내용을 읽고 사용자의 컴퓨터에 저장하는 것을 가능하게 해주는 객체
+
+			reader.readAsDataURL(value.files[0]);
+			// FileReader.readAsDataURL()
+			// 지정된의 내용을 읽기 시작합니다. Blob완료되면 result속성 data:에 파일 데이터를 나타내는 URL이 포함 됩니다.
+
+			// FileReader.onload
+			// load 이벤트의 핸들러. 이 이벤트는 읽기 동작이 성공적으로 완료 되었을 때마다 발생합니다.
+			reader.onload = function(e) {
+				// e.target.result
+				// -> 파일 읽기 동작을 성공한 객체에(fileTag) 올라간 결과(이미지 또는 파일)
+
+				$(".profileImg").eq(num).children("img").attr("src",e.target.result);
+			}
+
+		}
+	}
+	
+	
+	</script>
 
 
 </body>

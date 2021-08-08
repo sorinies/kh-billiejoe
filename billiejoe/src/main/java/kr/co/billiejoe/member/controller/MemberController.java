@@ -157,10 +157,32 @@ public class MemberController {
 	}
 	
 	// 회원 정보 수정 Controller
-	@RequestMapping(value="updateMyPage")
-	public String updateMember(Member loginMember, String inputName, int inputNum, 
-			@RequestParam("profileImg")	List<MultipartFile> images /*업로드된 이미지 파일*/) {
+	@RequestMapping(value="updateMyPage", method=RequestMethod.POST)
+	public String updateMember(@ModelAttribute("loginMember") Member loginMember, String memberName, String memberPhone, 
+			@RequestParam("profileImg")	MultipartFile image, /*업로드된 이미지 파일*/
+			Member inputMember, RedirectAttributes ra, HttpServletRequest request) {
 		
+		inputMember.setMemberNo(loginMember.getMemberNo());
+		inputMember.setMemberName(memberName);
+		inputMember.setMemberPhone(memberPhone);
+		//inputMember.setMemberPic(images);
+		
+		System.out.println(inputMember);
+		
+		String savePath = request.getSession().getServletContext().getRealPath("/");
+				
+		int result = service.updateMember(inputMember, image, savePath);
+		
+		
+		System.out.println("result : " + result);
+		
+		if (result > 0) {
+			swalSetMessage(ra, "success", "회원 정보 수정 성공", null);
+		} else {
+			swalSetMessage(ra, "error", "회원 정보 수정 실패", null);
+
+		}
+		return "redirect:updateMyPage";
 	}
 	
 

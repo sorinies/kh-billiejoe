@@ -133,4 +133,38 @@ public class MemberServiceImpl implements MemberService{
 		return result2;
 	}
 
+	// 회원정보 수정 Service
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int updateMember(Member inputMember, MultipartFile image, String savePath) {
+		
+		String fileName = null;
+		if(!image.getOriginalFilename().equals("")) { // 이미지가 업로드된 경우
+			fileName = "resources/images/" + rename(image.getOriginalFilename());
+			// 웹 접근 경로 + 변경된 파일명
+			inputMember.setMemberPic(fileName);
+		}
+		
+		int result = dao.updateMember(inputMember);
+		
+		if(result > 0) { // DB MEMBER 테이블 수정 성공 시 
+			
+			if(fileName != null) { // 업로드된 이미지가 있을 때
+				// 이 때 파일을 서버에 저장
+				try {
+					image.transferTo(new File(savePath + "/" + fileName));
+				}catch (Exception e) {
+					e.printStackTrace();
+					throw new SaveFileException();
+				}
+			}
+			
+		}
+		
+		return result;
+	}
+	
+	
+	
+
 }
