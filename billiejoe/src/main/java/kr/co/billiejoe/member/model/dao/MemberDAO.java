@@ -76,6 +76,14 @@ public class MemberDAO {
 	public int updateMember(Member inputMember) {
 		return sqlSession.update("memberMapper.updateMember", inputMember);
 	}
+
+	/**
+	 * @param loginMember
+	 * @return
+	 */
+	public int changePwd(Member loginMember) {
+		return 0;
+	}
 	
 	
 	

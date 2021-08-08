@@ -193,6 +193,39 @@ public class MemberController {
 		ra.addFlashAttribute("title", title);
 		ra.addFlashAttribute("text", text);
 	}
+
 	
 	
+	// 비밀번호 변경 화면 전환 Controller
+		@RequestMapping(value="changePwd", method=RequestMethod.GET)
+		public String changePwd() {
+			
+			return "member/changePwd";
+		}
+		
+		// 주소 매핑, 파라미터 전달받기, 세션에서 로그인 정보 얻어오기
+		@RequestMapping(value="changePwd", method=RequestMethod.POST)
+		public String changePwd(@RequestParam("currentPwd") String currentPwd,
+								@RequestParam("newPwd1") String newPwd,
+								@ModelAttribute("loginMember") Member loginMember,
+								RedirectAttributes ra) {
+			
+			int result = service.changePwd(currentPwd, newPwd, loginMember);
+		
+			String path = "redirect:";
+			
+			if(result > 0) { // 비밀번호 변경 성공
+				swalSetMessage(ra, "success", "비밀번호 변경 성공", null);
+				path += "myPage";
+				loginMember.setMemberPw(newPwd);
+				
+			}else { // 실패
+				swalSetMessage(ra, "error", "비밀번호 변경 실패", null);
+				path += "changePwd";
+			}		
+			
+			return path;
+		}
+		
+		
 }

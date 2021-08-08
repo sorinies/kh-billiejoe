@@ -48,5 +48,13 @@ public interface MemberService {
 	 */
 	public abstract int updateMember(Member inputMember, MultipartFile image, String savePath);
 
+	/** 비밀번호 변경 
+	 * @param currentPwd
+	 * @param newPwd
+	 * @param loginMember
+	 * @return result
+	 */
+	public abstract int changePwd(String currentPwd, String newPwd, Member loginMember);
+
 
 }
