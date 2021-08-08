@@ -1,100 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
- <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>html문서 제목</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> 
-   
-
-<!-- <!-- 달력 ui -->
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"> -->
-<style>
-    /* 화면전체 */
-    #main{
-        margin-left: 90px;
-        margin-right: 150px;
-    }
-    /* 캐러셀 */
-    #carouselExampleControls{
-        width: 100%;
-        
-        
-    }
-    /* 날짜 시간예약 div */
-    #datebox{
-        width: 350px;
-        height: 700px;
-        
-        border: black 1px solid;
-        align-items: center;
-        padding-left: 25px;
-    }
-    /* 라벨 디자인 */
-    #datebox input[type=checkbox]+label{
-        border: 1px solid grey;
-        width: 45px;
-        height: 40px;
-        text-align: center;
-        margin-bottom: 0px;
-     }
-    .no-checkbox{
-        border: 1px solid grey;
-        width: 45px;
-        height: 40px;
-        text-align: center;
-        background-color: rgb(218, 213, 213);
-        margin-bottom: 0px;
-    }   
-    
-
-     #datebox input[type=checkbox]:checked+label {
-        border: 1px solid grey;
-        width: 45px;
-        height: 40px;
-        text-align: center;
-        background-color: rgb(87, 103, 243);
-        margin-bottom: 0px;
-     }
-    
-
-
-    /* 체크박스 안보이기 */
-    input[type=checkbox]{
-         display: none;
-    }
-    /* 글내용 */
-    #content{
-        width: 100%;
-        
-    }
-    #price{
-        font-size: 20px;
-        font-weight: bold;
-        color: rgb(97, 143, 243);
-    }
-    #btnLike{
-        float: right;
-    }
-    #list{
-        float: right;
-        margin-left: 15px;
-    }
-    
-    #time{
-    	width: 300px;
-    }
-</style>
- <jsp:include page="../common/header.jsp"></jsp:include>
-</head>
-<body>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<jsp:include page="../common/header.jsp"></jsp:include>
 
     <div id="main">
     
@@ -436,13 +343,4 @@
             map.setCenter(coords);
         } 
     }); 
-    
-    
-		
-	    
-	
-
 </script>
-     
-</body>
-</html>
