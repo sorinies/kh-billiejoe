@@ -59,6 +59,7 @@ public class ChatController {
 //				채팅방 장소 상세정보 가져오기
 		
 			Place chatPlace = service.chatPlace(chatRoom);
+			chatRoom.setMemberNo(loginMember.getMemberNo());
 			Member member = service.chatMember(chatRoom);
 			model.addAttribute("chatRoom", chatRoom);
 			model.addAttribute("chatPlace", chatPlace);

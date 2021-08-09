@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.service.PlaceService;
 import kr.co.billiejoe.place.model.vo.Likes;
+import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.Reservation;
 
@@ -80,7 +83,6 @@ public class PlaceController {
 	@ResponseBody
 	public int likebCheck(Integer like, Model model, @PathVariable("placeNo")int placeNo) {
 		Member loginMember = (Member)model.getAttribute("loginMember");
-		System.out.println(loginMember);
 		Likes likes = new Likes();
 		int result=0;
 		if(loginMember == null ) {
@@ -101,6 +103,35 @@ public class PlaceController {
 		}
 		
 		return result;
+	}
+	@PostMapping("{placeNo}/payMent")
+	public String payMent(Reservation reservation,@RequestParam(value = "checkbox") int[] checkBox,int sumPrice, @PathVariable("placeNo")int placeNo, Model model) {
+		reservation.setUseStart(checkBox[0]);
+		reservation.setUseEnd(checkBox[checkBox.length-1]+1);
+		Place place = service.placeView(placeNo);
+		model.addAttribute("place", place);
+		model.addAttribute("reservation", reservation);
+		model.addAttribute("sumPrice", sumPrice);
+		return "place/reservation";
+	}
+	@PostMapping("{placeNo}/payComplete")
+	public String payComplete(@PathVariable("placeNo")int placeNo, Model model, Reservation reservation, Payment payment, HttpServletRequest request) {
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		reservation.setMemberNo(loginMember.getMemberNo());
+		payment.setMemberNo(loginMember.getMemberNo());
+		String path = null;
+		int result = service.insertReservation(reservation, payment);
+		if(result>0) {
+			path = "place/payComplete";
+			Place place = service.placeView(placeNo);
+			model.addAttribute("place",place);
+			model.addAttribute("reservation",reservation);
+		}else {
+			//실패동작 만들어야함
+			path = "redirect:" + request.getHeader("referer");
+		}
+		
+		return path;
 	}
 	
 }
