@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import kr.co.billiejoe.place.model.vo.Likes;
-import kr.co.billiejoe.place.model.vo.Pagination;
+import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.Reservation;
 
@@ -21,16 +21,6 @@ public interface PlaceService {
 
 	int deleteLike(Likes likes);
 
-	/**  전체 목록 수 + 예약한 장소 조회
-	 * @param pg
-	 * @return
-	 */
-	Pagination getPagination(Pagination pg, int memberNo);
-
-	/** 내가 예약한 장소 목록 조회
-	 * @param pagination
-	 * @return placeList
-	 */
-	List<Place> selectReservationList(Pagination pagination);
+	int insertReservation(Reservation reservation, Payment payment);
 
 }

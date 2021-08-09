@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.billiejoe.place.model.dao.PlaceDAO;
 import kr.co.billiejoe.place.model.vo.Likes;
-import kr.co.billiejoe.place.model.vo.Pagination;
+import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
 import kr.co.billiejoe.place.model.vo.Reservation;
@@ -91,27 +91,21 @@ public class PlaceServiceImpl implements PlaceService{
 	public int deleteLike(Likes likes) {
 		return dao.deleteLike(likes);
 	}
-	
-	// 전체 목록 수 + 예약한 장소 조회
+	/**장소예약하기 
+	 *
+	 */
 	@Override
-	public Pagination getPagination(Pagination pg, int memberNo) {
-		
-		// 1) 전체 목록 수 조회
-		Pagination selectPg = dao.getListCount(memberNo);
-		
-		
-		// 2) 계산이 완료된 Pagination 객체 생성 후 반환
-		return new Pagination(pg.getCurrentPage(), selectPg.getListCount()) ;
-	}
-	
-	// 내가 예약한 목록 조회
-	@Override
-	public List<Place> selectReservationList(Pagination pagination) {
-		return dao.selectReservationList(pagination);
+	public int insertReservation(Reservation reservation, Payment payment) {
+//		예약 번호 구하기
+		int reserveNo = dao.getReserveNo();
+		reservation.setReserveNo(reserveNo);
+		int result = dao.insertReservation(reservation);
+		if(result>0) {
+			payment.setReserveNo(reserveNo);
+			result = dao.insertPayment(payment);
+		}
+		return result;
 	}
 
-	
-	
-	
 	
 }

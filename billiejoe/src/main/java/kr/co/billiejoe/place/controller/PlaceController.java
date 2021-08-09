@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +26,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.service.PlaceService;
 import kr.co.billiejoe.place.model.vo.Likes;
-import kr.co.billiejoe.place.model.vo.Pagination;
+import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.Reservation;
 
@@ -81,7 +83,6 @@ public class PlaceController {
 	@ResponseBody
 	public int likebCheck(Integer like, Model model, @PathVariable("placeNo")int placeNo) {
 		Member loginMember = (Member)model.getAttribute("loginMember");
-		System.out.println(loginMember);
 		Likes likes = new Likes();
 		int result=0;
 		if(loginMember == null ) {
@@ -103,26 +104,34 @@ public class PlaceController {
 		
 		return result;
 	}
-	
-	// 내가 예약한 장소 목록 조회
-	@RequestMapping("myReservation")
-	public String myReservationList(@RequestParam(value="cp", required=false, defaultValue="1")int cp,
-							Model model, Pagination pg, 
-							@ModelAttribute("loginMember")Member loginMember, int memberNo) {
-		
-		// 1) pg에 cp를 세팅
-		pg.setCurrentPage(cp);
-		
-		// 2) 전체 목록 수를 조회하여 Pagination 관련 내용을 계산하고 값을 저장한 객체 반환 받기
-		Pagination pagination = service.getPagination(pg, loginMember.getMemberNo());
-		
-		// 3) 생성된 pagination을 이용하여 현재 목록 페이지에 보여질 게시글 목록 조회
-		List<Place> placeList = service.selectReservationList(pagination);
-		
-		return null;
-		
-		
+	@PostMapping("{placeNo}/payMent")
+	public String payMent(Reservation reservation,@RequestParam(value = "checkbox") int[] checkBox,int sumPrice, @PathVariable("placeNo")int placeNo, Model model) {
+		reservation.setUseStart(checkBox[0]);
+		reservation.setUseEnd(checkBox[checkBox.length-1]+1);
+		Place place = service.placeView(placeNo);
+		model.addAttribute("place", place);
+		model.addAttribute("reservation", reservation);
+		model.addAttribute("sumPrice", sumPrice);
+		return "place/reservation";
 	}
-	
+	@PostMapping("{placeNo}/payComplete")
+	public String payComplete(@PathVariable("placeNo")int placeNo, Model model, Reservation reservation, Payment payment, HttpServletRequest request) {
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		reservation.setMemberNo(loginMember.getMemberNo());
+		payment.setMemberNo(loginMember.getMemberNo());
+		String path = null;
+		int result = service.insertReservation(reservation, payment);
+		if(result>0) {
+			path = "place/payComplete";
+			Place place = service.placeView(placeNo);
+			model.addAttribute("place",place);
+			model.addAttribute("reservation",reservation);
+		}else {
+			//실패동작 만들어야함
+			path = "redirect:" + request.getHeader("referer");
+		}
+		
+		return path;
+	}
 	
 }

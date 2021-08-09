@@ -94,6 +94,15 @@
 	<delete id="deleteLike" parameterType="Likes">
 		DELETE LIKES WHERE MEMBER_NO = #{memberNo} AND PLACE_NO = #{placeNo}
 	</delete>
+	<select id="getReserveNo" resultType="_int">
+		SELECT SEQ_RESERVE.NEXTVAL FROM DUAL
+	</select>
+	<insert id="insertReservation" parameterType="Reservation">
+		INSERT INTO RESERVATION VALUES (#{reserveNo},#{useDate},#{useStart},#{useEnd},DEFAULT,#{placeNo},#{memberNo},1)
+	</insert>
+	<insert id="insertPayment" parameterType="Payment">
+		INSERT INTO PAYMENT VALUES(SEQ_PAY.NEXTVAL, #{reserveNo},#{payAmount},'kakaoPay',DEFAULT,#{memberNo},#{merchantUid})
+	</insert>
 	
 	<!-- 내가 예약한 장소 목록 -->
 	<select id="getListCount" parameterType="_int">
