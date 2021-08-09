@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.billiejoe.place.model.dao.PlaceDAO;
 import kr.co.billiejoe.place.model.vo.Likes;
+import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
 import kr.co.billiejoe.place.model.vo.Reservation;
@@ -89,6 +90,21 @@ public class PlaceServiceImpl implements PlaceService{
 	@Override
 	public int deleteLike(Likes likes) {
 		return dao.deleteLike(likes);
+	}
+	/**장소예약하기 
+	 *
+	 */
+	@Override
+	public int insertReservation(Reservation reservation, Payment payment) {
+//		예약 번호 구하기
+		int reserveNo = dao.getReserveNo();
+		reservation.setReserveNo(reserveNo);
+		int result = dao.insertReservation(reservation);
+		if(result>0) {
+			payment.setReserveNo(reserveNo);
+			result = dao.insertPayment(payment);
+		}
+		return result;
 	}
 
 	

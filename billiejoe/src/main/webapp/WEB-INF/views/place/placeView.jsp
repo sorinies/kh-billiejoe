@@ -97,8 +97,12 @@
  <jsp:include page="../common/header.jsp"></jsp:include>
 </head>
 <body>
+<<<<<<< HEAD
+	
+=======
 
 
+>>>>>>> 791c35135613f485f11a621165bcec09de953e89
     <div id="main">
     
  
@@ -198,7 +202,7 @@
                 <div id="map" style="width:100%;height:350px;"></div><br><br>
             </div>
             <div class="col-sm-4" style="padding-left: 15px;">
-                    <form action="#" method="get">
+                    <form action="payMent" method="POST"  onsubmit="return check()">
                 <div id="datebox">
                     <br>
 
@@ -223,7 +227,7 @@
 	                    	</c:when>
 	                    	<c:when test="${place.memberNo == loginMember.memberNo }">
 	                  		  <a class="btn btn-secondary same" href="#">채팅문의</a>
-	                    	  <button type="button" class="btn btn-primary same" >예약하기</button><br><br>
+	                    	  <button type="button" class="btn btn-primary same"  >예약하기</button><br><br>
 	                    	</c:when>
 	                    	
 	                    	<c:otherwise>
@@ -235,13 +239,14 @@
                     	</c:choose>
                     	
                     	<input type="hidden" name="sumPrice" id="hidden-price">
-                    	<input type="hidden" name="day" id="hidden-day">
+                    	<input type="hidden" name="useDate" id="hidden-day">
                     </form>
 	
                 </div>
             </div>
         </div>
     </div>
+    <jsp:include page="../common/footer.jsp"></jsp:include>
     <!-- 달력 스크립트 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a523483cb174903a659b77049c5b0ee7&libraries=services"></script>
 <script>
@@ -251,7 +256,15 @@
 	const price = '${place.placeCharge}'
 	const priceInt = parseInt(price);
 	
-	
+	function check() {
+		if($("input:checkbox[name='checkbox']:checked").length==0){
+			alert("예약시간을 선택해주세요")
+			return false;
+		}else{
+			return true;
+		}
+	}
+		
 		
 		$(".unLogin").click(function () {
 			alert("로그인 후 사용해 주세요")
