@@ -102,9 +102,9 @@
 	</select>
 	
 	<select id="selectReservationList" parameterType="_int">
-	SELECT * FROM 
-	WHERE 
-	
+	SELECT * FROM RESERVATION
+	JOIN RESERVATION_STATE USING(STATE_NO)
+	WHERE STATE_NO = #{stateNo}
 	</select>
 	
 </mapper>
