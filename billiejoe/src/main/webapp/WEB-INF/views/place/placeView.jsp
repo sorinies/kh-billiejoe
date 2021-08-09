@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -96,7 +97,12 @@
  <jsp:include page="../common/header.jsp"></jsp:include>
 </head>
 <body>
+<<<<<<< HEAD
 	
+=======
+
+
+>>>>>>> 791c35135613f485f11a621165bcec09de953e89
     <div id="main">
     
  
@@ -465,13 +471,4 @@
             map.setCenter(coords);
         } 
     }); 
-    
-    
-		
-	    
-	
-
 </script>
-     
-</body>
-</html>
