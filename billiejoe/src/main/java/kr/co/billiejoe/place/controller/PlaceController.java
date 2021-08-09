@@ -103,4 +103,15 @@ public class PlaceController {
 		return result;
 	}
 	
+	// 내가 예약한 장소 목록 조회
+	@RequestMapping("myReservation")
+	public String myReservationList( @PathVariable("placeNo")int placeNo,
+							@RequestParam(value="cp", required=false, defaultValue="1")int cp,
+							Model model) {
+		return null;
+		
+		
+	}
+	
+	
 }

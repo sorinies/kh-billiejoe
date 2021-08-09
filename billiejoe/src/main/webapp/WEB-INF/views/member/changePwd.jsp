@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
 <!doctype html>
 <html lang="ko">
 
@@ -79,7 +80,7 @@ h6 {
 		<div class="container py-5">
 			<div class="bg-white rounded  container p-3">
 				<form method="POST" action="${contextPath}/member/changePwd"
-					onsubmit="return " class="form-horizontal" role="form">
+					onsubmit="return validate();" class="form-horizontal" role="form">
 
 
 
@@ -105,7 +106,7 @@ h6 {
 								name="newPwd1" placeholder="영문/숫자/특수문자 혼합 8자리 이상">
 						</div>
 						<div class="col-md-6 offset-md-3">
-							<span>&nbsp;</span>
+							<span id="checkNewPwd1">&nbsp;</span>
 						</div>
 					</div>
 					<div class="row mb-3 form-row">
@@ -116,10 +117,10 @@ h6 {
 							<input type="password" class="form-control" id="newPwd2"
 								name="newPwd2" placeholder="새 비밀번호를 다시 입력하세요">
 						</div>
-					</div>
 
 					<div class="col-md-6 offset-md-3">
-						<span>&nbsp;</span>
+						<span id="checkNewPwd2">&nbsp;</span>
+					</div>
 					</div>
 
 				<div class="col-md-6 offset-md-3">
@@ -136,7 +137,7 @@ h6 {
 
 	<script src="../dist/js/admin_sidebars.js"></script>
 	<jsp:include page="../common/footer.jsp"></jsp:include>
-
+	<script src="${contextPath}/resources/js/changePwd.js"></script>
 </body>
 
 </html>
