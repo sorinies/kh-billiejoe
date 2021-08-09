@@ -162,7 +162,7 @@
   <main>
     <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
       <a href="#" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-        <span class="fs-5 fw-semibold">내가 찜한 장소</span>
+        <span class="fs-5 fw-semibold">내가 예약한 장소</span>
       </a>
       <ul class="list-unstyled ">
         <li class="mb-1">
@@ -188,7 +188,7 @@
     </div>
     <div class="container py-5">
         <form method="POST" enctype="multipart/form-data"
-					action="${contextPath}/member/myReservation"
+					action="${contextPath}/place/myReservation"
 					onsubmit="return" class="form-horizontal"
 					role="form">
         <div class="input-group  mb-3 w-50">
