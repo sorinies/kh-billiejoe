@@ -96,10 +96,12 @@ public class PlaceController {
 //		좋아요 안한 회원일때
 			if(like==0) {
 				result =service.insertLike(likes);
+				result = 1;
 			}
 //		좋아요 한 회원일때
 			if(like==1) {
 				result = service.deleteLike(likes);
+				result = 2;
 			}
 			
 		}

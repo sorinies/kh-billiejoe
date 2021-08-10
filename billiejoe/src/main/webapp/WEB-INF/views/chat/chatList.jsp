@@ -8,56 +8,7 @@
 <head>
 <title>채팅방</title>
 <style>
-	a:link { 
-		color: black; 
-       	text-decoration : none;
-	}
-	a:visited { 
-		color: black; 
-       	text-decoration : none;
 	
-	}
-        .chat-box{
-            height: 150px;
-            width: 90%;
-            border-radius: 10px;
-            border: 1px black solid;
-        }
-        .chat-box table{
-            margin-top: 15px;
-            width: 100%;
-            height: 80%;
-        }
-        .prople{
-            height: 80px;
-            width: 80px;
-            border-radius: 50%;
-            margin-left: 15px;
-        }
-        .area{
-            height: 80px;
-            width: 80px;
-            margin-left: 15px;
-        }
-        .content{
-            padding-left: 20px;
-            height: 30px;
-            width: 650px;
-        }
-        .del-btn{
-            float: right;
-            margin-right: 15px;
-        }
-        .modal-btn{
-            width: 100px;
-        }
-        .modal-header{
-            margin-left: 110px; font-size: 30px; text-align: center;
-        }
-        #prople-td{
-        	width: 50px;
-        }
-        
     </style>
 </head>
 <body>
@@ -97,14 +48,14 @@
 								<td rowspan="2" id="prople-td">
 									<img class="prople"src="${chat.member.memberPic }"alt="">
 								</td>
-								<td class="content">${chat.member.memberName }</td>
+								<td class="chatList-content">${chat.member.memberName }</td>
 								<td>${lastMsg}</td>
 								<td rowspan="2">
 									<img class="area" src="${chat.chatFilePath }${chat.chatFileName}"alt="">
 								</td>
 							</tr>
 							<tr>
-								<td class="content">${chat.chatMsg }</td>
+								<td class="chatList-content">${chat.chatMsg }</td>
 							</tr>
 						</table>
 						<br>
@@ -136,23 +87,16 @@
 						<button type="submit" class="btn btn-primary modal-btn">네</button>
 						<button type="button" class="btn btn-primary modal-btn"
 							data-bs-dismiss="modal">아니오</button>
-						<input type="text" name="chatRoomNo" id="modal-chat-no">
+						<input type="hidden" name="chatRoomNo" id="modal-chat-no">
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
 
-	<script>
-      $(document).ready(function(){
-          $(".del-btn").on("click",function(){
-              console.log($(event.target))
-              var number = $(event.target).children().val();
-              $("#modal-chat-no").val(number);
-          })
-      })
-  </script>
+	
 	<jsp:include page="../common/footer.jsp"></jsp:include>
+	<jsp:include page="../../../resources/js/chatViewJs.jsp"></jsp:include> 
 
 </body>
 </html>

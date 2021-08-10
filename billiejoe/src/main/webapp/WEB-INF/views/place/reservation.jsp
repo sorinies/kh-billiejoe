@@ -13,51 +13,24 @@
   
     <!-- 아임포트 -->
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-  <style>
-        img{
-            width: 350px;
-            height: 300px;
-        }
-        span{
-            display: inline-block;
-        }
-        button{
-            width: 200px;
-        }
-        #payment{
-            margin-left: 50px;
-        }
-        #title{
-            font-size: x-large;
-        }
-        #pay{
-            font-size: large;
-        }
-        #Price{
-            font-size: xx-large;
-        }
-        #content{
-            margin-left: 15px;
-        }
-    </style>
 </head>
 
 <body>
-  <div class="container">
   <jsp:include page="../common/header.jsp"></jsp:include><br>
+  <div class="container">
   
         <h2>예약하기</h2><br>
-        <span>
-            <img src="${place.atList[0].filePath}${place.atList[0].fileName}" alt="" >
+        <span class="re-span">
+            <img src="${place.atList[0].filePath}${place.atList[0].fileName}" alt=""  class="re-img">
         </span>
-        <span id="content">
+        <span id="reservationContent" class="re-span">
             <p id="title">${place.placeName }</p>
             <p>${place.placeSummary }</p>
             <c:set var="tagList" value="${place.tagList}"></c:set>
             <c:forEach items="${tagList}" var="tag"  >
                 <span class="badge bg-primary">${tag.tagName}</span>
             </c:forEach> 
-            <br><br><p id="pay">${place.placeCharge}원/시간</p>
+            <br><br><p id="pay"><fmt:formatNumber value="${place.placeCharge}" pattern="#,###" />원/시간</p>
         </span>
         <form action="payComplete" method="POST" id="sub">
 	        <hr>
@@ -65,9 +38,9 @@
 	        <p>예약날짜 : ${reservation.useDate }</p>
 	        <p>예약 시간 : ${reservation.useStart}시 ~ ${reservation.useEnd}시</p>
 	        <p>결제 금액 :</p>
-	        <p id="Price">${sumPrice }원</p><br>
-	        <button type="button" class="btn btn-secondary">취소하기</button>
-	        <button type="button" class="btn btn-primary" id="payment" onclick="iamport();">결제하기</button>
+	        <p id="Price"><fmt:formatNumber value="${sumPrice }" pattern="#,###" />원</p><br>
+	        <button type="button" class="btn btn-secondary re-btn">취소하기</button>
+	        <button type="button" class="btn btn-primary re-btn" id="payment" onclick="iamport();">결제하기</button>
         	<input type="hidden" name="useDate" value="${reservation.useDate}">
         	<input type="hidden" name="useStart" value="${reservation.useStart}">
         	<input type="hidden" name="useEnd" value="${reservation.useEnd}">
@@ -77,46 +50,9 @@
         </form>
     </div>
     
-    <script >
-    	var placeName = '${place.placeName}'
-    	var price = '${sumPrice}'
-		var name = '${loginMember.memberName}'
-		var phone = '${loginMember.memberPhone}'
-		var emaile = '${loginMember.memberEmail}'
-    function iamport(){
-		
-		//가맹점 식별코드
-		IMP.init('imp04401960');
-		IMP.request_pay({
-		    pg : 'kakaopay',
-		    pay_method : 'card',
-		    merchant_uid : 'merchant_' + new Date().getTime(),
-		    name : placeName , //결제창에서 보여질 이름
-		    amount : price, //실제 결제되는 가격
-		    buyer_email : emaile,
-		    buyer_name : name,
-		    buyer_tel : phone,
-		}, function(rsp) {
-			console.log(rsp);
-		    if ( rsp.success ) {
-		    	$("#merchantUid").val(rsp.merchant_uid);
-		    	$("#sub").submit();
-		    	
-		    	/* var msg = '결제가 완료되었습니다.';
-		        msg += '고유ID : ' + rsp.imp_uid;
-		        msg += '상점 거래ID : ' + rsp.merchant_uid;
-		        msg += '결제 금액 : ' + rsp.paid_amount;
-		        msg += '카드 승인번호 : ' + rsp.apply_num; */
-		    } else {
-		    	 var msg = '결제에 실패하였습니다.';
-		         msg += '에러내용 : ' + rsp.error_msg;
-		    }
-		   	 alert(msg); 
-		});
-	}
     
-    </script>
     <br><br><jsp:include page="../common/footer.jsp"></jsp:include>
+    <jsp:include page="../../../resources/js/reservationJs.jsp"></jsp:include> 
 </body>
 
 

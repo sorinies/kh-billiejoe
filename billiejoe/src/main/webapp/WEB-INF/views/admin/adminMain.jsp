@@ -185,7 +185,7 @@
   
   
 
-  <script src="../dist/js/admin_sidebars.js"></script>
+  <script src="../../resources/js/admin_sidebars.js"></script>
   <script>
     $(document).ready(function(){
         $(".del-btn").on("click",function(){
