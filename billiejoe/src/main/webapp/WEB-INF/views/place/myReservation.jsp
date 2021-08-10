@@ -55,7 +55,6 @@
     #placeImg-area > div{
       width: 150px;
       height: 150px;
-      background-color: #eee;
       border-radius:10%;
       display: inline-block;
       border: 1px solid black;
@@ -218,10 +217,7 @@
                     <div>
                     </div>
                 </div>
-                
-                <div>
-                    <input type="file" id="placeImg" name="placeImg">
-                    </div>
+                    <img src="${myReserv.atList[0].filePath }${myReserv.atList[0].fileName }" id="placeImg" name="placeImg">
 
             </div>
             <div class="listForm-area2">
