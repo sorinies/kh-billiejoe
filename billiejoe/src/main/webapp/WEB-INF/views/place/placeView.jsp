@@ -11,17 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>html문서 제목</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> 
-   
-
-<!-- <!-- 달력 ui -->
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-
- <!-- 스크립트 코드  -->
  <jsp:include page="../common/header.jsp"></jsp:include>
- <jsp:include page="../../../resources/js/placeViewJs.jsp"></jsp:include> 
+ 
 </head>
 <body>
 
@@ -153,6 +144,7 @@
             </div>
         </div>
     </div>
+    <jsp:include page="../../../resources/js/placeViewJs.jsp"></jsp:include> 
     <jsp:include page="../common/footer.jsp"></jsp:include>
     <!-- 달력 스크립트 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a523483cb174903a659b77049c5b0ee7&libraries=services"></script>

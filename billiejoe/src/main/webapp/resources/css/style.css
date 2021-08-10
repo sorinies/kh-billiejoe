@@ -338,35 +338,35 @@ input[type=checkbox]{
 .chatDate{
 	font-size: 9px;
 }
-   #chat-header{
-       border-bottom: black 1px solid;
-       width: 100%;
+#chat-header{
+    border-bottom: black 1px solid;
+    width: 100%;
 	height: 130px;
 	padding : 10px 10px;
-       margin-left: 0px;
+	      margin-left: 0px;
 	line-height: 100px;
-   }
-  
-   #chat-header div{
-       height: 100%;
-   }
-#chat-content{
-       border: black 1px solid;
-       border-radius: 10px;
-       line-height: 50px;
-   }
-   table img{
-       height: 90px;
-       width: 70px;
+}
 
-   }
-   .td{
-       padding-left: 15px;
-   }
-   #name{
-       padding-left: 25px; 
-       font-size: 30px;
-   }
+#chat-header div{
+    height: 100%;
+}
+#chat-content{
+    border: black 1px solid;
+    border-radius: 10px;
+    line-height: 50px;
+}
+table img{
+    height: 90px;
+    width: 70px;
+
+}
+.td{
+    padding-left: 15px;
+}
+#name{
+    padding-left: 25px; 
+    font-size: 30px;
+}
 #send{
 	background-color: white;
 	width: 50px;
