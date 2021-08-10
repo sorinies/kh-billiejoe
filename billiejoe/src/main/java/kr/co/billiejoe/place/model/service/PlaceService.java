@@ -32,7 +32,7 @@ public interface PlaceService {
 	 * @param pagination
 	 * @return placeList
 	 */
-	List<Place> selectReservationList(Pagination pagination);
+	List<Reservation> selectReservationList(Pagination pagination);
 
 	int insertReservation(Reservation reservation, Payment payment);
 

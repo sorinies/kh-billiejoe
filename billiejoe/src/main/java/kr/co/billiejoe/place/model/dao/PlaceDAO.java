@@ -58,7 +58,7 @@ public class PlaceDAO {
 	 * @param pagination
 	 * @return placeList
 	 */
-	public List<Place> selectReservationList(Pagination pagination) {
+	public List<Reservation> selectReservationList(Pagination pagination) {
 		
 		int offset = (pagination.getCurrentPage() -1 ) * pagination.getLimit();
 		

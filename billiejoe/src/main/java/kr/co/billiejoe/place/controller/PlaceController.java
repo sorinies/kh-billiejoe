@@ -148,7 +148,12 @@ public class PlaceController {
 			Pagination pagination = service.getPagination(pg, loginMember.getMemberNo());
 			
 			// 3) 생성된 pagination을 이용하여 현재 목록 페이지에 보여질 게시글 목록 조회
-			List<Place> placeList = service.selectReservationList(pagination);
+			List<Reservation> reservationList = service.selectReservationList(pagination);
+			
+			// 조회 결과 임시 확인
+			for(Reservation r : reservationList) {
+				System.out.println(r);
+			}
 			
 			return null;
 			

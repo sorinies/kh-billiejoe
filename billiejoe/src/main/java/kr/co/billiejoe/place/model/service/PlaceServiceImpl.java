@@ -107,7 +107,7 @@ public class PlaceServiceImpl implements PlaceService{
 		
 		// 내가 예약한 목록 조회
 		@Override
-		public List<Place> selectReservationList(Pagination pagination) {
+		public List<Reservation> selectReservationList(Pagination pagination) {
 			return dao.selectReservationList(pagination);
 		}
 			
