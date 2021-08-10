@@ -89,7 +89,7 @@ public class ChatController {
 		chatRoom.setMemberNo(loginMember.getMemberNo());
 		int result = service.chatRoomDelete(chatRoom);
 		if(result>0) {
-			MemberController.swalSetMessage(ra, "sucess", "삭제 성공하셨습니다", null);
+			MemberController.swalSetMessage(ra, "success", "삭제 성공하셨습니다", null);
 		}else {
 			MemberController.swalSetMessage(ra, "error", "삭제 실패하셨습니다", null);
 		}
