@@ -13,7 +13,6 @@
   
     <!-- 아임포트 -->
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-    <jsp:include page="../../../resources/js/reservationJs.jsp"></jsp:include> 
 </head>
 
 <body>
@@ -53,6 +52,7 @@
     
     
     <br><br><jsp:include page="../common/footer.jsp"></jsp:include>
+    <jsp:include page="../../../resources/js/reservationJs.jsp"></jsp:include> 
 </body>
 
 
