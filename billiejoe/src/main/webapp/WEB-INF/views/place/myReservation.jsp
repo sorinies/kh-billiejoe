@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!doctype html>
 <html lang="ko">
 
@@ -151,6 +154,13 @@
         margin-top: -25px;
     }
     
+    .flex-shrink-0{
+
+	display : inline-block;
+	float :left;
+	
+	}
+    
 
 
    
@@ -191,101 +201,43 @@
 					action="${contextPath}/place/myReservation"
 					onsubmit="return" class="form-horizontal"
 					role="form">
-        <div class="input-group  mb-3 w-50">
-            <select class="form-select" id="searchUserCond" name="searchUserCond">
-              <option selected>지역</option>
-              <option value="userEmail">이메일</option>
-              <option value="userNickname">닉네임</option>
-            </select> 
-            &ensp;
-       
+        <div class="input-group  mb-3 w-25">
+         
             <select class="form-select" id="searchUserCond" name="searchUserCond">
               <option selected>등록일 최신순</option>
               <option value="userEmail">이메일</option>
               <option value="userNickname">닉네임</option>
             </select>
         </div>
-
-        <div class="listForm">
-            <div class="listForm-area1"> 
-                <div  id="placeImg-area">
-                    <div>
-                    </div>
-                </div>
-                <div>
-                    <input type="file" id="placeImg" name="placeImg">
-                    </div>
-
-            </div>
-            <div class="listForm-area2">
-                <h5>7월 10일&ensp;</h5>
-                <p>(토요일) 15:00 ~ 18:00</p>
-                <h6>모임공간 모락 서울대 입구</h6> 
-                <h4>\ 60,000</h4>
-            </div>
-            <hr>
-            <div class="listForm-area3">
-                <p>서울특별시 관악구 은천동 양화로 52</p>
-                <h5>예약 완료</h5>
-            </div>
-
-        </div>
-
-  
-
-        <div class="listForm">
-            <div class="listForm-area1"> 
-                <div  id="placeImg-area">
-                    <div>
-                    </div>
-                </div>
-                <div>
-                    <input type="file" id="placeImg" name="placeImg">
-                    </div>
-
-            </div>
-            <div class="listForm-area2">
-                <h5>7월 5일&ensp;</h5>
-                <p>(월요일) 15:00 ~ 18:00</p>
-                <h6>모임공간 모락 서울대 입구</h6> 
-                <h4>\ 160,000</h4>
-            </div>
-            <hr>
-            <div class="listForm-area3">
-                <p>서울특별시 관악구 은천동 양화로 52</p>
-                <a href="#">이용후기 작성하러가기</a>
-                <h5>예약 완료</h5>
-            </div>
-
-        </div>
-
-            
-        <div class="listForm">
-            <div class="listForm-area1"> 
-                <div  id="placeImg-area">
-                    <div>
-                    </div>
-                </div>
-                <div>
-                    <input type="file" id="placeImg" name="placeImg">
-                    </div>
-
-            </div>
-            <div class="listForm-area2">
-                <h5>7월 5일&ensp;</h5>
-                <p>(월요일) 15:00 ~ 18:00</p>
-                <h6>모임공간 모락 서울대 입구</h6> 
-                <h4>\ 160,000</h4>
-            </div>
-            <hr>
-            <div class="listForm-area3">
-                <p>서울특별시 관악구 은천동 양화로 52</p>
-                <a href="#">이용후기 작성하러가기</a>
-                <h5>예약 완료</h5>
-            </div>
-
-        </div>
         
+		
+        <c:forEach items="${reservationList}" var="myReserv">
+        <div class="listForm">
+            <div class="listForm-area1"> 
+                <div  id="placeImg-area">
+                    <div>
+                    </div>
+                </div>
+                
+                <div>
+                    <input type="file" id="placeImg" name="placeImg">
+                    </div>
+
+            </div>
+            <div class="listForm-area2">
+                <h5><fmt:formatDate pattern= "MM월 dd일" value="${myReserv.reserveDate}"/>&ensp;</h5>
+                <p>(<fmt:formatDate value="${myReserv.reserveDate}" pattern="E"/>요일) ${myReserv.useStart}:00 ~ ${myReserv.useEnd }:00</p>
+                <h6>${myReserv.placeName}</h6> 
+                <h4>\<fmt:formatNumber value="${myReserv.placeCharge }" pattern="#,###" /></h4>
+            </div>
+            <hr>
+            <div class="listForm-area3">
+                <p>${myReserv.placeAddr}</p>
+                <h5>예약 완료</h5>
+            </div>
+
+        </div>
+        </c:forEach>
 
       
         <nav aria-label="Page navigation" id="Page-navigation">

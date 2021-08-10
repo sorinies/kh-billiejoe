@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.co.billiejoe.place.model.vo.Likes;
+import kr.co.billiejoe.place.model.vo.MyReservation;
 import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
@@ -50,22 +51,23 @@ public class PlaceDAO {
 	 * @param memberNo
 	 * @return
 	 */
-	public Pagination getListCount(int memberNo) {
+	public int getListCount(int memberNo) {
 		return session.selectOne("placeMapper.getListCount", memberNo);
 	}
 
 	/**  내가 예약한 장소 목록 조회
 	 * @param pagination
+	 * @param memberNo 
 	 * @return placeList
 	 */
-	public List<Reservation> selectReservationList(Pagination pagination) {
+	public List<MyReservation> selectReservationList(Pagination pagination, int memberNo) {
 		
 		int offset = (pagination.getCurrentPage() -1 ) * pagination.getLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
 		// offset 만큼 건너 뛰고, limit만큼의 행을 얻어옴
 		
-		return session.selectList("placeMapper.selectReservationList", pagination, rowBounds);
+		return session.selectList("placeMapper.selectReservationList", memberNo, rowBounds);
 		
 	}
 		
