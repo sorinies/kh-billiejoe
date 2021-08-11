@@ -159,6 +159,16 @@
             </div>
             <label for="inputCharge" class="col-md-2 col-form-label" min="0" step="1">원/시간</label>
           </div>
+          <div class="row mb-3">
+            <label class="form-label" for="inputAvailableTimeStart">이용 가능 시간</label>
+            <div class="col-md-3">
+              <div class="input-group">
+                <input type="number" class="form-control" id="inputAvailableTimeStart" name="inputAvailableTimeStart" min="0" max="23" step="1" placeholder="">
+                <span class="input-group-text">~</span>
+                <input type="number" class="form-control" id="inputAvailableTimeEnd" name="inputAvailableTimeEnd" min="0" max="23" step="1" >
+              </div>
+            </div>
+          </div>
           <div class="mb-3">
             <label class="form-label" for="inputTag">태그</label>
             <input type="text" class="form-control" id="inputTag" placeholder="스페이스바 키로 추가">
