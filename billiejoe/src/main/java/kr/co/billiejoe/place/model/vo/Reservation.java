@@ -31,6 +31,23 @@ public class Reservation {
 		this.stateName = stateName;
 	}
 
+	
+
+
+	public Reservation(int reserveNo, String useDate, int useStart, int useEnd, Timestamp reserveDate, int placeNo,
+			int memberNo, int stateNo, String stateName) {
+		super();
+		this.reserveNo = reserveNo;
+		this.useDate = useDate;
+		this.useStart = useStart;
+		this.useEnd = useEnd;
+		this.reserveDate = reserveDate;
+		this.placeNo = placeNo;
+		this.memberNo = memberNo;
+		this.stateNo = stateNo;
+		this.stateName = stateName;
+	}
+
 
 
 	public int getReserveNo() {
@@ -103,13 +120,19 @@ public class Reservation {
 		this.stateNo = stateNo;
 	}
 
+	
+	
 	public String getStateName() {
 		return stateName;
 	}
 
+
+
 	public void setStateName(String stateName) {
 		this.stateName = stateName;
 	}
+
+
 
 	@Override
 	public String toString() {
@@ -117,4 +140,10 @@ public class Reservation {
 				+ useEnd + ", reserveDate=" + reserveDate + ", placeNo=" + placeNo + ", memberNo=" + memberNo
 				+ ", stateNo=" + stateNo + ", stateName=" + stateName + "]";
 	}
+
+
+
+	
+	
+	
 }

@@ -10,7 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.billiejoe.place.model.vo.Attachment;
 import kr.co.billiejoe.place.model.vo.Likes;
+import kr.co.billiejoe.place.model.vo.MyReservation;
 import kr.co.billiejoe.place.model.vo.Pagination;
+import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
 import kr.co.billiejoe.place.model.vo.PlaceTag;
@@ -115,5 +117,45 @@ public class PlaceDAO {
 	 */
 	public void insertTagInPlaceTags(PlaceTag placeTag) {
 		session.insert("placeMapper.insertPlaceTags", placeTag);
+	}
+}
+	
+	/**  전체 목록 수 + 예약한 장소 조회
+	 * @param memberNo
+	 * @return
+	 */
+	public int getListCount(int memberNo) {
+		return session.selectOne("placeMapper.getListCount", memberNo);
+	}
+
+	/**  내가 예약한 장소 목록 조회
+	 * @param pagination
+	 * @param memberNo 
+	 * @return placeList
+	 */
+	public List<MyReservation> selectReservationList(Pagination pagination, int memberNo) {
+		
+		int offset = (pagination.getCurrentPage() -1 ) * pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		// offset 만큼 건너 뛰고, limit만큼의 행을 얻어옴
+		
+		return session.selectList("placeMapper.selectReservationList", memberNo, rowBounds);
+		
+	}
+		
+	public int getReserveNo() {
+		// TODO Auto-generated method stub
+		return session.selectOne("placeMapper.getReserveNo", null);
+	}
+
+	public int insertReservation(Reservation reservation) {
+		// TODO Auto-generated method stub
+		return session.insert("placeMapper.insertReservation",reservation);
+	}
+
+	public int insertPayment(Payment payment) {
+		// TODO Auto-generated method stub
+		return session.insert("placeMapper.insertPayment",payment);
 	}
 }

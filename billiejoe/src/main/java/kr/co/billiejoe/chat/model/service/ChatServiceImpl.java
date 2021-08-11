@@ -10,6 +10,7 @@ import kr.co.billiejoe.chat.model.dao.ChatDAO;
 import kr.co.billiejoe.chat.model.vo.ChatList;
 import kr.co.billiejoe.chat.model.vo.ChatMsg;
 import kr.co.billiejoe.chat.model.vo.ChatRoom;
+import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Place;
 
 @Service
@@ -62,6 +63,8 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public int insertChatMsg(ChatMsg chatMsg) {
 		//채팅방에 채팅입력되면 채팅방 인원 전부 활성화
+		chatMsg.setChatMsgContent(replaceParameter(chatMsg.getChatMsgContent()));
+		chatMsg.setChatMsgContent(chatMsg.getChatMsgContent().replace("\\n", "<br>"));
 		dao.allOpenChat(chatMsg.getChatRoomNo());
 		return dao.insertChatMsg(chatMsg);
 	}
@@ -83,6 +86,28 @@ public class ChatServiceImpl implements ChatService {
 		// TODO Auto-generated method stub
 		return dao.chatRoomDelete(chatRoom);
 	}
+	
+	
+	// 크로스 사이트 스크립트 방지 처리 메소드
+		public static String replaceParameter(String param) {
+			String result = param;
+			if (param != null) {
+				result = result.replaceAll("&", "&amp;");
+				result = result.replaceAll("<", "&lt;");
+				result = result.replaceAll(">", "&gt;");
+				result = result.replaceAll("\"", "&quot;");
+			}
 
+			return result;
+		}
+
+		/**채팅 대화상대 프로필구하기
+		 *
+		 */
+		@Override
+		public Member chatMember(ChatRoom chatRoom) {
+			// TODO Auto-generated method stub
+			return dao.chatMember(chatRoom);
+		}
 	
 }
