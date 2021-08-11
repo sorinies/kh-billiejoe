@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kr.co.billiejoe.admin.model.service.AdminService;
 import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Pagination;
+import kr.co.billiejoe.place.model.vo.Report;
 
 @Controller
 @RequestMapping("/admin/*")
@@ -174,7 +175,28 @@ public class AdminController {
 		return "redirect:main";
 	}
 	
-	
+	@GetMapping("report")
+	public String report(@RequestParam(value = "cp", required = false, defaultValue = "1") int cp, Model model, Pagination pg) {
+		pg.setCurrentPage(cp);
+		pg = service.getReportListCount(pg);
+		List<Report> reportList = service.selectReportList(pg);
+		model.addAttribute("reportList", reportList);
+		model.addAttribute("pg",pg);
+		return "admin/report";
+	}
+	@PostMapping("reportCheck")
+	public String reportCheck(Model model, int reviewNo ,RedirectAttributes ra) {
+		int result = service.reportCheck(reviewNo);
+		if(result>0) {
+			swalSetMessage(ra, "susess", "정상 승인 되었습니다", null);
+		}else{
+			swalSetMessage(ra, "error", "승인 실패 하였습니다", null);
+			
+		}
+		
+		
+		return "redirect:report";
+	}
 	
 	
 	

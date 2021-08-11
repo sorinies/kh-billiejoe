@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="placeMapper">
-
 	<!-- 파일 정보 조회용 resultMap -->
 	<resultMap type="Attachment" id="attachment_rm">
 		<id property="fileNo" column="FILE_NO"/>
@@ -24,8 +23,8 @@
 		<result property="memberNo" column="MEMBER_NO" />
 		<result property="likeCount" column="LIKE_COUNT" />
 		
-		 <collection property="atList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Attachment" select="selectAttachment"/>
-		 <collection property="tagList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Tag" select="selectTag"/>
+		<collection property="atList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Attachment" select="selectAttachment"/>
+		<collection property="tagList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Tag" select="selectTag"/>
 	</resultMap >
 	
 	<!-- 예약가능시간 확인resultMap -->
@@ -123,6 +122,49 @@
 	<delete id="deleteLike" parameterType="Likes">
 		DELETE LIKES WHERE MEMBER_NO = #{memberNo} AND PLACE_NO = #{placeNo}
 	</delete>
+
+	<!-- 전체 장소 수 조회 -->
+	<select id="getListCount" parameterType="_int">
+		SELECT COUNT(*) FROM place WHERE place_status = 'Y'
+	</select>
+	<!-- 전체 장소 목록 조회 -->
+	<select id="selectPlaceList" resultMap="place_rm">
+		SELECT * FROM place
+		WHERE place_status = 'y'
+		ORDER BY place_no DESC
+	</select>
+	<!-- 장소 추가 -->
+	<insert id="insertPlace" parameterType="Place" useGeneratedKeys="true">
+		<selectKey keyProperty="placeNo" resultType="_int" order="BEFORE">
+			SELECT SEQ_PLACE.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO place VALUES(#{placeNo}, #{placeName}, #{placeSummary}, #{placeAddr}, #{placeContent}, #{placeCharge}, DEFAULT, DEFAULT, DEFAULT, #{memberNo})
+	</insert>
+	<!-- 이미지 추가 -->
+	<insert id="insertAttachmentList" parameterType="list">
+		INSERT INTO attachment
+		SELECT SEQ_FILE.NEXTVAL, A.* FROM (
+			<foreach collection="list" item="at" separator="UNION ALL">
+				SELECT #{at.filePath} file_path, #{at.fileName} file_name, #{at.fileLevel} file_level, #{at.boardNo} place_no FROM DUAL
+			</foreach>
+		) A
+	</insert>
+	
+	<!-- 태그 존재 여부 확인 -->
+	<select id="isExistTag" parameterType="string" resultType="Tag">
+		SELECT tag_no as "tagNo", tag_name as "tagName" FROM tag WHERE tag_name = #{tagItem}
+	</select>
+
+	<!-- 태그 삽입 -->
+	<insert id="insertTag" parameterType="string">
+		INSERT INTO tag VALUES(seq_tag.NEXTVAL, #{tagItem})
+	</insert>
+	
+	<!-- 장소에 태그 정보 삽입 -->
+	<insert id="insertPlaceTags" parameterType="placeTag">
+		INSERT INTO place_tag VALUES(#{placeNo}, #{tagNo})
+	</insert>
+
 	<select id="getReserveNo" resultType="_int">
 		SELECT SEQ_RESERVE.NEXTVAL FROM DUAL
 	</select>
@@ -146,6 +188,18 @@
 	JOIN PLACE USING (PLACE_NO)
 	WHERE A.MEMBER_NO = #{memberNo}
 	</select>
-	
-	
+
+	<!-- 예약 상세보기  -->
+	<select id="getReservation" parameterType="_int" resultMap="myReservation_rm">
+		SELECT * 
+		FROM RESERVATION
+		JOIN PLACE USING(PLACE_NO)
+		JOIN RESERVATION_STATE USING(STATE_NO)
+		WHERE RESERVE_NO = #{reserveNo}
+	</select>
+	<!-- 예약 취소 -->
+	<update id="cancelRv" parameterType="_int">
+		UPDATE RESERVATION SET STATE_NO = 4 WHERE RESERVE_NO = #{reserveNo}
+	</update>
 </mapper>
+

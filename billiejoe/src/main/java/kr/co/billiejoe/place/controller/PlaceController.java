@@ -23,6 +23,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import kr.co.billiejoe.member.controller.MemberController;
 import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.service.PlaceService;
 import kr.co.billiejoe.place.model.vo.Likes;
@@ -30,7 +34,9 @@ import kr.co.billiejoe.place.model.vo.MyReservation;
 import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
+import kr.co.billiejoe.place.model.vo.PlaceAvailable;
 import kr.co.billiejoe.place.model.vo.Reservation;
+import kr.co.billiejoe.place.model.vo.Tag;
 
 @RequestMapping("/place/*")
 @SessionAttributes({"loginMember"})
@@ -38,6 +44,29 @@ import kr.co.billiejoe.place.model.vo.Reservation;
 public class PlaceController {
 	@Autowired
 	private PlaceService service;
+	
+	/**
+	 * 장소 목록
+	 * @param cp
+	 * @param model
+	 * @param pg
+	 * @return
+	 */
+	@GetMapping("list")
+	public String placeList(@RequestParam(value = "cp", required = false, defaultValue = "1") int cp, Model model, Pagination pg) {
+		pg.setCurrentPage(cp);
+		
+		Pagination pagination = null;
+		List<Place> placeList = null;
+		
+		pagination = service.getPagination(pg);
+		placeList = service.selectPlaceList(pagination);
+
+		model.addAttribute("placeList", placeList);
+		model.addAttribute("pagination", pagination);
+		
+		return "place/placeList";
+	}
 	
 	/** 장소 상세보기
 	 * @param boardNo
@@ -107,6 +136,17 @@ public class PlaceController {
 		}
 		
 		return result;
+	
+	}
+	
+	/**
+	 * 장소 추가 페이지 
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("addPlace")
+	public String insertPlace(Model model) {
+		return "place/placeWrite";
 	}
 	@PostMapping("{placeNo}/payMent")
 	public String payMent(Reservation reservation,@RequestParam(value = "checkbox") int[] checkBox,int sumPrice, @PathVariable("placeNo")int placeNo, Model model) {
@@ -137,13 +177,40 @@ public class PlaceController {
 		
 		return path;
 	}
-	
+
+	/**
+	 * 장소 추가
+	 * @param place
+	 * @param loginMember
+	 * @param images
+	 * @param request
+	 * @param ra
+	 * @return
+	 */
+	@PostMapping("write")
+	public String insertPlace(@ModelAttribute Place place, @ModelAttribute PlaceAvailable pa, @ModelAttribute("loginMember") Member loginMember, @RequestParam("images") List<MultipartFile> images, @RequestParam("tagString") String tagString, HttpServletRequest request, RedirectAttributes ra) {
+		place.setMemberNo(loginMember.getMemberNo());
+		System.out.println(pa);
+		String webPath = "resources/images/";
+		String savePath = request.getSession().getServletContext().getRealPath(webPath);
+		int placeNo = service.insertPlace(place, images, webPath, savePath, tagString);
+		String path = null;
+		if(placeNo > 0) {
+			path = "redirect:" + placeNo;
+		} 
+		else {
+			// MemberController.swalSetMessage(ra, "error", "실패", null);
+			System.out.println("장소 추가 실패");
+			path = "redirect:" + request.getHeader("referer");
+		}
+		return path;
+	}
+
 	// 내가 예약한 장소 목록 조회
 		@RequestMapping("myReservation")
 		public String myReservationList(@RequestParam(value="cp", required=false, defaultValue="1")int cp,
 								Model model, Pagination pg, 
 								@ModelAttribute("loginMember")Member loginMember) {
-			System.out.println("로그인멤버 : "+loginMember.getMemberNo());
 			// 1) pg에 cp를 세팅
 			pg.setCurrentPage(cp);
 			
@@ -165,4 +232,50 @@ public class PlaceController {
 			
 			
 		}
+
+		/**예약한 장소 상세조회
+		 * @param placeNo
+		 * @param reserveNo
+		 * @param model
+		 * @return
+		 */
+		@GetMapping("{placeNo}/reservationView")
+		public String reserveNo(@PathVariable("placeNo")int placeNo, int reserveNo, Model model) {
+			Member loginMember = (Member)model.getAttribute("loginMember");
+//			loginMember = new Member();
+//			loginMember.setMemberNo(500);
+			int like = 0;
+			if(loginMember !=null) {
+				like = service.likeCheck(loginMember.getMemberNo());
+			}
+			Place place = service.placeView(placeNo);
+			MyReservation reservation = service.getReservation(reserveNo);
+			Map<String, Object> map = new HashMap<String, Object>();
+			int count = 0;
+			for(int i =  reservation.getUseStart(); i<reservation.getUseEnd(); i++) {
+				count++;
+			}
+			int sumPrice = reservation.getPlaceCharge()*count;
+			map.put("count", count);
+			map.put("sumPrice", sumPrice);
+			model.addAttribute("map",map);
+			model.addAttribute("reservation", reservation);
+			model.addAttribute("like",like);
+			model.addAttribute("place",place);
+			return "place/reservationView";
+		}
+		@PostMapping("{placeNo}/cancelRv")
+		public String cancelRv(@PathVariable("placeNo") int placeNo, @RequestParam("reserveNo")int reserveNo, RedirectAttributes ra) {
+			
+			int result = service.cancelRv(reserveNo);
+			if (result > 0) {
+				MemberController.swalSetMessage(ra, "success", "예약 취소되었습니다", null);
+			} else {
+				MemberController.swalSetMessage(ra, "error", "예약취소 실패하였습니다", "고객센터로 문의해주세요.");
+
+			}
+			return "redirect:reservationView?reserveNo="+reserveNo;
+			
+		}
 }
+

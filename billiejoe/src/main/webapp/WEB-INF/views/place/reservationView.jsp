@@ -12,7 +12,11 @@
     <title>html문서 제목</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> 
  <jsp:include page="../common/header.jsp"></jsp:include>
- 
+ 	<style type="text/css">
+ 		.re-del-btn{
+ 			margin-right: 80px;
+ 		}
+ 	</style>
 </head>
 <body>
 
@@ -30,7 +34,7 @@
             	 <c:forEach items="${tagList}" var="tag"  >
                 	<span class="badge bg-primary">${tag.tagName}</span>
             	</c:forEach> 
-                <a href="#" class="btn btn-outline-secondary btn-lg"  id ="list">목록</a>
+                <a href="${contextPath }/place/myReservation" class="btn btn-outline-secondary btn-lg"  id ="list">목록</a>
                 
                 <c:choose>
 	                <c:when test="${like==0 }">
@@ -100,55 +104,67 @@
                 <div id="map" style="width:100%;height:350px;"></div><br><br>
             </div>
             <div class="col-sm-4" style="padding-left: 15px;">
-                    <form action="payMent" method="POST"  onsubmit="return check()">
                 <div id="datebox">
-                    <br>
-
-                    <!-- 달력 -->
-                    <div type="text" name="date" id="date3" size="12"></div><br>
-                    <!-- 시간선택 -->
-                    
-                    <div id="time">
-                        <p style="font-size: x-large;">날짜를 선택해주세요</p>
-                    </div><br>
-                    <div id="price-zone">
-                        <p>가격</p>
-                        <p><fmt:formatNumber value="${place.placeCharge}" pattern="#,###" />/시간 </p>
-                        <p id="price">예약 시간을 선택해주세요</p>
-                    </div>
-                    
-                    
-                    	<c:choose>
-	                    	<c:when test="${empty loginMember }">
-	                  		  <a class="btn btn-secondary unLogin" href="#">채팅문의</a>
-	                    	  <button class="btn btn-primary unLogin"  type="button">예약하기</button><br><br>
-	                    	</c:when>
-	                    	<c:when test="${place.memberNo == loginMember.memberNo }">
-	                  		  <a class="btn btn-secondary same" href="#">채팅문의</a>
-	                    	  <button type="button" class="btn btn-primary same"  >예약하기</button><br><br>
-	                    	</c:when>
+                    <br><br>
+                    <p>(예약일시)</p><br>
+                  	<h2> <fmt:formatDate var="chatDate" value="${reservation.reserveDate }" pattern="yyyy년 "/> ${chatDate }</h2> 
+                  	<h2> <fmt:formatDate var="chatDate" value="${reservation.reserveDate }" pattern="M월dd일 (E요일)  "/> ${chatDate }</h2> 
+                    <p style="font-size: 35px;">${reservation.useStart }:00~${reservation.useEnd }:00</p><br><br>
+                    <p>(가격)</p>
+                    <p><fmt:formatNumber value="${reservation.placeCharge }" pattern="#,###" />원/시간 x ${map.count }시간</p>
+                    <p id = "price"><fmt:formatNumber value="${map.sumPrice }" pattern="#,###" />원</p><br><br>
 	                    	
-	                    	<c:otherwise>
 	                  		  <a class="btn btn-secondary" href="${contextPath}/chat/room?placeMemberNo=${place.memberNo}&placeNo=${place.placeNo}&joinMemberNo=${loginMember.memberNo}">채팅문의</a>
-	                    	
-	                    	  <button class="btn btn-primary" type="submit">예약하기</button><br><br>
-	                    	</c:otherwise>
-                    	
-                    	</c:choose>
-                    	
-                    	<input type="hidden" name="sumPrice" id="hidden-price">
-                    	<input type="hidden" name="useDate" id="hidden-day">
-                    </form>
-	
+	                  		  
+	                  		  <c:if test="${reservation.stateNo == 1}">
+					                <button type="button" class="btn btn-primary re-del-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+					                  예약취소
+					                </button>
+	                  		  </c:if>
+	                  		  <c:if test="${reservation.stateNo == 3}">
+					                <button type="button" class="btn btn-primary re-del-btn" >
+					                  이용완료
+					                </button>
+	                  		  </c:if>
+	                  		  <c:if test="${reservation.stateNo == 4}">
+					                <button type="button" class="btn btn-danger re-del-btn" >
+					                  예약자 취소
+					                </button>
+	                  		  </c:if>
+	                  		  <c:if test="${reservation.stateNo == 5}">
+					                <button type="button" class="btn btn-danger re-del-btn" >
+					                 판재자 취소
+					                </button>
+	                  		  </c:if>
                 </div>
             </div>
         </div>
     </div>
+     <jsp:include page="../common/footer.jsp"></jsp:include>
+
+     <!-- Modal -->
+     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content" >
+          <div class="modal-header">
+            <p >정말로 취소 하시겠습니까?</p>
+          </div>
+          <form action="cancelRv" method="POST">
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary modal-btn">네</button>
+                  <button type="button" class="btn btn-primary modal-btn" data-bs-dismiss="modal">아니오</button>
+                <input type="hidden" name="reserveNo" id="modal-member-no" value="${reservation.reserveNo }">
+              </div>
+          </form>
+        </div>
+      </div>
+      </div>
     <jsp:include page="../../../resources/js/placeViewJs.jsp"></jsp:include> 
-    <jsp:include page="../common/footer.jsp"></jsp:include>
     <!-- 달력 스크립트 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a523483cb174903a659b77049c5b0ee7&libraries=services"></script>
 <script type="text/javascript">
+
+
 //지도스크립트
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -188,5 +204,5 @@ geocoder.addressSearch(addr, function(result, status) {
     } 
 });
 </script>
-
 </body>
+   
