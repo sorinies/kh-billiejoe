@@ -69,11 +69,20 @@
           class="navbar-toggler-icon"></span></button>
       <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas">
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
           <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-          대충 메뉴 들어가는 부분
+          <ul>
+            <li><a href="#">내 장소</a></li>
+            <li><a href="#">내 예약</a></li>
+            <li><a href="#">채팅</a></li>
+          </ul>
+          <ul>
+            <li><a href="${contextPath}/place/list">모든 장소</a></li>
+            <li><a href="#">예약 접수 내역</a></li>
+            <li><a href="#">내가 남긴 후기</a></li>
+            <li><a href="#">찜한 장소</a></li>
+          </ul>
         </div>
       </div>
     </nav>
