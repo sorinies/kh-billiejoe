@@ -18,24 +18,7 @@ public class Reservation {
 	
 	
 
-	public Reservation(int reserveNo, String useDate, int useStart, int useEnd, Timestamp reserveDate, int placeNo,
-			int memberNo, int stateNo) {
-		super();
-		this.reserveNo = reserveNo;
-		this.useDate = useDate;
-		this.useStart = useStart;
-		this.useEnd = useEnd;
-		this.reserveDate = reserveDate;
-		this.placeNo = placeNo;
-		this.memberNo = memberNo;
-		this.stateNo = stateNo;
-	}
-
-	
-
-
-	public Reservation(int reserveNo, String useDate, int useStart, int useEnd, Timestamp reserveDate, int placeNo,
-			int memberNo, int stateNo, String stateName) {
+	public Reservation(int reserveNo, String useDate, int useStart, int useEnd, Timestamp reserveDate, int placeNo, int memberNo, int stateNo, String stateName) {
 		super();
 		this.reserveNo = reserveNo;
 		this.useDate = useDate;
@@ -47,8 +30,6 @@ public class Reservation {
 		this.stateNo = stateNo;
 		this.stateName = stateName;
 	}
-
-
 
 	public int getReserveNo() {
 		return reserveNo;
