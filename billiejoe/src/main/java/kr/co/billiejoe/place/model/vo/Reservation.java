@@ -12,13 +12,13 @@ public class Reservation {
 	private int placeNo;
 	private int memberNo;
 	private int stateNo;
+	private String stateName;
 	
 	public Reservation() {}
 	
 	
 
-	public Reservation(int reserveNo, String useDate, int useStart, int useEnd, Timestamp reserveDate, int placeNo,
-			int memberNo, int stateNo) {
+	public Reservation(int reserveNo, String useDate, int useStart, int useEnd, Timestamp reserveDate, int placeNo, int memberNo, int stateNo, String stateName) {
 		super();
 		this.reserveNo = reserveNo;
 		this.useDate = useDate;
@@ -28,6 +28,7 @@ public class Reservation {
 		this.placeNo = placeNo;
 		this.memberNo = memberNo;
 		this.stateNo = stateNo;
+		this.stateName = stateName;
 	}
 
 
@@ -102,11 +103,18 @@ public class Reservation {
 		this.stateNo = stateNo;
 	}
 
+	public String getStateName() {
+		return stateName;
+	}
+
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
+	}
+
 	@Override
 	public String toString() {
 		return "Reservation [reserveNo=" + reserveNo + ", useDate=" + useDate + ", useStart=" + useStart + ", useEnd="
 				+ useEnd + ", reserveDate=" + reserveDate + ", placeNo=" + placeNo + ", memberNo=" + memberNo
-				+ ", stateNo=" + stateNo + "]";
+				+ ", stateNo=" + stateNo + ", stateName=" + stateName + "]";
 	}
-	
 }
