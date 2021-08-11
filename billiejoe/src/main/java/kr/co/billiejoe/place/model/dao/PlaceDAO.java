@@ -118,7 +118,7 @@ public class PlaceDAO {
 	public void insertTagInPlaceTags(PlaceTag placeTag) {
 		session.insert("placeMapper.insertPlaceTags", placeTag);
 	}
-}
+
 	
 	/**  전체 목록 수 + 예약한 장소 조회
 	 * @param memberNo

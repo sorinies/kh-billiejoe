@@ -30,8 +30,6 @@ public interface PlaceService {
 
 	int insertPlace(Place place, List<MultipartFile> images, String webPath, String savePath, String tagString);
 
-}
-	
 	/**  전체 목록 수 + 예약한 장소 조회
 	 * @param pg
 	 * @return
