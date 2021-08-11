@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Pagination;
+import kr.co.billiejoe.place.model.vo.Report;
 
 @Repository
 public class AdminDAO {
@@ -96,5 +97,25 @@ public class AdminDAO {
 		int offset = (pg.getCurrentPage()-1)*pg.getLimit();
 		RowBounds rowBounds = new RowBounds(offset, pg.getLimit());
 		return sqlSession.selectList("adminMapper.getSearchUnRegList", search, rowBounds);
+	}
+
+	public int getReportListCount() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("adminMapper.getReportListCount",null);
+	}
+
+	public List<Report> selectReportList(Pagination pg) {
+		int offset = (pg.getCurrentPage()-1)*pg.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pg.getLimit());
+		return sqlSession.selectList("adminMapper.selectReportList",pg, rowBounds);
+	}
+
+	/**신고 처리하기
+	 * @param reviewNo
+	 * @return
+	 */
+	public int reportCheck(int reviewNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("adminMapper.reportCheck",reviewNo);
 	}
 }

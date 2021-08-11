@@ -45,4 +45,8 @@ public interface PlaceService {
 
 	int insertReservation(Reservation reservation, Payment payment);
 
+	MyReservation getReservation(int reserveNo);
+
+	int cancelRv(int reserveNo);
+
 }

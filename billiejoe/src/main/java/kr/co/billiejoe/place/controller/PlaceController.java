@@ -22,9 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.billiejoe.member.controller.MemberController;
 import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.service.PlaceService;
 import kr.co.billiejoe.place.model.vo.Likes;
@@ -209,7 +211,6 @@ public class PlaceController {
 		public String myReservationList(@RequestParam(value="cp", required=false, defaultValue="1")int cp,
 								Model model, Pagination pg, 
 								@ModelAttribute("loginMember")Member loginMember) {
-			System.out.println("로그인멤버 : "+loginMember.getMemberNo());
 			// 1) pg에 cp를 세팅
 			pg.setCurrentPage(cp);
 			
@@ -231,4 +232,50 @@ public class PlaceController {
 			
 			
 		}
+
+		/**예약한 장소 상세조회
+		 * @param placeNo
+		 * @param reserveNo
+		 * @param model
+		 * @return
+		 */
+		@GetMapping("{placeNo}/reservationView")
+		public String reserveNo(@PathVariable("placeNo")int placeNo, int reserveNo, Model model) {
+			Member loginMember = (Member)model.getAttribute("loginMember");
+//			loginMember = new Member();
+//			loginMember.setMemberNo(500);
+			int like = 0;
+			if(loginMember !=null) {
+				like = service.likeCheck(loginMember.getMemberNo());
+			}
+			Place place = service.placeView(placeNo);
+			MyReservation reservation = service.getReservation(reserveNo);
+			Map<String, Object> map = new HashMap<String, Object>();
+			int count = 0;
+			for(int i =  reservation.getUseStart(); i<reservation.getUseEnd(); i++) {
+				count++;
+			}
+			int sumPrice = reservation.getPlaceCharge()*count;
+			map.put("count", count);
+			map.put("sumPrice", sumPrice);
+			model.addAttribute("map",map);
+			model.addAttribute("reservation", reservation);
+			model.addAttribute("like",like);
+			model.addAttribute("place",place);
+			return "place/reservationView";
+		}
+		@PostMapping("{placeNo}/cancelRv")
+		public String cancelRv(@PathVariable("placeNo") int placeNo, @RequestParam("reserveNo")int reserveNo, RedirectAttributes ra) {
+			
+			int result = service.cancelRv(reserveNo);
+			if (result > 0) {
+				MemberController.swalSetMessage(ra, "success", "예약 취소되었습니다", null);
+			} else {
+				MemberController.swalSetMessage(ra, "error", "예약취소 실패하였습니다", "고객센터로 문의해주세요.");
+
+			}
+			return "redirect:reservationView?reserveNo="+reserveNo;
+			
+		}
 }
+

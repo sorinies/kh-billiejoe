@@ -187,5 +187,18 @@
 	JOIN PLACE USING (PLACE_NO)
 	WHERE A.MEMBER_NO = #{memberNo}
 	</select>
-	
+
+	<!-- 예약 상세보기  -->
+	<select id="getReservation" parameterType="_int" resultMap="myReservation_rm">
+		SELECT * 
+		FROM RESERVATION
+		JOIN PLACE USING(PLACE_NO)
+		JOIN RESERVATION_STATE USING(STATE_NO)
+		WHERE RESERVE_NO = #{reserveNo}
+	</select>
+	<!-- 예약 취소 -->
+	<update id="cancelRv" parameterType="_int">
+		UPDATE RESERVATION SET STATE_NO = 4 WHERE RESERVE_NO = #{reserveNo}
+	</update>
 </mapper>
+
