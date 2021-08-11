@@ -155,12 +155,15 @@
     
     .flex-shrink-0{
 
-	display : inline-block;
-	float :left;
+		display : inline-block;
+		float :left;
 	
 	}
     
-
+	 .containerH{
+        margin-left: 300px;
+        }
+        
 
    
  
@@ -195,7 +198,7 @@
 
       </ul>
     </div>
-    <div class="container py-5">
+    <div class="containerH py-5">
         <form method="POST" enctype="multipart/form-data"
 					action="${contextPath}/place/myReservation"
 					onsubmit="return" class="form-horizontal"
