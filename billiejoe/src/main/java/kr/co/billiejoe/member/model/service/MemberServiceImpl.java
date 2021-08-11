@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.co.billiejoe.member.exception.SaveFileException;
 import kr.co.billiejoe.member.model.dao.MemberDAO;
 import kr.co.billiejoe.member.model.vo.Member;
+import kr.co.billiejoe.place.model.vo.MyReservation;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -198,6 +199,12 @@ public class MemberServiceImpl implements MemberService{
 			}
 			
 			return result;
+		}
+
+		// 이용 예정인 공간 조회
+		@Override
+		public MyReservation selectLatestPlace(int memberNo) {
+			return dao.selectLatestPlace(memberNo);
 		}
 
 	

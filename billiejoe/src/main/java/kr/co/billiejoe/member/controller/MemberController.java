@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.billiejoe.member.model.service.MemberService;
 import kr.co.billiejoe.member.model.vo.Member;
+import kr.co.billiejoe.place.model.vo.MyReservation;
 
 @Controller
 @RequestMapping("/member/*")
@@ -148,15 +149,24 @@ public class MemberController {
 
 	}
 	
-	// 마이페이지 화면 전환용 Controller
-	@RequestMapping(value="myPage", method=RequestMethod.POST)
-	public String myPage() {
-		return "member/myPage";
-	}
-	
+	/*
+	 * // 마이페이지 화면 전환용 Controller
+	 * 
+	 * @RequestMapping(value="myPage", method=RequestMethod.GET) public String
+	 * myPage() { return "member/myPage"; }
+	 */
 	// 마이페이지 Controller
-	public String myPage(@ModelAttribute("loginMember") Member loginMember)
 	
+	@RequestMapping(value="myPage", method=RequestMethod.GET)
+	 public String myPage(@ModelAttribute("loginMember") Member loginMember, Model model) { 
+		  
+		MyReservation latestPlace = service.selectLatestPlace(loginMember.getMemberNo());
+		
+		model.addAttribute("latestPlace", latestPlace);
+		
+		  return "member/myPage";
+	  }
+	 
 	
 	// 내 정보 수정 화면 전환용 Controller 
 	// /member/myPage 주소로 요청이 오면

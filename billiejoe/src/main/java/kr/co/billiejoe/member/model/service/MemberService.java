@@ -3,6 +3,7 @@ package kr.co.billiejoe.member.model.service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.billiejoe.member.model.vo.Member;
+import kr.co.billiejoe.place.model.vo.MyReservation;
 
 public interface MemberService {
 
@@ -55,6 +56,12 @@ public interface MemberService {
 	 * @return result
 	 */
 	public abstract int changePwd(String currentPwd, String newPwd, Member loginMember);
+
+	/** 이용 예정인 공간 조회
+	 * @param memberNo
+	 * @return firstPlace
+	 */
+	public abstract MyReservation selectLatestPlace(int memberNo);
 
 
 }

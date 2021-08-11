@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../common/header.jsp"></jsp:include>
 <!doctype html>
 <html lang="ko">
@@ -76,11 +77,7 @@
             height: 150px;
         }
 
-        #reservPlace{
-            border: 1px solid black;
-            width: 750px;
-            margin-bottom: 20px;
-        }
+      
 
         .listForm {
             border: 1px solid black;
@@ -187,12 +184,26 @@
         }
 
         #moreReservPlace{
-            margin-left: 650px;
-            margin-top: -30px;
-            margin-bottom: 15px;
-            display: flex;
+              margin-left: 630px;
+			  margin-top: -30px;
+			  margin-bottom: 15px;
+			  display: flex;
+			  width: 75px;
         }
         
+          #reservPlace{
+            border: 1px solid black;
+            width: 750px;
+            margin-bottom: 20px;
+        }
+        
+        .containerH{
+        margin-left: 300px;
+        }
+        
+        .place{
+        	width : 750px;
+        }
     </style>
 </head>
 
@@ -218,10 +229,8 @@
 
             </ul>
         </div>
-        <div class="container py-5">
-            <form method="POST" enctype="multipart/form-data" action="${contextPath}/member/myPage"
-                onsubmit="return memberUpdateValidate();" class="form-horizontal" role="form">
-
+        <div class="containerH py-5">
+            
 
 
                 <div class="listForm">
@@ -238,65 +247,63 @@
                     </div>
 
                     <div id="userDetail">
-                        <h5>${}</h5>
-                        <h5>${}</h5>
+                        <h4>${loginMember.memberName}</h5>
+                        <h5>${loginMember.memberEmail}</h5>
                     </div>
-                        <a href="#" id="updateDetail">내 정보 수정하기</a>
+                        <a href="#" id="updateDetail" class="btn btn-primary">내 정보 수정하기</a>
                     <div class="col-md-6 offset-md-3">
                         <span>&nbsp;</span>
                     </div>
                 </div>
 
                 <hr>
-
-                <h3>이용 예정인 공간</h3>
+                <h4>이용 예정인 공간</h4>
 
                 <div class="card mb-3 place">
                     <div class="row g-0">
-                      <div class="place-thumb col-md-4" style="background-image:url(https://via.placeholder.com/720x480)"></div>
+                      <div class="place-thumb col-md-4" style="background-image:url(${latestPlace.atList[0].filePath }${latestPlace.atList[0].fileName })"></div>
                       <div class="col-md-8">
                         <div class="card-body">
-                          <h3 class="card-title"><a href="#" class="stretched-link">모임공간 모락 서울대입구</a></h3>
-                          <p class="card-text">모임이 즐거워지는 공간! 서울대입구역 단독룸!</p>
+                          <h3 class="card-title"><a href="#" class="stretched-link">${latestPlace.placeName}</a></h3>
+                          <p class="card-text">${latestPlace.placeSummary}</p>
                           <ul class="place-tag list-inline">
-                            <li class="list-inline-item"><a class="badge rounded-pill bg-secondary" href="#"><i class="bi bi-hash"></i> Secondary</a></li>
-                            <li class="list-inline-item"><a class="badge rounded-pill bg-secondary" href="#"><i class="bi bi-hash"></i> Secondary</a></li>
-                            <li class="list-inline-item"><a class="badge rounded-pill bg-secondary" href="#"><i class="bi bi-hash"></i> Secondary</a></li>
-                            <li class="list-inline-item"><a class="badge rounded-pill bg-secondary" href="#"><i class="bi bi-hash"></i> Secondary</a></li>
+                          	 <c:forEach items="${tagList}" var="tag"  >
+	                            <li class="list-inline-item"><a class="badge rounded-pill bg-secondary" href="#"><i class="bi bi-hash"></i>${tag.tagName}</a></li>
+			            	</c:forEach> 
                           </ul>
                         </div>
                         <div class="card-footer">
                           <ul class="list-inline place-info">
-                            <li class="list-inline-item">30,000원<small>/시간</small></li>
-                            <li class="list-inline-item"><i class="bi bi-chat-square-text"></i> 12</li>
-                            <li class="list-inline-item"><i class="bi bi-heart-fill"></i> 144</li>
+                            <li class="list-inline-item"><fmt:formatNumber value="${latestPlace.placeCharge }" pattern="#,###" />원<small>/시간</small></li>
+                            <li class="list-inline-item"><i class="bi bi-chat-square-text"></i> ${latestPlace.reviewCount}</li>
+                            <li class="list-inline-item"><i class="bi bi-heart-fill"></i> ${latestPlace.likeCount }</li>
                           </ul>
                         </div>
                       </div>
                     </div>
                   </div>
-
-                  <hr>
-
-                  <h3>내 장소에 접수된 예약</h3>
-                  <a href="#" id="moreReservPlace">더보기</a>
+                  
+                  <hr id="reserPlaceHr">
+				
+                  <h4 id="reserPlaceT">내 장소에 접수된 예약</h4>
+                  <a href="#" id="moreReservPlace"  class="btn btn-primary">더보기</a>
                   <div id="reservPlace">
                     <div id="leftPlace">
-                        <ul>장소 <b>${}</b></ul>
-                        <ul>상태 <b>${}</b></ul>
-                        <ul>예약자명 <b>${}</b></ul>
+                        <ul>장소 <b></b></ul>
+                        <ul>상태 <b></b></ul>
+                        <ul>예약자명 <b></b></ul>
 
                     </div>
                     <div id="rightPlace">
-                        <ul>이용일시  <b>${}</b></ul>
-                        <ul>결제금액  <b>${}</b></ul>
-                        <ul>연락처  <b>${}</b></ul>
+                        <ul>이용일시  <b></b></ul>
+                        <ul>결제금액  <b></b></ul>
+                        <ul>연락처  <b></b></ul>
                     </div>
 
                   </div>
 
 
-            </form>
+            
         </div>
 
     </main>

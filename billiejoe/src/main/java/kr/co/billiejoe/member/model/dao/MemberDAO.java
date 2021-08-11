@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.co.billiejoe.member.model.vo.Member;
+import kr.co.billiejoe.place.model.vo.MyReservation;
 
 @Repository
 public class MemberDAO {
@@ -83,6 +84,14 @@ public class MemberDAO {
 	 */
 	public int changePwd(Member loginMember) {
 		return sqlSession.update("memberMapper.changePwd", loginMember);
+	}
+
+	/** 이용 예정인 공간 조회
+	 * @param memberNo
+	 * @return firstPlace
+	 */
+	public MyReservation selectLatestPlace(int memberNo) {
+		return sqlSession.selectOne("memberMapper.selectLatestPlace", memberNo);
 	}
 	
 	
