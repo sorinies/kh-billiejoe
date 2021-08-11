@@ -1,5 +1,6 @@
 package kr.co.billiejoe.place.model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -7,13 +8,16 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.co.billiejoe.place.model.vo.Attachment;
 import kr.co.billiejoe.place.model.vo.Likes;
 import kr.co.billiejoe.place.model.vo.MyReservation;
 import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
+import kr.co.billiejoe.place.model.vo.PlaceTag;
 import kr.co.billiejoe.place.model.vo.Reservation;
+import kr.co.billiejoe.place.model.vo.Tag;
 
 @Repository
 
@@ -44,6 +48,75 @@ public class PlaceDAO {
 
 	public int deleteLike(Likes likes) {
 		return session.delete("placeMapper.deleteLike",likes);
+	}
+
+	/**
+	 * 전체 장소 수 조회 DAO
+	 * @return
+	 */
+	public int getListCount() {
+		return session.selectOne("placeMapper.getListCount");
+	}
+
+	/**
+	 * 전체 장소 목록 조회 DAO
+	 * @param pagination
+	 * @return
+	 */
+	public List<Place> selectPlaceList(Pagination pagination) {
+		int offset = (pagination.getCurrentPage() -1) * pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return session.selectList("placeMapper.selectPlaceList", rowBounds);
+	}
+
+	/**
+	 * 장소 삽입 DAO
+	 * @param place
+	 * @return
+	 */
+	public int insertPlace(Place place) {
+		int result = session.insert("placeMapper.insertPlace", place);
+		// 성공시 1, 실패시 0
+		if(result > 0) {
+			return place.getPlaceNo();
+		} else {
+			return 0;
+		}
+	}
+
+	/**
+	 * 이미지 정보 삽입 DAO
+	 * @param atList
+	 * @return
+	 */
+	public int insertAttachmentList(List<Attachment> atList) {
+		return session.insert("placeMapper.insertAttachmentList", atList);
+	}
+
+	/**
+	 * 태그 존재 여부 확인 DAO
+	 * @param tagItem
+	 * @return
+	 */
+	public Tag isExistTag(String tagItem) {
+		return session.selectOne("placeMapper.isExistTag", tagItem);
+	}
+	
+	/**
+	 * 태그 삽입 DAO
+	 * @param tagItem
+	 * @return
+	 */
+	public int insertTags(String tagItem) {
+		return session.insert("placeMapper.insertTag", tagItem);
+	}
+
+	/**
+	 * 장소에 태그 정보 삽입 DAO
+	 * @param rowNo
+	 */
+	public void insertTagInPlaceTags(PlaceTag placeTag) {
+		session.insert("placeMapper.insertPlaceTags", placeTag);
 	}
 
 	
@@ -85,7 +158,7 @@ public class PlaceDAO {
 		// TODO Auto-generated method stub
 		return session.insert("placeMapper.insertPayment",payment);
 	}
-
+  
 	/**예약정보 얻어오기
 	 * @param reserveNo
 	 * @return
