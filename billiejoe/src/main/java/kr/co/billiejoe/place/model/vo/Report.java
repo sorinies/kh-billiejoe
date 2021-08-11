@@ -6,8 +6,11 @@ public class Report {
 	private int reportNo;
 	private String reportContent;
 	private int memberNo;
+	private String memberName;
 	private int reviewNo;
 	private Timestamp reportDate;
+	private String reviewStatus;
+	private String reviewContent;
 	
 	public Report() {}
 
@@ -17,6 +20,34 @@ public class Report {
 		this.memberNo = memberNo;
 		this.reviewNo = reviewNo;
 		this.reportDate = reportDate;
+	}
+	
+	
+	
+	public String getReviewContent() {
+		return reviewContent;
+	}
+
+	public void setReviewContent(String reviewContent) {
+		this.reviewContent = reviewContent;
+	}
+
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
+	
+
+	public String getReviewStatus() {
+		return reviewStatus;
+	}
+
+	public void setReviewStatus(String reviewStatus) {
+		this.reviewStatus = reviewStatus;
 	}
 
 	public int getReportNo() {
@@ -62,8 +93,13 @@ public class Report {
 	@Override
 	public String toString() {
 		return "Report [reportNo=" + reportNo + ", reportContent=" + reportContent + ", memberNo=" + memberNo
-				+ ", reviewNo=" + reviewNo + ", reportDate=" + reportDate + "]";
+				+ ", memberName=" + memberName + ", reviewNo=" + reviewNo + ", reportDate=" + reportDate
+				+ ", reviewStatus=" + reviewStatus + ", reviewContent=" + reviewContent + "]";
 	}
+
+	
+
+	
 	
 	
 }
