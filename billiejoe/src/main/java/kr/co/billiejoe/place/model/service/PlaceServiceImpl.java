@@ -1,8 +1,10 @@
 package kr.co.billiejoe.place.model.service;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -10,15 +12,21 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.billiejoe.place.exception.SaveFileException;
 import kr.co.billiejoe.place.model.dao.PlaceDAO;
+import kr.co.billiejoe.place.model.vo.Attachment;
 import kr.co.billiejoe.place.model.vo.Likes;
+
 import kr.co.billiejoe.place.model.vo.MyReservation;
 import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
+import kr.co.billiejoe.place.model.vo.PlaceTag;
 import kr.co.billiejoe.place.model.vo.Reservation;
+import kr.co.billiejoe.place.model.vo.Tag;
 
 @Service
 @Transactional
@@ -94,14 +102,94 @@ public class PlaceServiceImpl implements PlaceService{
 		return dao.deleteLike(likes);
 	}
 	
+	// 전체 장소 수 조회 Service
+	@Override
+	public Pagination getPagination(Pagination pg) {
+		int selectPg = dao.getListCount();
+		return new Pagination(pg.getCurrentPage(), selectPg); 
+	}
+	
+	// 장소 목록 조회
+	@Override
+	public List<Place> selectPlaceList(Pagination pagination) {
+		return dao.selectPlaceList(pagination);
+	}
+	
+	// 장소 추가
+	@Transactional(rollbackFor=Exception.class)
+	@Override
+	public int insertPlace(Place place, List<MultipartFile> images, String webPath, String savePath, String tagString) {
+		place.setPlaceName(replaceParameter(place.getPlaceName()));
+		place.setPlaceSummary(replaceParameter(place.getPlaceSummary()));
+		int placeNo = dao.insertPlace(place);
+		if(placeNo > 0) {
+			List<Attachment> atList = new ArrayList<Attachment>();
+			for(int i = 0; i < images.size(); i++) {
+				if(!images.get(i).getOriginalFilename().equals("")) {
+					String fileName = rename(images.get(i).getOriginalFilename());
+					Attachment at = new Attachment();
+					at.setFileName(fileName);
+					at.setFilePath(webPath);
+					at.setPlaceNo(placeNo);
+					at.setFileLevel(i);
+					
+					atList.add(at);
+				}
+			}
+			List<Tag> tagList = new ArrayList<Tag>();
+			// tagString 분리 후 삽입
+			String[] tagArr = tagString.split(",");
+			for(String tagItem : tagArr) {
+				Tag tag = new Tag();
+				PlaceTag placeTag = new PlaceTag();
+				int result = 0;
+				tag = dao.isExistTag(tagItem); // DB에 등록되어 있는 태그인지 확인
+				System.out.println(tag);
+				System.out.println("tag는 null이 아닙니껴?");
+				System.out.println(tag != null);
+				if(tag != null) { // 이미 존재하는 태그라면
+					placeTag.setPlaceNo(placeNo);
+					placeTag.setTagNo(tag.getTagNo());
+					dao.insertTagInPlaceTags(placeTag);
+				} else { // 등록된 적 없는 태그라면
+					result = dao.insertTags(tagItem);
+					if(result > 0) {
+						tag = dao.isExistTag(tagItem);
+						if(tag != null) {
+							placeTag.setPlaceNo(placeNo);
+							placeTag.setTagNo(tag.getTagNo());
+							dao.insertTagInPlaceTags(placeTag);
+						}
+					}
+				}
+				tagList.add(tag);
+			}
+			if(!atList.isEmpty()) {
+				int result = dao.insertAttachmentList(atList);
+				if(atList.size() == result) { // 모두 삽입 성공
+					// 파일을 서버에 저장(transfer())
+					for(int i = 0; i < atList.size(); i++) {
+						try {
+							images.get(atList.get(i).getFileLevel()).transferTo(new File(savePath + "/" + atList.get(i).getFileName()));
+						} catch (Exception err) {
+							err.printStackTrace();
+							throw new SaveFileException();
+						}
+					}
+				} else {
+					throw new SaveFileException();
+				}
+			}
+		}
+		return placeNo;
+  }
+  
 	// 전체 목록 수 + 예약한 장소 조회
 		@Override
 		public Pagination getPagination(Pagination pg, int memberNo) {
-			
 			// 1) 전체 목록 수 조회
 			int listCount = dao.getListCount(memberNo);
-			
-			
+
 			// 2) 계산이 완료된 Pagination 객체 생성 후 반환
 			return new Pagination(pg.getCurrentPage(), listCount) ;
 		}
@@ -128,5 +216,25 @@ public class PlaceServiceImpl implements PlaceService{
 		return result;
 	}
 
-	
+	// XSS Proof Method
+	public static String replaceParameter(String param) {
+		String result = param;
+    	if(param != null) {
+    		result = result.replaceAll("&", "&amp;");
+    		result = result.replaceAll("<", "&lt;");
+    		result = result.replaceAll(">", "&gt;");
+    		result = result.replaceAll("\"", "&quot;");
+    	}
+    	return result;
+	}
+
+	// 파일명 변경 메소드
+	private String rename(String originFileName) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String date = sdf.format(new java.util.Date(System.currentTimeMillis()));
+		int ranNum = (int)(Math.random()*100000);
+		String str = "_" + String.format("%05d", ranNum);
+		String ext = originFileName.substring(originFileName.lastIndexOf("."));
+		return date + str + ext;
+	}
 }
