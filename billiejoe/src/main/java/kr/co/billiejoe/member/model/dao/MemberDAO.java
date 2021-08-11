@@ -68,7 +68,22 @@ public class MemberDAO {
 	public int selectReservation(int memberNo) {
 		return sqlSession.selectOne("memberMapper.selectReservation", memberNo);
 	}
-	
+
+	/** 회원 정보 수정 DAO
+	 * @param inputMember
+	 * @return result
+	 */
+	public int updateMember(Member inputMember) {
+		return sqlSession.update("memberMapper.updateMember", inputMember);
+	}
+
+	/** 비밀번호 변경 DAO
+	 * @param loginMember
+	 * @return result
+	 */
+	public int changePwd(Member loginMember) {
+		return sqlSession.update("memberMapper.changePwd", loginMember);
+	}
 	
 	
 	

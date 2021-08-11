@@ -24,6 +24,7 @@
 		<typeAlias type="kr.co.billiejoe.place.model.vo.PlaceTag" alias="PlaceTag" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Report" alias="Report" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Reservation" alias="Reservation" />
+		<typeAlias type="kr.co.billiejoe.place.model.vo.MyReservation" alias="MyReservation" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.ReservationState" alias="ReservationState" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Review" alias="Review" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Tag" alias="Tag" />
@@ -36,6 +37,8 @@
 		<mapper resource="/mappers/place-mapper.xml" />
 		<mapper resource="/mappers/member-mapper.xml" />
 		<mapper resource="/mappers/chat-mapper.xml" />
+		<mapper resource="/mappers/admin-mapper.xml" />
+		<mapper resource="/mappers/email-mapper.xml" />
 	</mappers>
 
 

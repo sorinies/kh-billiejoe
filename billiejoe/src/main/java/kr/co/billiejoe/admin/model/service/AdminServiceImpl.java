@@ -1,11 +1,15 @@
 package kr.co.billiejoe.admin.model.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import kr.co.billiejoe.admin.model.dao.AdminDAO;
 import kr.co.billiejoe.member.model.vo.Member;
+import kr.co.billiejoe.place.model.vo.Pagination;
 
 @Service
 public class AdminServiceImpl implements AdminService{
@@ -38,6 +42,98 @@ public class AdminServiceImpl implements AdminService{
 		}	
 		
 		return loginMember;
+	}
+
+	/**회원목록조회
+	 *
+	 */
+	@Override
+	public List<Member> selectMemberList(Pagination pg) {
+		return dao.selectMemberList(pg) ;
+	}
+
+	/**회원목록 페이징
+	 *
+	 */
+	@Override
+	public Pagination getMemberPg(Pagination pg) {
+		int listCount = dao.getListCount();
+		pg.setListCount(listCount);
+		return pg;
+	}
+
+	/**검색된 회원수 구하기
+	 *
+	 */
+	@Override
+	public Pagination getMemberPg(Pagination pg, Map<String, String> search) {
+		int listCount = dao.getListCount(search);
+		pg.setListCount(listCount);
+		return pg;
+		
+	}
+
+	/**검색된 회원리스트 구하기
+	 *
+	 */
+	@Override
+	public List<Member> selectMemberList(Pagination pg, Map<String, String> search) {
+		return dao.selectMemberList(pg,search);
+	}
+
+	/**회원 탈퇴 승인
+	 *
+	 */
+	@Override
+	public int deleteMember(int memberNo) {
+		Member member = dao.selectDeleteMember(memberNo);
+		int result = 0;
+		if(member != null) {
+			result = dao.insertUnreg(member);
+			if(result >0) {
+				result = dao.deleteMember(memberNo);
+			}
+		}
+		return result;
+	}
+
+	/**탈퇴한 회원수 조회 
+	 *
+	 */
+	@Override
+	public Pagination getUnRegMemberPg(Pagination pg) {
+		int listCount = dao.getUnRegListCount();
+		pg.setListCount(listCount);
+		return pg;
+	}
+
+	/**탈퇴한 회원 목록 조회
+	 *
+	 */
+	@Override
+	public List<Member> selectUnRegMemberList(Pagination pg) {
+		// TODO Auto-generated method stub
+		return dao.selectUnRegMemberList(pg);
+	}
+
+	/**검색된 탈퇴회원수 조회
+	 *
+	 */
+	@Override
+	public Pagination getUnRegMemberPg(Pagination pg, Map<String, String> search) {
+		int listCount = dao.getUnRegListCount(search);
+		System.out.println(listCount);
+		pg.setListCount(listCount);
+		return pg;
+	}
+
+	/**검색된 탈퇴회원 목록조회
+	 *
+	 */
+	@Override
+	public List<Member> selectUnRegMemberList(Pagination pg, Map<String, String> search) {
+		// TODO Auto-generated method stub
+		return dao.selectUnRegMemberList(pg,search);
 	}
 
 }
