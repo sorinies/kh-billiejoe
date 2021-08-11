@@ -145,8 +145,7 @@ h6 {
 						<div class="col-md-6" id="profileImg-area">
 							<div id="picture">
 								<img class="img-thumbnail rounded-circle" id="memberPic" src="${contextPath}/${loginMember.memberPic}">
-								<!-- <p>여기를 눌러 <br>
-                        이미지 선택</p> -->
+								
 							</div>
 						</div>
 

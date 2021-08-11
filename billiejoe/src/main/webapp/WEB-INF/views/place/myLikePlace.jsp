@@ -1,8 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<jsp:include page="../common/header.jsp"></jsp:include>
 <!doctype html>
 <html lang="ko">
 
@@ -52,9 +50,10 @@
 
   
 
-    #placeImg-area > img{
+    #placeImg-area > div{
       width: 150px;
       height: 150px;
+      background-color: #eee;
       border-radius:10%;
       display: inline-block;
       border: 1px solid black;
@@ -153,13 +152,6 @@
         margin-top: -25px;
     }
     
-    .flex-shrink-0{
-
-	display : inline-block;
-	float :left;
-	
-	}
-    
 
 
    
@@ -168,16 +160,15 @@
 </head>
 
 <body>
-  <main>
     <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
       <a href="#" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-        <span class="fs-5 fw-semibold">내가 예약한 장소</span>
+        <span class="fs-5 fw-semibold">내가 찜한 장소</span>
       </a>
       <ul class="list-unstyled ">
         <li class="mb-1">
           <a href="#">내 정보 </a><br>
           <a href="#">내 정보 수정</a><br>
-          <a href="#">비밀번호 변경 </button>
+          <a href="#">비밀번호 변경 </a>
         </li>
         <hr>
         <li class="mb-1">
@@ -196,11 +187,10 @@
       </ul>
     </div>
     <div class="container py-5">
-        <form method="POST" enctype="multipart/form-data"
-					action="${contextPath}/place/myReservation"
-					onsubmit="return" class="form-horizontal"
-					role="form">
-        <div class="input-group  mb-3 w-25">
+     
+      <div class="col-md-9 mx-auto">
+        <form action="" class="row mb-3">
+          <div class="input-group  mb-3 w-25">
          
             <select class="form-select" id="searchUserCond" name="searchUserCond">
               <option selected>등록일 최신순</option>
@@ -208,74 +198,55 @@
               <option value="userNickname">이용일시 임박순</option>
             </select>
         </div>
-        
-		
-        <c:forEach items="${reservationList}" var="myReserv">
-        <div class="listForm">
-            <div class="listForm-area1"> 
-                <div  id="placeImg-area">
-                    
-                    <img src="${myReserv.atList[0].filePath }${myReserv.atList[0].fileName }" id="placeImg" name="placeImg">
-                    
-                </div>
-
+       
+        </form>
+        <div class="card mb-3 place">
+          <div class="row g-0">
+            <div class="place-thumb col-md-4" style="background-image:url(https://via.placeholder.com/720x480)"></div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h3 class="card-title"><a href="#" class="stretched-link">모임공간 모락 서울대입구</a></h3>
+                <p class="card-text">모임이 즐거워지는 공간! 서울대입구역 단독룸!</p>
+                <ul class="place-tag list-inline">
+                  <li class="list-inline-item"><a class="badge rounded-pill bg-secondary" href="#"><i class="bi bi-hash"></i> Secondary</a></li>
+                  <li class="list-inline-item"><a class="badge rounded-pill bg-secondary" href="#"><i class="bi bi-hash"></i> Secondary</a></li>
+                  <li class="list-inline-item"><a class="badge rounded-pill bg-secondary" href="#"><i class="bi bi-hash"></i> Secondary</a></li>
+                  <li class="list-inline-item"><a class="badge rounded-pill bg-secondary" href="#"><i class="bi bi-hash"></i> Secondary</a></li>
+                </ul>
+              </div>
+              <div class="card-footer">
+                <ul class="list-inline place-info">
+                  <li class="list-inline-item">30,000원<small>/시간</small></li>
+                  <li class="list-inline-item"><i class="bi bi-chat-square-text"></i> 12</li>
+                  <li class="list-inline-item"><i class="bi bi-heart-fill"></i> 144</li>
+                </ul>
+              </div>
             </div>
-            <div class="listForm-area2">
-                <h5><fmt:formatDate pattern= "MM월 dd일" value="${myReserv.reserveDate}"/>&ensp;</h5>
-                <p>(<fmt:formatDate value="${myReserv.reserveDate}" pattern="E"/>요일) ${myReserv.useStart}:00 ~ ${myReserv.useEnd }:00</p>
-                <h6>${myReserv.placeName}</h6> 
-                <h4>\<fmt:formatNumber value="${myReserv.placeCharge }" pattern="#,###" /></h4>
-            </div>
-            <hr>
-            <div class="listForm-area3">
-                <p>${myReserv.placeAddr}</p>
-                <h5>예약 완료</h5>
-            </div>
-
+          </div>
         </div>
-        </c:forEach>
-
-      
-          <c:if test="${!empty param.sk }">
-     	 <c:set var="searchStr" value="&sk=${param.sk}&sv=${param.sv}"  />
-	  </c:if>
-      <c:set var="prev" value="main?cp=${pagination.prevPage}${searchStr }" />
-	  <c:set var="next" value="main?cp=${pagination.nextPage}${searchStr }" />
-	  
-	  
-      <!-- 페이징 -->
-      <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-          <li class="page-item">
-            <a class="page-link" href="${prev}" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <%-- 페이지 목록 --%>
-					<c:forEach var="p" begin="${pagination.startPage}" end="${pagination.endPage}">
-						
-							<c:choose>
-								<c:when test="${p == pagination.currentPage }">
-									<li class="page-item active"><a class="page-link">${p}</a></li>
-								</c:when>
-								
-								<c:otherwise>
-									<li><a class="page-link" href="${pageURL}?cp=${p}${searchStr}">${p}</a></li>
-								</c:otherwise>
-							</c:choose>						
-					</c:forEach>
-          <li class="page-item">
-            <a class="page-link" href="${next }" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-         
-    </form>
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">5</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
-  </main>
 
+  <jsp:include page="../common/footer.jsp"></jsp:include>
 
 
 </body>

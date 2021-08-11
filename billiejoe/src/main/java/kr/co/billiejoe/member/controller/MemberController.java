@@ -148,11 +148,21 @@ public class MemberController {
 
 	}
 	
+	// 마이페이지 화면 전환용 Controller
+	@RequestMapping(value="myPage", method=RequestMethod.POST)
+	public String myPage() {
+		return "member/myPage";
+	}
+	
+	// 마이페이지 Controller
+	public String myPage(@ModelAttribute("loginMember") Member loginMember)
+	
+	
 	// 내 정보 수정 화면 전환용 Controller 
 	// /member/myPage 주소로 요청이 오면
 	// /WEB-INF/views/member.myPage.jsp로 요청 위임(forward)
 	@RequestMapping(value="updateMyPage", method=RequestMethod.GET)
-	public String myPage() {
+	public String updateMyPage() {
 		return "member/updateMyPage";
 	}
 	
