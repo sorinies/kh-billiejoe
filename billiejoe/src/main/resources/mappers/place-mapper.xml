@@ -59,6 +59,34 @@
 		<result property="placeNo" column="PLACE_NO"/>
 	</resultMap>
 	
+	<!-- 내가 예약한 장소 목록 상세조회 resultMap -->
+		<resultMap type="MyReservation" id="myReservation_rm">
+		
+		<id property="reserveNo" column="RESERVE_NO"/>
+		
+		<result property="useDate" column="RESERVE_USE_DATE"/>
+		<result property="useStart" column="RESERVE_USE_START"/>
+		<result property="useEnd" column="RESERVE_USE_END"/>
+		<result property="reserveDate" column="RESERVE_DATE"/>
+		<result property="placeNo" column="PLACE_NO"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="stateNo" column="STATE_NO"/>
+		<result property="stateName" column="STATE_NAME"/>
+		
+		<result property="placeName" column="PLACE_NAME" />
+		<result property="placeSummary" column="PLACE_SUMMARY"/>
+		<result property="placeAddr" column="PLACE_ADDR" />
+		<result property="placeContent" column="PLACE_CONTENT"/>
+		<result property="placeCharge" column="PLACE_CHARGE" />
+		<result property="placeDate" column="PLACE_DATE" />
+		<result property="likeCount" column="LIKE_COUNT" />
+		
+		 <collection property="atList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Attachment" select="selectAttachment"/>
+	
+	</resultMap>
+	
+	
+	
 	<!-- 좋아요 확인 -->
 	<select id="likeCheck" parameterType="_int" resultType="_Int">
 		SELECT COUNT(*) FROM LIKES WHERE MEMBER_NO = #{memberNo}
@@ -103,5 +131,20 @@
 	<insert id="insertPayment" parameterType="Payment">
 		INSERT INTO PAYMENT VALUES(SEQ_PAY.NEXTVAL, #{reserveNo},#{payAmount},'kakaoPay',DEFAULT,#{memberNo},#{merchantUid})
 	</insert>
+	
+	<!-- 내가 예약한 장소 목록 -->
+	<select id="getListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM RESERVATION
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<select id="selectReservationList" parameterType="_int" resultMap="myReservation_rm">
+	SELECT RESERVE_NO, RESERVE_DATE, RESERVE_USE_DATE, RESERVE_USE_START,RESERVE_USE_END,PLACE_NO,A.MEMBER_NO,STATE_NO,STATE_NAME,PLACE_NAME,PLACE_CHARGE,PLACE_ADDR
+	FROM RESERVATION A
+	JOIN RESERVATION_STATE USING (STATE_NO)
+	JOIN PLACE USING (PLACE_NO)
+	WHERE A.MEMBER_NO = #{memberNo}
+	</select>
+	
 	
 </mapper>

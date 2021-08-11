@@ -133,4 +133,76 @@ public class MemberServiceImpl implements MemberService{
 		return result2;
 	}
 
+	// 회원정보 수정 Service
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int updateMember(Member inputMember, MultipartFile image, String savePath) {
+		
+		String fileName = null;
+		if(!image.getOriginalFilename().equals("")) { // 이미지가 업로드된 경우
+			fileName = "resources/images/" + rename(image.getOriginalFilename());
+			// 웹 접근 경로 + 변경된 파일명
+			inputMember.setMemberPic(fileName);
+		}
+		
+		int result = dao.updateMember(inputMember);
+		
+		if(result > 0) { // DB MEMBER 테이블 수정 성공 시 
+			
+			if(fileName != null) { // 업로드된 이미지가 있을 때
+				// 이 때 파일을 서버에 저장
+				try {
+					image.transferTo(new File(savePath + "/" + fileName));
+				}catch (Exception e) {
+					e.printStackTrace();
+					throw new SaveFileException();
+				}
+			}
+			
+		}
+		
+		return result;
+	}
+
+	// 회원 비밀번호 변경 Service
+		@Transactional(rollbackFor=Exception.class)
+		@Override
+		public int changePwd(String currentPwd, String newPwd, Member loginMember) {
+
+			// 1) 암호화를 먼저 고려해야한다.
+			// - 현재 비밀번호가 일치하는지 확인 먼저 진행해야 한다!
+			// --> 왜? bcrypt 암호화를 사용하고 있기 때문에
+			//  -- 왜죠? bcrypt 암호화는 비밀번호를 조회해온 후 matches() 메소드로 비교해야함
+			
+			// DB에 저장되어 있는 현재 회원의 비밀번호 조회
+			String savePwd = dao.selectPassword(loginMember.getMemberNo());
+			
+			int result = 0; // 결과 저장용 변수
+			
+			// 조회한 비밀번호와 입력 받은 현재 비밀번호가 일치하는지 확인
+			if( bCryptPasswordEncoder.matches(currentPwd, savePwd)) {
+				
+				// 2) 비밀번호 변경
+				// - 새 비밀번호를 암호화
+				String encPwd = bCryptPasswordEncoder.encode(newPwd);
+				
+				// 마이바티스 메소드는 SQL 수행 시 사용할 파라미터를 
+				// 하나만 추가할 수 있다! -> loginMember에 담아서 전달
+				loginMember.setMemberPw(encPwd);
+				
+				result = dao.changePwd(loginMember);
+				
+				// loginMember에 저장한 encPwd를 제거 (Session에 비밀번호 저장하면 안된다!)
+				loginMember.setMemberPw(null);
+				
+			}
+			
+			return result;
+		}
+
+	
+	
+	
+	
+
 }

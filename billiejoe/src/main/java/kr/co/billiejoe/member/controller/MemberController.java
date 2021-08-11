@@ -1,10 +1,11 @@
 package kr.co.billiejoe.member.controller;
 
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.ibatis.reflection.SystemMetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +31,6 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 
-	
 	/**
 	 * 로그인 화면 전환 Controller
 	 * 
@@ -41,8 +41,6 @@ public class MemberController {
 		return "member/login";
 	}
 
-	
-	
 	/**
 	 * 로그인 Controller
 	 * 
@@ -66,7 +64,7 @@ public class MemberController {
 		if (loginMember != null) { // 로그인 성공 시 세션에 올린다!
 
 			model.addAttribute("loginMember", loginMember);
-			
+
 			Cookie cookie = new Cookie("saveEmail", loginMember.getMemberEmail());
 
 			if (save != null) {
@@ -84,25 +82,21 @@ public class MemberController {
 			ra.addFlashAttribute("text", "아이디 또는 비밀번호가 일치하지 않습니다.");
 		}
 		return "redirect:/";
-	} // login end
+	}
 
-	
-	
 	/**
 	 * 로그아웃 Controller
 	 * 
 	 * @param status
 	 * @param referer
-	 * @return "redirect:/"
+	 * @return "redirect:" + referer
 	 */
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logout(SessionStatus status, @RequestHeader("referer") String referer) {
 		status.setComplete();
-		return "redirect:/";
-	} // logout end
+		return "redirect:" + referer;
+	}
 
-	
-	
 	/**
 	 * 회원가입 화면 전환 Controller
 	 * 
@@ -113,8 +107,6 @@ public class MemberController {
 		return "member/signUp";
 	}
 
-	
-	
 	/**
 	 * 회원가입 Controller
 	 * 
@@ -140,10 +132,8 @@ public class MemberController {
 		}
 
 		return "redirect:/";
-	} // signUp end
+	}
 
-	
-	
 	/** 아이디 중복 검사 Controller(ajax)
 	 * @param email
 	 * @return result
@@ -156,78 +146,94 @@ public class MemberController {
 
 		return result;
 
-	} // emailDupCheck end
-	
-	
-	
-	/** 회원 탈퇴 화면 전환 Controller
-	 * @return "redirect:"
-	 */
-	@RequestMapping(value="secession", method=RequestMethod.GET)
-	public String secession() {
-		return "member/secession";
 	}
 	
+	// 내 정보 수정 화면 전환용 Controller 
+	// /member/myPage 주소로 요청이 오면
+	// /WEB-INF/views/member.myPage.jsp로 요청 위임(forward)
+	@RequestMapping(value="updateMyPage", method=RequestMethod.GET)
+	public String myPage() {
+		return "member/updateMyPage";
+	}
 	
-	
-	/** 회원 탈퇴 Controller
-	 * @param loginMember
-	 * @param memberPw
-	 * @param ra
-	 * @param status
-	 * @return path
-	 */
-	@RequestMapping(value="secession", method=RequestMethod.POST)
-	public String secession(@ModelAttribute("loginMember") Member loginMember, //  로그인 된 회원 정보
-							@RequestParam("memberPw") String memberPw, // 입력된 현재 비밀번호
-							RedirectAttributes ra, // 메세지 전달용 객체
-							SessionStatus status) { // 세션 상태 관리 객체(세션 만료용, 로그아웃 객체)
+	// 회원 정보 수정 Controller
+	@RequestMapping(value="updateMyPage", method=RequestMethod.POST)
+	public String updateMember(@ModelAttribute("loginMember") Member loginMember, String memberName, String memberPhone, 
+			@RequestParam("profileImg")	MultipartFile image, /*업로드된 이미지 파일*/
+			Member inputMember, RedirectAttributes ra, HttpServletRequest request) {
 		
-		int result = service.secession(memberPw, loginMember);
+		inputMember.setMemberNo(loginMember.getMemberNo());
+		inputMember.setMemberName(memberName);
+		inputMember.setMemberPhone(memberPhone);
+		//inputMember.setMemberPic(images);
 		
-		String path = "redirect:";
+		System.out.println(inputMember);
 		
-		if( result > 0 ) { // 성공
-			int result2 = service.secessionInsert(loginMember);
-			path += "/";
-			swalSetMessage(ra, "success", "회원탈퇴 성공", "이용해 주셔서 감사합니다.");
+		String savePath = request.getSession().getServletContext().getRealPath("/");
+				
+		int result = service.updateMember(inputMember, image, savePath);
+		
+		
+		
+		System.out.println("result : " + result);
+		
+		if (result > 0) {
+			loginMember.setMemberName(memberName);
+			loginMember.setMemberPhone(memberPhone);
 			
-			if(result2>0) {
-				status.setComplete(); // 자동 로그아웃
+			if(!image.getOriginalFilename().equals("")) {
+				loginMember.setMemberPic(inputMember.getMemberPic());
 			}
 			
-		}else { // 실패
-			path+="secession";
-			swalSetMessage(ra, "error", "회원탈퇴 실패", "모든 예약건은 취소 후 진행해주세요.");
+			swalSetMessage(ra, "success", "회원 정보 수정 성공", null);
+		} else {
+			swalSetMessage(ra, "error", "회원 정보 수정 실패", null);
+
 		}
-		
-		return path;
-		
-	}// secession end
+		return "redirect:updateMyPage";
+	}
 	
-	
-	// 마이페이지 작업 시작부분
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// 마이페이지 작업 끝
-	
-	
-	
-	// SweetAlert(공용, 맨 아래에 위치)
+
+	// SweetAlert
 	public static void swalSetMessage(RedirectAttributes ra, String icon, String title, String text) {
-		
+
 		ra.addFlashAttribute("icon", icon);
 		ra.addFlashAttribute("title", title);
 		ra.addFlashAttribute("text", text);
-		
-	} // swalSetMessage end
+	}
+
 	
-} // controller class end
+	
+	// 비밀번호 변경 화면 전환 Controller
+		@RequestMapping(value="changePwd", method=RequestMethod.GET)
+		public String changePwd() {
+			
+			return "member/changePwd";
+		}
+		
+		// 주소 매핑, 파라미터 전달받기, 세션에서 로그인 정보 얻어오기
+		@RequestMapping(value="changePwd", method=RequestMethod.POST)
+		public String changePwd(@RequestParam("currentPwd") String currentPwd,
+								@RequestParam("newPwd1") String newPwd,
+								@ModelAttribute("loginMember") Member loginMember,
+								RedirectAttributes ra) {
+			
+			int result = service.changePwd(currentPwd, newPwd, loginMember);
+		
+			String path = "redirect:";
+			
+			if(result > 0) { // 비밀번호 변경 성공
+				swalSetMessage(ra, "success", "비밀번호 변경 성공", null);
+				path += "updateMyPage";
+				loginMember.setMemberPw(newPwd);
+				
+			}else { // 실패
+				swalSetMessage(ra, "error", "비밀번호 변경 실패", null);
+				path += "changePwd";
+			}		
+			
+			return path;
+		}
+		
+		
+}
