@@ -6,12 +6,15 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.billiejoe.admin.model.dao.AdminDAO;
 import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Pagination;
+import kr.co.billiejoe.place.model.vo.Report;
 
 @Service
+@Transactional
 public class AdminServiceImpl implements AdminService{
 	
 	@Autowired
@@ -134,6 +137,34 @@ public class AdminServiceImpl implements AdminService{
 	public List<Member> selectUnRegMemberList(Pagination pg, Map<String, String> search) {
 		// TODO Auto-generated method stub
 		return dao.selectUnRegMemberList(pg,search);
+	}
+
+	/**신고글 수 구하기
+	 *
+	 */
+	@Override
+	public Pagination getReportListCount(Pagination pg) {
+		int listCount = dao.getReportListCount();
+		pg.setListCount(listCount);
+		return pg;
+	}
+
+	/**신고글 목록조회
+	 *
+	 */
+	@Override
+	public List<Report> selectReportList(Pagination pg) {
+		// TODO Auto-generated method stub
+		return dao.selectReportList(pg);
+	}
+
+	/**신고처리하기
+	 *
+	 */
+	@Override
+	public int reportCheck(int reviewNo) {
+		// TODO Auto-generated method stub
+		return dao.reportCheck(reviewNo);
 	}
 
 }

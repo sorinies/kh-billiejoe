@@ -211,28 +211,31 @@
         
 		
         <c:forEach items="${reservationList}" var="myReserv">
-        <div class="listForm">
-            <div class="listForm-area1"> 
-                <div  id="placeImg-area">
-                    
-                    <img src="${myReserv.atList[0].filePath }${myReserv.atList[0].fileName }" id="placeImg" name="placeImg">
-                    
-                </div>
-
-            </div>
-            <div class="listForm-area2">
-                <h5><fmt:formatDate pattern= "MM월 dd일" value="${myReserv.reserveDate}"/>&ensp;</h5>
-                <p>(<fmt:formatDate value="${myReserv.reserveDate}" pattern="E"/>요일) ${myReserv.useStart}:00 ~ ${myReserv.useEnd }:00</p>
-                <h6>${myReserv.placeName}</h6> 
-                <h4>\<fmt:formatNumber value="${myReserv.placeCharge }" pattern="#,###" /></h4>
-            </div>
-            <hr>
-            <div class="listForm-area3">
-                <p>${myReserv.placeAddr}</p>
-                <h5>예약 완료</h5>
-            </div>
-
-        </div>
+        <a href="${myReserv.placeNo}/reservationView?reserveNo=${myReserv.reserveNo }">
+	        <div class="listForm">
+	            <div class="listForm-area1"> 
+	                <div  id="placeImg-area">
+	                    
+	                    <img src="${myReserv.atList[0].filePath }${myReserv.atList[0].fileName }" id="placeImg" name="placeImg">
+	                    
+	                </div>
+	
+	            </div>
+	            <div class="listForm-area2">
+	                <h5><fmt:formatDate pattern= "MM월 dd일" value="${myReserv.reserveDate}"/>&ensp;</h5>
+	                <p>(<fmt:formatDate value="${myReserv.reserveDate}" pattern="E"/>요일) ${myReserv.useStart}:00 ~ ${myReserv.useEnd }:00</p>
+	                <h6>${myReserv.placeName}</h6> 
+	                <h4>\<fmt:formatNumber value="${myReserv.placeCharge }" pattern="#,###" /></h4>
+	            </div>
+	            <hr>
+	            <div class="listForm-area3">
+	                <p>${myReserv.placeAddr}</p>
+	                <h5>예약 완료</h5>
+	            </div>
+	
+	        </div>
+        
+        </a>
         </c:forEach>
 
       

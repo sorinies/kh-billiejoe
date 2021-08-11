@@ -17,6 +17,11 @@
     integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
     crossorigin="anonymous"></script>
   <link href="${contextPath}/resources/css/admin_sidebars.css" rel="stylesheet">
+  <style type="text/css">
+  	button {
+		height: 35px;	
+	}
+  </style>
 </head>
 
 <body>
@@ -79,54 +84,56 @@
     </div>
     <div class="b-example-divider"></div>
     <div class="container py-5">
-      <h2>탈퇴 회원</h2>
-      <form method="get" action="unRegMember">
-        <div class="input-group mb-3 w-50">
-          <select name="sk" class="form-select" id="searchUserCond" >
-            <option value="name">이름</option>
-            <option value="id">아이디</option>
-          </select>
-          <input type="text" class="form-control" name="sv" placeholder="이름 혹은 아이디로 검색하세요">
-          <button class="btn btn-outline-secondary" type="submit" id="searchUser" >검색</button>
-        </div>
+      <h2>신고 목록</h2>
         <table class="table table-striped table-hover w-100">
           <thead>
             <tr>
               
-              <th scope="col">회원번호</th>
-              <th scope="col">이름</th>
-              <th scope="col">아이디</th>
-              <th scope="col">연락처</th>
-              <th scope="col">가입일자</th>
-              <th scope="col">탈퇴일자</th>
+              <th scope="col">글번호</th>
+              <th scope="col">신고사유</th>
+              <th scope="col">리뷰 내용</th>
+              <th scope="col">신고자</th>
+              <th scope="col">신고날짜</th>
+              <th scope="col">처리현황</th>
             </tr>
           </thead>
           <tbody>
-          <c:forEach items="${memberList }" var="member">
+          
+          <c:forEach items="${reportList }" var="report">
           
             <tr>
-              <td>${member.memberNo }</td>
-              <td>${member.memberName }</td>
-              <td>${member.memberEmail }</td>
-              <td>${member.memberPhone }</td>
-              <fmt:formatDate var="regDate" value="${member.regDate}" pattern="yyyy.MM.dd"/>
-              <td>${regDate }</td>
-              <fmt:formatDate var="unRegDate" value="${member.unRegDate}" pattern="yyyy.MM.dd"/>
-              <td>${unRegDate}</td>
+              <td>${report.reviewNo }</td>
+              <td>${report.reportContent }</td>
+              <td>${report.reviewContent }</td>
+              <td>${report.memberName }</td>
+              <td><fmt:formatDate value="${ report.reportDate }" pattern="yyyy.MM.dd"/>  </td>
+              <td>
+              <c:if test="${report.reviewStatus eq 'N' }">
+               <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary " >
+                  완료
+                </button>
+              
+              </c:if>
+              <c:if test="${report.reviewStatus eq 'Y' }">
+                <button type="button" class="btn btn-danger del-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <input type="hidden" class="report-no" value="${report.reviewNo }">
+                  삭제
+                </button>
+              </c:if>
+              </td>
+              <td>
+              </td>
             </tr>
+
           </c:forEach>
+           
           </tbody>
         </table>
-      </form>
-      
-	  <c:if test="${!empty param.sk }">
-     	 <c:set var="searchStr" value="&sk=${param.sk}&sv=${param.sv}"  />
-	  </c:if>
-      <c:set var="prev" value="unRegMember?cp=${pagination.prevPage}${searchStr }" />
-	  <c:set var="next" value="unRegMember?cp=${pagination.nextPage}${searchStr }" />
-	  
-	  
-      <!-- 페이징 -->
+        
+       <c:set var="prev" value="report?cp=${pagination.prevPage}" />
+	  <c:set var="next" value="report?cp=${pagination.nextPage}" />
+       <!-- 페이징 -->
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
           <li class="page-item">
@@ -143,7 +150,7 @@
 								</c:when>
 								
 								<c:otherwise>
-									<li><a class="page-link" href="${pageURL}?cp=${p}${searchStr}">${p}</a></li>
+									<li><a class="page-link" href="${pageURL}?cp=${p}">${p}</a></li>
 								</c:otherwise>
 							</c:choose>						
 					</c:forEach>
@@ -155,30 +162,37 @@
         </ul>
       </nav>
     </div>
-  </main>
     
+  </main>
+     <!-- Modal -->
+     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content" >
+          <div class="modal-header">
+            <p >정말 삭제 하시겠습니까?</p>
+          </div>
+          <form action="reportCheck" method="POST">
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary modal-btn">네</button>
+                  <button type="button" class="btn btn-primary modal-btn" data-bs-dismiss="modal">아니오</button>
+                <input type="hidden" name="reviewNo" id="modal-report-no">
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  
   
 
   <script src="../dist/js/admin_sidebars.js"></script>
   <script>
     $(document).ready(function(){
-        var searchKey = "${param.sk}"; 
-		// 파라미터 중 sk가 있을 경우   ex)  "abc"
-		// 파라미터 중 sk가 없을 경우   ex)  ""
-		var searchValue = "${param.sv}";
-		
-		// 검색창 select의 option을 반복 접근
-		$("select[name=sk] > option").each(function(index, item){
-			// index : 현재 접근중인 요소의 인덱스
-			// item : 현재 접근중인 요소
-						// content            content
-			if( $(item).val() == searchKey  ){
-				$(item).prop("selected", true);
-			}
-		});		
-		
-		// 검색어 입력창에 searcValue 값 출력
-		$("input[name=sv]").val(searchValue);
+        $(".del-btn").on("click",function(){
+            console.log($(event.target))
+            var number = $(event.target).children().val();
+            var number2 = $(event.target).children().last().val();
+            $("#modal-report-no").val(number);
+        })
     })
 </script>
 </body>

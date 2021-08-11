@@ -215,6 +215,22 @@ public class PlaceServiceImpl implements PlaceService{
 		}
 		return result;
 	}
+	/**예약내용 조회
+	 *
+	 */
+	@Override
+	public MyReservation getReservation(int reserveNo) {
+		// TODO Auto-generated method stub
+		return dao.getReservation(reserveNo);
+	}
+	/**사용자 예약취소
+	 *
+	 */
+	@Override
+	public int cancelRv(int reserveNo) {
+		// TODO Auto-generated method stub
+		return dao.cancelRv(reserveNo);
+	}
 
 	// XSS Proof Method
 	public static String replaceParameter(String param) {

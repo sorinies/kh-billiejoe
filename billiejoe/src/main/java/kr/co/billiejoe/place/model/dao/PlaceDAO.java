@@ -85,4 +85,18 @@ public class PlaceDAO {
 		// TODO Auto-generated method stub
 		return session.insert("placeMapper.insertPayment",payment);
 	}
+
+	/**예약정보 얻어오기
+	 * @param reserveNo
+	 * @return
+	 */
+	public MyReservation getReservation(int reserveNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("placeMapper.getReservation", reserveNo);
+	}
+
+	public int cancelRv(int reserveNo) {
+		// TODO Auto-generated method stub
+		return session.update("placeMapper.cancelRv", reserveNo);
+	}
 }
