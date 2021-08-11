@@ -52,7 +52,7 @@
 
   
 
-    #placeImg-area > div{
+    #placeImg-area > img{
       width: 150px;
       height: 150px;
       border-radius:10%;
@@ -204,8 +204,8 @@
          
             <select class="form-select" id="searchUserCond" name="searchUserCond">
               <option selected>등록일 최신순</option>
-              <option value="userEmail">이메일</option>
-              <option value="userNickname">닉네임</option>
+              <option value="userEmail">예약일시 최근순</option>
+              <option value="userNickname">이용일시 임박순</option>
             </select>
         </div>
         
@@ -214,10 +214,10 @@
         <div class="listForm">
             <div class="listForm-area1"> 
                 <div  id="placeImg-area">
-                    <div>
-                    </div>
-                </div>
+                    
                     <img src="${myReserv.atList[0].filePath }${myReserv.atList[0].fileName }" id="placeImg" name="placeImg">
+                    
+                </div>
 
             </div>
             <div class="listForm-area2">
