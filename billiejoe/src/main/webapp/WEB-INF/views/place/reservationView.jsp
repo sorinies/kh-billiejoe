@@ -149,20 +149,67 @@
           <div class="modal-header">
             <p >정말로 취소 하시겠습니까?</p>
           </div>
-          <form action="cancelRv" method="POST">
+          <!-- <form action="cancelRv" method="POST"> -->
               <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary modal-btn">네</button>
+                  <button type="button" class="btn btn-primary modal-btn" id="yesBtn">네</button>
                   <button type="button" class="btn btn-primary modal-btn" data-bs-dismiss="modal">아니오</button>
-                <input type="hidden" name="reserveNo" id="modal-member-no" value="${reservation.reserveNo }">
+               
               </div>
-          </form>
+         <!--  </form> -->
         </div>
       </div>
-      </div>
+    </div>
+      
+      
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">환불 규정 </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                &ensp; &ensp;* 일반대여 시간 기준 (ex. 20:00 대여기준) <br>
+                &ensp; &ensp;* 3일 전 취소 시 : 전액 환급 <br>
+                &ensp; &ensp;* 1시간 전 취소 시 : 50% 환급 <br>
+                &ensp; &ensp;* 당일 1시간 30분 전까지 취소 시 : 10% 환급 (ex. ~18:30) <br>
+                &ensp; &ensp;* 당일 1시간 30분 미만 취소 시 : 0% (ex. 18:30 ~ 20:00)  <br>
+
+
+            </div>
+            <div class="modal-footer">
+            <form action="cancelRv" method="POST">
+	            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="returnBtn">이전</button>
+	            <button type="submit" class="btn btn-primary">예약 취소</button>
+	             <input type="hidden" name="reserveNo" id="modal-member-no" value="${reservation.reserveNo }">
+            </form> 
+            </div>
+        </div>
+        </div>
+    </div>  
+      
+      
     <jsp:include page="../../../resources/js/placeViewJs.jsp"></jsp:include> 
+    <script>
+    $("#yesBtn").on("click", function(){
+    	$("#exampleModal").modal("hide");
+    	$("#staticBackdrop").modal("show");
+    	
+    })
+    
+    $("#returnBtn").on("click", function(){
+    	$("#staticBackdrop").modal("hide");
+    })
+    </script>
+    
     <!-- 달력 스크립트 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a523483cb174903a659b77049c5b0ee7&libraries=services"></script>
 <script type="text/javascript">
+
+
 
 
 //지도스크립트
@@ -203,6 +250,10 @@ geocoder.addressSearch(addr, function(result, status) {
         map.setCenter(coords);
     } 
 });
+
+
+
+
 </script>
 </body>
    
