@@ -175,7 +175,7 @@
 	</insert>
 	
 	<!-- 내가 예약한 장소 목록 -->
-	<select id="getListCount" parameterType="_int" resultType="_int">
+	<select id="getReListCount" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM RESERVATION
 		WHERE MEMBER_NO = #{memberNo}
 	</select>
