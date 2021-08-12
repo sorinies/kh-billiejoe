@@ -183,29 +183,25 @@
   <main>
     <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
       <a href="#" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-        <span class="fs-5 fw-semibold">내가 예약한 장소</span>
+        <span class="fs-5 fw-semibold">마이페이지</span>
       </a>
-      <ul class="list-unstyled ">
-        <li class="mb-1">
-          <a href="#">내 정보 </a><br>
-          <a href="#">내 정보 수정</a><br>
-          <a href="#">비밀번호 변경 </button>
-        </li>
-        <hr>
-        <li class="mb-1">
-          <a href="#"><b>내가 예약한 장소</b> </a><br>
-          <a href="#">내가 찜한 장소</a><br>
-          <a href="#">내가 작성한 후기</a>
-        </li>
-        <hr>
-        <li class="mb-1">
-          <a href="#">내가 등록한 장소</a><br>
-          <a href="#">예약 접수 내역</a><br>
-        </li>
-        <hr>
+		<ul class="list-unstyled ">
+				<li class="mb-1">
+					<a href="${contextPath}/member/myPage">내 정보 </a><br> 
+					<a href="${contextPath}/member/updateMyPage">내 정보 수정</a><br> 
+					<a href="${contextPath}/member/changePwd">비밀번호 변경</a></li>
+				<hr>
+				<li class="mb-1"><a href="#"><b>내가 예약한 장소 </b></a><br> 
+					<a href="#">내가 찜한 장소</a><br>
+					<a href="#">내가 작성한 후기</a></li>
+				<hr>
+				<li class="mb-1">
+					<a href="#">내가 등록한 장소</a><br> 
+					<a href="#">예약 접수 내역</a><br></li>
+				<hr>
 
 
-      </ul>
+			</ul>
     </div>
     <div class="containerH py-5">
         <div class="input-group  mb-3 w-25">

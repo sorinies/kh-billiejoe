@@ -217,10 +217,10 @@
             </a>
             <ul class="list-unstyled ">
                 <li class="mb-1"><a href="#"><b>내 정보 </b></a><br> 
-                <a href="#">내 정보 수정</a><br> 
-                <a href="#">비밀번호 변경 </a></li>
+                <a href="${contextPath}/member/updateMyPage">내 정보 수정</a><br> 
+                <a href="${contextPath}/member/changePwd">비밀번호 변경 </a></li>
                 <hr>
-                <li class="mb-1"><a href="#">내가 예약한 장소 </a><br> 
+                <li class="mb-1"><a href="${contextPath}/place/myReservation">내가 예약한 장소 </a><br> 
                 <a href="#">내가 찜한 장소</a><br>
                  <a href="#">내가 작성한 후기</a>
                 </li>
@@ -253,7 +253,7 @@
                         <h4>${loginMember.memberName}</h5>
                         <h5>${loginMember.memberEmail}</h5>
                     </div>
-                        <a href="#" id="updateDetail" class="btn btn-primary">내 정보 수정하기</a>
+                        <a href="${contextPath}/member/updateMyPage" id="updateDetail" class="btn btn-primary">내 정보 수정하기</a>
                     <div class="col-md-6 offset-md-3">
                         <span>&nbsp;</span>
                     </div>
