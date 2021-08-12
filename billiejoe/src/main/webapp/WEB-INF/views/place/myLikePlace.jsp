@@ -216,12 +216,12 @@
                 <span class="fs-5 fw-semibold">마이페이지</span>
             </a>
             <ul class="list-unstyled ">
-                <li class="mb-1"><a href="#"><b>내 정보 </b></a><br> 
+                <li class="mb-1"><a href="${contextPath}/member/myPage">내 정보 </a><br> 
                 <a href="${contextPath}/member/updateMyPage">내 정보 수정</a><br> 
                 <a href="${contextPath}/member/changePwd">비밀번호 변경 </a></li>
                 <hr>
                 <li class="mb-1"><a href="${contextPath}/place/myReservation">내가 예약한 장소 </a><br> 
-                <a href="#">내가 찜한 장소</a><br>
+                <a href="#"><b>내가 찜한 장소</b></a><br>
                  <a href="#">내가 작성한 후기</a>
                 </li>
                 <hr>
