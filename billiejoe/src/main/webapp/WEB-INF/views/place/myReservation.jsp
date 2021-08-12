@@ -17,7 +17,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
     crossorigin="anonymous"></script>
-  <link href="../dist/css/admin_sidebars.css" rel="stylesheet">
 
   <style>
     a {
@@ -162,10 +161,20 @@
     
 	 .containerH{
         margin-left: 300px;
+        width : 600px;
         }
         
-
-   
+	#navigation{
+	display : inline-block;
+	margin-top : 0;
+	margin-left : 300px;
+	}
+	
+	.pagination{
+	margin-top : 0;
+	}
+ 
+ 
  
   </style>
 </head>
@@ -184,7 +193,7 @@
         </li>
         <hr>
         <li class="mb-1">
-          <a href="#">내가 예약한 장소 </a><br>
+          <a href="#"><b>내가 예약한 장소</b> </a><br>
           <a href="#">내가 찜한 장소</a><br>
           <a href="#">내가 작성한 후기</a>
         </li>
@@ -199,10 +208,6 @@
       </ul>
     </div>
     <div class="containerH py-5">
-        <form method="POST" enctype="multipart/form-data"
-					action="${contextPath}/place/myReservation"
-					onsubmit="return" class="form-horizontal"
-					role="form">
         <div class="input-group  mb-3 w-25">
          
             <select class="form-select" id="searchUserCond" name="searchUserCond">
@@ -243,14 +248,14 @@
 
       
           <c:if test="${!empty param.sk }">
-     	 <c:set var="searchStr" value="&sk=${param.sk}&sv=${param.sv}"  />
-	  </c:if>
-      <c:set var="prev" value="main?cp=${pagination.prevPage}${searchStr }" />
-	  <c:set var="next" value="main?cp=${pagination.nextPage}${searchStr }" />
-	  
+     		 <c:set var="searchStr" value="&sk=${param.sk}&sv=${param.sv}"  />
+		  </c:if>
+	    	  <c:set var="prev" value="main?cp=${pagination.prevPage}${searchStr }" />
+			  <c:set var="next" value="main?cp=${pagination.nextPage}${searchStr }" />
+		  
 	  
       <!-- 페이징 -->
-      <nav aria-label="Page navigation">
+      <nav aria-label="Page navigation" id="navigation">
         <ul class="pagination justify-content-center">
           <li class="page-item">
             <a class="page-link" href="${prev}" aria-label="Previous">
@@ -277,9 +282,7 @@
           </li>
         </ul>
       </nav>
-         
-    </form>
-    </div>
+         </div>
   </main>
 
 
