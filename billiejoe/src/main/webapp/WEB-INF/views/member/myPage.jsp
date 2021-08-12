@@ -216,14 +216,17 @@
                 <span class="fs-5 fw-semibold">마이페이지</span>
             </a>
             <ul class="list-unstyled ">
-                <li class="mb-1"><a href="#">내 정보 </a><br> <a href="#">내
-                        정보 수정</a><br> <a href="#">비밀번호 변경 </a></li>
+                <li class="mb-1"><a href="#"><b>내 정보 </b></a><br> 
+                <a href="#">내 정보 수정</a><br> 
+                <a href="#">비밀번호 변경 </a></li>
                 <hr>
-                <li class="mb-1"><a href="#">내가 예약한 장소 </a><br> <a href="#">내가 찜한 장소</a><br> <a href="#">내가 작성한 후기</a>
+                <li class="mb-1"><a href="#">내가 예약한 장소 </a><br> 
+                <a href="#">내가 찜한 장소</a><br>
+                 <a href="#">내가 작성한 후기</a>
                 </li>
                 <hr>
-                <li class="mb-1"><a href="#">내가 등록한 장소</a><br> <a href="#">예약
-                        접수 내역</a><br></li>
+                <li class="mb-1"><a href="#">내가 등록한 장소</a><br>
+                 <a href="#">예약 접수 내역</a><br></li>
                 <hr>
 
 
@@ -284,23 +287,26 @@
                   </div>
                   
                   <hr id="reserPlaceHr">
-				
                   <h4 id="reserPlaceT">내 장소에 접수된 예약</h4>
                   <a href="#" id="moreReservPlace"  class="btn btn-primary">더보기</a>
+				 <c:forEach items="${reservedPlace}" var="reservedPlace">
                   <div id="reservPlace">
                     <div id="leftPlace">
-                        <ul>장소 <b></b></ul>
-                        <ul>상태 <b></b></ul>
-                        <ul>예약자명 <b></b></ul>
+                        <div>장소 <b>${reservedPlace.placeName} </b></div>
+                        <div>상태 <b>${reservedPlace.stateName} </b></div>
+                        <div>예약자명 <b>${reservedPlace.memberName} </b></div>
 
                     </div>
+                    
                     <div id="rightPlace">
-                        <ul>이용일시  <b></b></ul>
-                        <ul>결제금액  <b></b></ul>
-                        <ul>연락처  <b></b></ul>
+                        <div>이용일시  <b>${reservedPlace.useDate} </b></div>
+                        <div>결제금액  <b>${reservedPlace.placeCharge} </b></div>
+                        <div>번호<b> ${reservedPlace.memberPhone} </b></div>
                     </div>
 
                   </div>
+                  <br>
+                  </c:forEach>
 
 
             

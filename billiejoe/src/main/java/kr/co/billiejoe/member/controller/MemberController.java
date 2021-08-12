@@ -164,6 +164,9 @@ public class MemberController {
 		
 		model.addAttribute("latestPlace", latestPlace);
 		
+		List<MyReservation> reservedPlace = service.selectReservedPlace(loginMember.getMemberNo());
+		
+		model.addAttribute("reservedPlace", reservedPlace);
 		  return "member/myPage";
 	  }
 	 

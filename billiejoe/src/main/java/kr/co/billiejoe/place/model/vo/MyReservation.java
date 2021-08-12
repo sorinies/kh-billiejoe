@@ -20,6 +20,7 @@ public class MyReservation
 	private List<Attachment> atList;
 	private List<Tag> tagList;
 	
+	
 	private int reserveNo;
 	private String useDate; // 이용 예정일
 	private int useStart; // 이용 시작시간
@@ -28,6 +29,8 @@ public class MyReservation
 	private int stateNo;
 	private String stateName;
 
+	private String memberName;
+	private String memberPhone;
 	
 	
 	 
@@ -63,6 +66,34 @@ public class MyReservation
 		this.reserveDate = reserveDate;
 		this.stateNo = stateNo;
 		this.stateName = stateName;
+	}
+
+
+
+
+	public String getMemberName() {
+		return memberName;
+	}
+
+
+
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
+
+
+
+	public String getMemberPhone() {
+		return memberPhone;
+	}
+
+
+
+
+	public void setMemberPhone(String memberPhone) {
+		this.memberPhone = memberPhone;
 	}
 
 
@@ -371,9 +402,13 @@ public class MyReservation
 				+ ", memberNo=" + memberNo + ", likeCount=" + likeCount + ", reviewCount=" + reviewCount + ", atList="
 				+ atList + ", tagList=" + tagList + ", reserveNo=" + reserveNo + ", useDate=" + useDate + ", useStart="
 				+ useStart + ", useEnd=" + useEnd + ", reserveDate=" + reserveDate + ", stateNo=" + stateNo
-				+ ", stateName=" + stateName + "]";
+				+ ", stateName=" + stateName + ", memberName=" + memberName + ", memberPhone=" + memberPhone + "]";
 	}
 
+
+
+
+	
 
 
 

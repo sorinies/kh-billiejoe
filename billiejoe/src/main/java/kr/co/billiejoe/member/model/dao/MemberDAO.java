@@ -1,5 +1,7 @@
 package kr.co.billiejoe.member.model.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -88,10 +90,18 @@ public class MemberDAO {
 
 	/** 이용 예정인 공간 조회
 	 * @param memberNo
-	 * @return firstPlace
+	 * @return latestPlace
 	 */
 	public MyReservation selectLatestPlace(int memberNo) {
 		return sqlSession.selectOne("memberMapper.selectLatestPlace", memberNo);
+	}
+
+	/** 내 장소에 예약된 공간 조회
+	 * @param memberNo
+	 * @return reservedPlace
+	 */
+	public List<MyReservation> selectReservedPlace(int memberNo) {
+		return sqlSession.selectList("memberMapper.selectReservedPlace", memberNo);
 	}
 	
 	

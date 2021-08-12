@@ -29,6 +29,9 @@
 		<result property="memberNo" column="MEMBER_NO"/>
 		<result property="stateNo" column="STATE_NO"/>
 		<result property="stateName" column="STATE_NAME"/>
+
+		<result property="memberName" column="MEMBER_NAME"/>
+		<result property="memberPhone" column="MEMBER_PHONE"/>
 		
 		<result property="placeName" column="PLACE_NAME" />
 		<result property="placeSummary" column="PLACE_SUMMARY"/>
@@ -38,6 +41,8 @@
 		<result property="placeDate" column="PLACE_DATE" />
 		<result property="likeCount" column="LIKE_COUNT" />
 		<result property="reviewCount" column="REVIEW_COUNT" />
+		
+		
 		
 		 <collection property="atList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Attachment" select="selectAttachment"/>
 		 <collection property="tagList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Tag" select="selectTag"/>
@@ -163,6 +168,19 @@
 		    WHERE ROWNUM = 1
 		)
 		
+	</select>
+	
+	
+	<!-- 내 장소에 예약된 공간 조회 -->
+	<select id="selectReservedPlace" parameterType="_int" resultMap="myReservation_rm">
+	SELECT A.PLACE_NO, RESERVE_USE_DATE,RESERVE_USE_START, RESERVE_USE_END,STATE_NAME, A.MEMBER_NO,MEMBER_NAME,MEMBER_PHONE, PLACE_CHARGE,PLACE_NAME
+	FROM RESERVATION A
+	JOIN RESERVATION_STATE USING (STATE_NO)
+	JOIN MEMBER B ON (A.MEMBER_NO = B.MEMBER_NO)
+	JOIN PLACE C ON (A.PLACE_NO = C.PLACE_NO)
+	WHERE C.MEMBER_NO = #{memberNo}
+	ORDER BY RESERVE_USE_DATE
+	
 	</select>
 	
 </mapper>

@@ -2,6 +2,7 @@ package kr.co.billiejoe.member.model.service;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -205,6 +206,13 @@ public class MemberServiceImpl implements MemberService{
 		@Override
 		public MyReservation selectLatestPlace(int memberNo) {
 			return dao.selectLatestPlace(memberNo);
+		}
+
+		
+		// 내 장소에 예약된 장소 조회
+		@Override
+		public List<MyReservation> selectReservedPlace(int memberNo) {
+			return dao.selectReservedPlace(memberNo);
 		}
 
 	
