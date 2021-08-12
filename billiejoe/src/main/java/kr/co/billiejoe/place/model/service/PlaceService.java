@@ -52,4 +52,18 @@ public interface PlaceService {
 
 	int updateReservation(Map<String, String> map);
 
+	/** 내가 찜한 장소 목록 조회
+	 * @param pagination
+	 * @param memberNo
+	 * @return selectMyLikePlaceList
+	 */
+	List<MyReservation> selectMyLikePlaceList(Pagination pagination, int memberNo);
+
+	/** 전체 목록 수 + 내가 좋아요한 장소 조회
+	 * @param pg
+	 * @param memberNo
+	 * @return
+	 */
+	Pagination getLikePagination(Pagination pg, int memberNo);
+
 }

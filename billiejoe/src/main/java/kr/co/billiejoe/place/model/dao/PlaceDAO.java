@@ -129,6 +129,14 @@ public class PlaceDAO {
 
 		return session.selectOne("placeMapper.getReListCount", memberNo);
 	}
+	
+	/** 전체 목록 수 + 좋아요한 장소 조회
+	 * @param memberNo
+	 * @return
+	 */
+	public int getLikeListCount(int memberNo) {
+		return session.selectOne("placeMapper.getLikeListCount", memberNo);	
+		}
 
 	/**  내가 예약한 장소 목록 조회
 	 * @param pagination
@@ -144,6 +152,20 @@ public class PlaceDAO {
 		
 		return session.selectList("placeMapper.selectReservationList", memberNo, rowBounds);
 		
+	}
+	
+	/** 내가 좋아요한 장소 목록 조회
+	 * @param pagination
+	 * @param memberNo
+	 * @return selectMyLikePlaceList
+	 */
+	public List<MyReservation> selectMyLikePlaceList(Pagination pagination, int memberNo) {
+int offset = (pagination.getCurrentPage() -1 ) * pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		// offset 만큼 건너 뛰고, limit만큼의 행을 얻어옴
+		
+		return session.selectList("placeMapper.selectMyLikePlaceList", memberNo, rowBounds);
 	}
 		
 	public int getReserveNo() {
@@ -192,4 +214,6 @@ public class PlaceDAO {
 		// TODO Auto-generated method stub
 		return session.update("placeMapper.startReservation", map);
 	}
+
+	
 }
