@@ -173,7 +173,7 @@ public class PlaceController {
 		int placeNo = service.insertPlace(place, images, webPath, savePath, tagString);
 		String path = null;
 		if(placeNo > 0) {
-			path = "redirect:" + placeNo;
+			path = "redirect:" + placeNo + "/view";
 		} 
 		else {
 			// MemberController.swalSetMessage(ra, "error", "실패", null);

@@ -4,9 +4,11 @@
   <div class="container py-5">
     <div class="content-header row">
       <h2 class="col">장소 찾기</h2>
+      <c:if test="${!empty loginMember }">
       <div class="col text-end">
         <a href="addPlace" class="btn btn-primary">장소 등록</a>
       </div>
+      </c:if>
     </div>
     <div class="col-md-9 mx-auto">
       <form action="" class="row mb-3">
@@ -41,7 +43,7 @@
           <div class="place-thumb col-md-4" style="background-image:url(${contextPath}/resources/images/${place.thumbnail})"></div>
           <div class="col-md-8">
             <div class="card-body">
-              <h3 class="card-title"><a href="${place.placeNo}?cp=${pagination.currentPage}" class="stretched-link">${place.placeName}</a></h3>
+              <h3 class="card-title"><a href="${place.placeNo}/view?cp=${pagination.currentPage}" class="stretched-link">${place.placeName}</a></h3>
               <p class="card-text">${place.placeSummary}</p>
               <ul class="place-tag list-inline">
                 <c:forEach items="${place.tagList}" var="tag">
@@ -62,21 +64,54 @@
       </c:forEach>
       </c:otherwise>
       </c:choose>
-      <nav aria-label="Page navigation">
+      
+      <c:set var="pageURL" value="list" />
+      <c:set var="prev" value="${pageURL}?cp=${pagination.prevPage}" />
+      <c:set var="next" value="${pageURL}?cp=${pagination.nextPage}" />
+      <nav>
         <ul class="pagination justify-content-center">
+         <c:choose>
+         <c:when test="${pagination.currentPage > 2 }">
+          <li class="page-item">
+            <a class="page-link" href="${pageURL}?cp=${pagination.currentPage - 1}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+         </c:when>
+         <c:otherwise>
           <li class="page-item disabled">
             <a class="page-link" href="#" aria-label="Previous">
               <span aria-hidden="true">&laquo;</span>
             </a>
           </li>
-          <li class="page-item active"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
+         </c:otherwise>
+         </c:choose>
+				 <c:forEach var="p" begin="${pagination.startPage}" end="${pagination.endPage}">
+         <c:choose>
+         <c:when test="${p == pagination.currentPage }">
+          <li class="page-item active"><a class="page-link" href="#">${p}</a></li>
+         </c:when>
+         <c:otherwise>
+          <li class="page-item"><a class="page-link" href="${pageURL}?cp=${p}">${p}</a></li>
+         </c:otherwise>
+         </c:choose>
+         </c:forEach>
+         <c:choose>
+         <c:when test="${pagination.currentPage < pagination.maxPage }">
           <li class="page-item">
+            <a class="page-link" href="${pageURL}?cp=${pagination.currentPage + 1}${searchStr}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+         </c:when>
+         <c:otherwise>
+          <li class="page-item disabled">
             <a class="page-link" href="#" aria-label="Next">
               <span aria-hidden="true">&raquo;</span>
             </a>
           </li>
+         </c:otherwise>
+         </c:choose>
         </ul>
       </nav>
     </div>
