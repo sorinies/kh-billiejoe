@@ -51,9 +51,9 @@ DROP TABLE place;
 
 CREATE TABLE place (
 	place_no	NUMBER		NOT NULL,
-	place_name	VARCHAR2(30)		NOT NULL,
-	place_summary	VARCHAR2(100)		NOT NULL,
-	place_addr	VARCHAR2(100)		NOT NULL,
+	place_name	VARCHAR2(100)		NOT NULL,
+	place_summary	VARCHAR2(200)		NOT NULL,
+	place_addr	VARCHAR2(200)		NOT NULL,
 	place_content	CLOB		NOT NULL,
 	place_charge	NUMBER		NOT NULL,
 	place_is_available	CHAR(1)	DEFAULT 'Y'	CHECK(place_is_available IN('Y','N')) NOT NULL,
