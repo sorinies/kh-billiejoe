@@ -120,6 +120,23 @@ public class PlaceDAO {
 		session.insert("placeMapper.insertPlaceTags", placeTag);
 	}
 
+	/**
+	 * 장소 태그 조회 DAO
+	 * @param placeNo
+	 * @return
+	 */
+	public List<Tag> selectPlaceTagList(int placeNo) {
+		return session.selectList("placeMapper.selectPlaceTagList", placeNo);
+	}
+	
+	/**
+	 * 장소 썸네일 조회 DAO
+	 * @param placeNo
+	 * @return
+	 */
+	public List<Attachment> selectPlaceThumbnail(int placeNo) {
+		return session.selectOne("placeMapper.selectPlaceThumbnail", placeNo);
+	}
 	
 	/**  전체 목록 수 + 예약한 장소 조회
 	 * @param memberNo

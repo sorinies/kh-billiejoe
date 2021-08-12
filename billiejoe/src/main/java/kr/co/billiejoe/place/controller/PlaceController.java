@@ -110,6 +110,13 @@ public class PlaceController {
 		return result;
 	}
 	
+	/**
+	 * 좋아요 체크
+	 * @param like
+	 * @param model
+	 * @param placeNo
+	 * @return
+	 */
 	@PostMapping("{placeNo}/likeCheck")
 	@ResponseBody
 	public int likebCheck(Integer like, Model model, @PathVariable("placeNo")int placeNo) {
@@ -148,6 +155,43 @@ public class PlaceController {
 	public String insertPlace(Model model) {
 		return "place/placeWrite";
 	}
+	
+	/**
+	 * 장소 추가
+	 * @param place
+	 * @param loginMember
+	 * @param images
+	 * @param request
+	 * @param ra
+	 * @return
+	 */
+	@PostMapping("write")
+	public String insertPlace(@ModelAttribute Place place, @ModelAttribute PlaceAvailable pa, @ModelAttribute("loginMember") Member loginMember, @RequestParam("images") List<MultipartFile> images, @RequestParam("tagString") String tagString, HttpServletRequest request, RedirectAttributes ra) {
+		place.setMemberNo(loginMember.getMemberNo());
+		String webPath = "resources/images/";
+		String savePath = request.getSession().getServletContext().getRealPath(webPath);
+		int placeNo = service.insertPlace(place, images, webPath, savePath, tagString);
+		String path = null;
+		if(placeNo > 0) {
+			path = "redirect:" + placeNo;
+		} 
+		else {
+			// MemberController.swalSetMessage(ra, "error", "실패", null);
+			System.out.println("장소 추가 실패");
+			path = "redirect:" + request.getHeader("referer");
+		}
+		return path;
+	}
+	
+	/**
+	 * 결제
+	 * @param reservation
+	 * @param checkBox
+	 * @param sumPrice
+	 * @param placeNo
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("{placeNo}/payMent")
 	public String payMent(Reservation reservation,@RequestParam(value = "checkbox") int[] checkBox,int sumPrice, @PathVariable("placeNo")int placeNo, Model model) {
 		reservation.setUseStart(checkBox[0]);
@@ -158,6 +202,16 @@ public class PlaceController {
 		model.addAttribute("sumPrice", sumPrice);
 		return "place/reservation";
 	}
+	
+	/**
+	 * 결제 완료
+	 * @param placeNo
+	 * @param model
+	 * @param reservation
+	 * @param payment
+	 * @param request
+	 * @return
+	 */
 	@PostMapping("{placeNo}/payComplete")
 	public String payComplete(@PathVariable("placeNo")int placeNo, Model model, Reservation reservation, Payment payment, HttpServletRequest request) {
 		Member loginMember = (Member)model.getAttribute("loginMember");
@@ -178,104 +232,82 @@ public class PlaceController {
 		return path;
 	}
 
+	// 내가 예약한 장소 목록 조회
+	@RequestMapping("myReservation")
+	public String myReservationList(@RequestParam(value="cp", required=false, defaultValue="1")int cp,
+							Model model, Pagination pg, 
+							@ModelAttribute("loginMember")Member loginMember) {
+		// 1) pg에 cp를 세팅
+		pg.setCurrentPage(cp);
+		
+		// 2) 전체 목록 수를 조회하여 Pagination 관련 내용을 계산하고 값을 저장한 객체 반환 받기
+		Pagination pagination = service.getPagination(pg, loginMember.getMemberNo());
+		
+		// 3) 생성된 pagination을 이용하여 현재 목록 페이지에 보여질 게시글 목록 조회
+		List<MyReservation> reservationList = service.selectReservationList(pagination,loginMember.getMemberNo());
+		
+		// 조회 결과 임시 확인
+		/*
+		 * for(MyReservation r : reservationList) { System.out.println(r); }
+		 */
+		
+		model.addAttribute("reservationList", reservationList);
+		model.addAttribute("pagination", pagination);
+		
+		return "place/myReservation";
+	}
+
+	/**예약한 장소 상세조회
+	 * @param placeNo
+	 * @param reserveNo
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("{placeNo}/reservationView")
+	public String reserveNo(@PathVariable("placeNo")int placeNo, int reserveNo, Model model) {
+		Member loginMember = (Member)model.getAttribute("loginMember");
+//			loginMember = new Member();
+//			loginMember.setMemberNo(500);
+		int like = 0;
+		if(loginMember !=null) {
+			like = service.likeCheck(loginMember.getMemberNo());
+		}
+		Place place = service.placeView(placeNo);
+		MyReservation reservation = service.getReservation(reserveNo);
+		Map<String, Object> map = new HashMap<String, Object>();
+		int count = 0;
+		for(int i =  reservation.getUseStart(); i<reservation.getUseEnd(); i++) {
+			count++;
+		}
+		int sumPrice = reservation.getPlaceCharge()*count;
+		map.put("count", count);
+		map.put("sumPrice", sumPrice);
+		model.addAttribute("map",map);
+		model.addAttribute("reservation", reservation);
+		model.addAttribute("like",like);
+		model.addAttribute("place",place);
+		return "place/reservationView";
+	}
+	
 	/**
-	 * 장소 추가
-	 * @param place
-	 * @param loginMember
-	 * @param images
-	 * @param request
+	 * 예약 취소
+	 * @param placeNo
+	 * @param reserveNo
 	 * @param ra
 	 * @return
 	 */
-	@PostMapping("write")
-	public String insertPlace(@ModelAttribute Place place, @ModelAttribute PlaceAvailable pa, @ModelAttribute("loginMember") Member loginMember, @RequestParam("images") List<MultipartFile> images, @RequestParam("tagString") String tagString, HttpServletRequest request, RedirectAttributes ra) {
-		place.setMemberNo(loginMember.getMemberNo());
-		System.out.println(pa);
-		String webPath = "resources/images/";
-		String savePath = request.getSession().getServletContext().getRealPath(webPath);
-		int placeNo = service.insertPlace(place, images, webPath, savePath, tagString);
-		String path = null;
-		if(placeNo > 0) {
-			path = "redirect:" + placeNo;
-		} 
-		else {
-			// MemberController.swalSetMessage(ra, "error", "실패", null);
-			System.out.println("장소 추가 실패");
-			path = "redirect:" + request.getHeader("referer");
+	@PostMapping("{placeNo}/cancelRv")
+	public String cancelRv(@PathVariable("placeNo") int placeNo, @RequestParam("reserveNo")int reserveNo, RedirectAttributes ra) {
+		
+		int result = service.cancelRv(reserveNo);
+		if (result > 0) {
+			MemberController.swalSetMessage(ra, "success", "예약 취소되었습니다", null);
+		} else {
+			MemberController.swalSetMessage(ra, "error", "예약취소 실패하였습니다", "고객센터로 문의해주세요.");
+
 		}
-		return path;
+		return "redirect:reservationView?reserveNo="+reserveNo;
+		
 	}
-
-	// 내가 예약한 장소 목록 조회
-		@RequestMapping("myReservation")
-		public String myReservationList(@RequestParam(value="cp", required=false, defaultValue="1")int cp,
-								Model model, Pagination pg, 
-								@ModelAttribute("loginMember")Member loginMember) {
-			// 1) pg에 cp를 세팅
-			pg.setCurrentPage(cp);
-			
-			// 2) 전체 목록 수를 조회하여 Pagination 관련 내용을 계산하고 값을 저장한 객체 반환 받기
-			Pagination pagination = service.getPagination(pg, loginMember.getMemberNo());
-			
-			// 3) 생성된 pagination을 이용하여 현재 목록 페이지에 보여질 게시글 목록 조회
-			List<MyReservation> reservationList = service.selectReservationList(pagination,loginMember.getMemberNo());
-			
-			// 조회 결과 임시 확인
-			/*
-			 * for(MyReservation r : reservationList) { System.out.println(r); }
-			 */
-			
-			model.addAttribute("reservationList", reservationList);
-			model.addAttribute("pagination", pagination);
-			
-			return "place/myReservation";
-			
-			
-		}
-
-		/**예약한 장소 상세조회
-		 * @param placeNo
-		 * @param reserveNo
-		 * @param model
-		 * @return
-		 */
-		@GetMapping("{placeNo}/reservationView")
-		public String reserveNo(@PathVariable("placeNo")int placeNo, int reserveNo, Model model) {
-			Member loginMember = (Member)model.getAttribute("loginMember");
-//			loginMember = new Member();
-//			loginMember.setMemberNo(500);
-			int like = 0;
-			if(loginMember !=null) {
-				like = service.likeCheck(loginMember.getMemberNo());
-			}
-			Place place = service.placeView(placeNo);
-			MyReservation reservation = service.getReservation(reserveNo);
-			Map<String, Object> map = new HashMap<String, Object>();
-			int count = 0;
-			for(int i =  reservation.getUseStart(); i<reservation.getUseEnd(); i++) {
-				count++;
-			}
-			int sumPrice = reservation.getPlaceCharge()*count;
-			map.put("count", count);
-			map.put("sumPrice", sumPrice);
-			model.addAttribute("map",map);
-			model.addAttribute("reservation", reservation);
-			model.addAttribute("like",like);
-			model.addAttribute("place",place);
-			return "place/reservationView";
-		}
-		@PostMapping("{placeNo}/cancelRv")
-		public String cancelRv(@PathVariable("placeNo") int placeNo, @RequestParam("reserveNo")int reserveNo, RedirectAttributes ra) {
-			
-			int result = service.cancelRv(reserveNo);
-			if (result > 0) {
-				MemberController.swalSetMessage(ra, "success", "예약 취소되었습니다", null);
-			} else {
-				MemberController.swalSetMessage(ra, "error", "예약취소 실패하였습니다", "고객센터로 문의해주세요.");
-
-			}
-			return "redirect:reservationView?reserveNo="+reserveNo;
-			
-		}
 }
 

@@ -5,13 +5,13 @@
     <div class="content-header row">
       <h2 class="col">장소 찾기</h2>
       <div class="col text-end">
-        <a href="#" class="btn btn-primary">장소 등록</a>
+        <a href="addPlace" class="btn btn-primary">장소 등록</a>
       </div>
     </div>
     <div class="col-md-9 mx-auto">
       <form action="" class="row mb-3">
         <div class="col-md-4">
-          <select class="form-select" aria-label="Default select example">
+          <select class="form-select">
             <option selected>Open this select menu</option>
             <option value="1">One</option>
             <option value="2">Two</option>
@@ -22,7 +22,7 @@
           <input class="form-control" type="date">
         </div>
         <div class="col-md-4">
-          <select class="form-select" aria-label="Default select example">
+          <select class="form-select">
             <option selected>Open this select menu</option>
             <option value="1">One</option>
             <option value="2">Two</option>
@@ -30,30 +30,38 @@
           </select>
         </div>
       </form>
+      <c:choose>
+      <c:when test="${empty placeList}">
+        등록된 장소가 없습니다.
+      </c:when>
+      <c:otherwise>
+      <c:forEach items="${placeList}" var="place">
       <div class="card mb-3 place">
         <div class="row g-0">
-          <div class="place-thumb col-md-4" style="background-image:url(https://via.placeholder.com/720x480)"></div>
+          <div class="place-thumb col-md-4" style="background-image:url(${contextPath}/resources/images/${place.thumbnail})"></div>
           <div class="col-md-8">
             <div class="card-body">
-              <h3 class="card-title"><a href="#" class="stretched-link">모임공간 모락 서울대입구</a></h3>
-              <p class="card-text">모임이 즐거워지는 공간! 서울대입구역 단독룸!</p>
+              <h3 class="card-title"><a href="${place.placeNo}?cp=${pagination.currentPage}" class="stretched-link">${place.placeName}</a></h3>
+              <p class="card-text">${place.placeSummary}</p>
               <ul class="place-tag list-inline">
-                <li class="list-inline-item"><a class="badge rounded-pill bg-secondary" href="#"><i class="bi bi-hash"></i> Secondary</a></li>
-                <li class="list-inline-item"><a class="badge rounded-pill bg-secondary" href="#"><i class="bi bi-hash"></i> Secondary</a></li>
-                <li class="list-inline-item"><a class="badge rounded-pill bg-secondary" href="#"><i class="bi bi-hash"></i> Secondary</a></li>
-                <li class="list-inline-item"><a class="badge rounded-pill bg-secondary" href="#"><i class="bi bi-hash"></i> Secondary</a></li>
+                <c:forEach items="${place.tagList}" var="tag">
+                <li class="list-inline-item"><a class="badge rounded-pill bg-secondary" href="list?searchType=tag&q=${tag.tagName}"><i class="bi bi-hash"></i> ${tag.tagName}</a></li>
+                </c:forEach>
               </ul>
             </div>
             <div class="card-footer">
               <ul class="list-inline place-info">
-                <li class="list-inline-item">30,000원<small>/시간</small></li>
-                <li class="list-inline-item"><i class="bi bi-chat-square-text"></i> 12</li>
-                <li class="list-inline-item"><i class="bi bi-heart-fill"></i> 144</li>
+                <li class="list-inline-item">${place.placeCharge}원<small>/시간</small></li>
+                <li class="list-inline-item"><i class="bi bi-chat-square-text"></i> ${place.reviewCount}</li>
+                <li class="list-inline-item"><i class="bi bi-heart-fill"></i> ${place.likeCount}</li>
               </ul>
             </div>
           </div>
         </div>
       </div>
+      </c:forEach>
+      </c:otherwise>
+      </c:choose>
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
           <li class="page-item disabled">

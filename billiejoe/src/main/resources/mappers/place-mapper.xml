@@ -8,8 +8,9 @@
 		<result property="filePath" column="FILE_PATH"/>
 		<result property="fileName" column="FILE_NAME"/>
 		<result property="fileLevel" column="FILE_LEVEL"/>
-		<result property="boardNo" column="BOARD_NO"/>
+		<result property="placeNo" column="PLACE_NO"/>
 	</resultMap>
+	
 	<!-- place 조회용 resultMap -->
 	<resultMap type="Place" id="place_rm">
 		<id property="placeNo" column="PLACE_NO"/> 
@@ -25,7 +26,24 @@
 		
 		<collection property="atList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Attachment" select="selectAttachment"/>
 		<collection property="tagList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Tag" select="selectTag"/>
-	</resultMap >
+	</resultMap>
+	
+	<!-- place 목록용 resultMap -->
+	<resultMap type="Place" id="place_list_rm">
+		<id property="placeNo" column="PLACE_NO"/> 
+		<result property="placeName" column="PLACE_NAME" />
+		<result property="placeSummary" column="PLACE_SUMMARY"/>
+		<result property="placeAddr" column="PLACE_ADDR" />
+		<result property="placeContent" column="PLACE_CONTENT"/>
+		<result property="placeCharge" column="PLACE_CHARGE" />
+		<result property="placeDate" column="PLACE_DATE" />
+		<result property="memberNo" column="MEMBER_NO" />
+		<result property="likeCount" column="LIKE_COUNT" />
+		<result property="thumbnail" column="FILE_NAME" />
+		<result property="reviewCount" column="REVIEW_COUNT" />
+		
+		<collection property="tagList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Tag" select="selectPlaceTagList"/>
+	</resultMap>
 	
 	<!-- 예약가능시간 확인resultMap -->
 	<resultMap type="PlaceAvailable" id="placeAvailable_rm">
@@ -34,12 +52,10 @@
 		<result property="placeNo" column="PLACE_NO"/>
 		<result property="start" column="AVAILABLE_START"/>
 		<result property="end" column="AVAILABLE_END"/>
-	
 	</resultMap>
 	
 	<!--예약되어있는 시간 확인 resultMap  -->
 	<resultMap type="Reservation" id="reservation_rm">
-		
 		<id property="reserveNo" column="RESERVE_NO"/>
 		
 		<result property="useDate" column="RESERVE_USE_DATE"/>
@@ -49,9 +65,9 @@
 		<result property="placeNo" column="PLACE_NO"/>
 		<result property="memberNo" column="MEMBER_NO"/>
 		<result property="stateNo" column="STATE_NO"/>
-	
 	</resultMap>
 	
+	<!-- 태그 resultMap -->
 	<resultMap type="Tag" id="tag_rm">
 		<id property="tagNo" column="TAG_NO"/>
 		<result property="tagName" column="TAG_NAME"/>
@@ -59,8 +75,7 @@
 	</resultMap>
 	
 	<!-- 내가 예약한 장소 목록 상세조회 resultMap -->
-		<resultMap type="MyReservation" id="myReservation_rm">
-		
+	<resultMap type="MyReservation" id="myReservation_rm">
 		<id property="reserveNo" column="RESERVE_NO"/>
 		
 		<result property="useDate" column="RESERVE_USE_DATE"/>
@@ -80,11 +95,8 @@
 		<result property="placeDate" column="PLACE_DATE" />
 		<result property="likeCount" column="LIKE_COUNT" />
 		
-		 <collection property="atList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Attachment" select="selectAttachment"/>
-	
+		<collection property="atList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Attachment" select="selectAttachment"/>
 	</resultMap>
-	
-	
 	
 	<!-- 좋아요 확인 -->
 	<select id="likeCheck" parameterType="_int" resultType="_Int">
@@ -123,15 +135,17 @@
 	</delete>
 
 	<!-- 전체 장소 수 조회 -->
-	<select id="getListCount" parameterType="_int">
-		SELECT COUNT(*) FROM place WHERE place_status = 'Y'
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*) FROM place_list WHERE place_status = 'Y'
 	</select>
+	
 	<!-- 전체 장소 목록 조회 -->
-	<select id="selectPlaceList" resultMap="place_rm">
-		SELECT * FROM place
-		WHERE place_status = 'y'
+	<select id="selectPlaceList" resultMap="place_list_rm">
+		SELECT * FROM place_list
+		WHERE place_status = 'Y'
 		ORDER BY place_no DESC
 	</select>
+	
 	<!-- 장소 추가 -->
 	<insert id="insertPlace" parameterType="Place" useGeneratedKeys="true">
 		<selectKey keyProperty="placeNo" resultType="_int" order="BEFORE">
@@ -139,12 +153,13 @@
 		</selectKey>
 		INSERT INTO place VALUES(#{placeNo}, #{placeName}, #{placeSummary}, #{placeAddr}, #{placeContent}, #{placeCharge}, DEFAULT, DEFAULT, DEFAULT, #{memberNo})
 	</insert>
+	
 	<!-- 이미지 추가 -->
 	<insert id="insertAttachmentList" parameterType="list">
 		INSERT INTO attachment
 		SELECT SEQ_FILE.NEXTVAL, A.* FROM (
 			<foreach collection="list" item="at" separator="UNION ALL">
-				SELECT #{at.filePath} file_path, #{at.fileName} file_name, #{at.fileLevel} file_level, #{at.boardNo} place_no FROM DUAL
+				SELECT #{at.filePath} file_path, #{at.fileName} file_name, #{at.fileLevel} file_level, #{at.placeNo} place_no FROM DUAL
 			</foreach>
 		) A
 	</insert>
@@ -163,6 +178,16 @@
 	<insert id="insertPlaceTags" parameterType="placeTag">
 		INSERT INTO place_tag VALUES(#{placeNo}, #{tagNo})
 	</insert>
+	
+	<!-- 장소에 삽입된 태그 조회 -->
+	<select id="selectPlaceTagList" parameterType="_int" resultMap="tag_rm">
+		SELECT * FROM place_tag JOIN tag USING(tag_no) WHERE place_no = #{placeNo}
+	</select>
+	
+	<!-- 장소 이미지 조회 -->
+	<select id="selectPlaceAttachment" parameterType="_int" resultMap="attachment_rm">
+		SELECT * FROM attachment WHERE place_no = #{placeNo}
+	</select>
 
 	<select id="getReserveNo" resultType="_int">
 		SELECT SEQ_RESERVE.NEXTVAL FROM DUAL
