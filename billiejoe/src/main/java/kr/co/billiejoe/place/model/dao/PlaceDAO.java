@@ -125,7 +125,7 @@ public class PlaceDAO {
 	 * @return
 	 */
 	public int getListCount(int memberNo) {
-		return session.selectOne("placeMapper.getListCount", memberNo);
+		return session.selectOne("placeMapper.getListCount1", memberNo);
 	}
 
 	/**  내가 예약한 장소 목록 조회
