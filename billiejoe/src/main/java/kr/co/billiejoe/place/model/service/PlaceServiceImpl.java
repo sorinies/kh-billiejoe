@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,7 +69,6 @@ public class PlaceServiceImpl implements PlaceService{
 //		System.out.println("timeList : " + timeList);
 		List<Integer> untime = new ArrayList<Integer>();
 		for(Reservation re : timeList) {
-			System.out.println(re);
 			for(int i = re.getUseStart(); i<re.getUseEnd(); i++) {
 				untime.add(i);
 			}
@@ -253,4 +253,14 @@ public class PlaceServiceImpl implements PlaceService{
 		String ext = originFileName.substring(originFileName.lastIndexOf("."));
 		return date + str + ext;
 	}
+	/**스케줄러 이용 예약상태변경
+	 *
+	 */
+	@Override
+	public int updateReservation(Map<String, String> map) {
+		int result = dao.startReservation(map);
+		result = dao.completReservation(map);
+		return result;
+	}
+	
 }

@@ -1,6 +1,7 @@
 package kr.co.billiejoe.place.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,5 +49,7 @@ public interface PlaceService {
 	MyReservation getReservation(int reserveNo);
 
 	int cancelRv(int reserveNo);
+
+	int updateReservation(Map<String, String> map);
 
 }

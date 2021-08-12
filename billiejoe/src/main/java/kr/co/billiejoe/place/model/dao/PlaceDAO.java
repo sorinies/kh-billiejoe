@@ -2,6 +2,7 @@ package kr.co.billiejoe.place.model.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -172,5 +173,23 @@ public class PlaceDAO {
 	public int cancelRv(int reserveNo) {
 		// TODO Auto-generated method stub
 		return session.update("placeMapper.cancelRv", reserveNo);
+	}
+
+	/**예약상태 이용완료변경
+	 * @param map
+	 * @return
+	 */
+	public int completReservation(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return session.update("placeMapper.completReservation", map);
+	}
+
+	/**예약상태 이용중으로 변경
+	 * @param map
+	 * @return
+	 */
+	public int startReservation(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return session.update("placeMapper.startReservation", map);
 	}
 }

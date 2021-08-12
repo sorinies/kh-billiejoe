@@ -201,5 +201,13 @@
 	<update id="cancelRv" parameterType="_int">
 		UPDATE RESERVATION SET STATE_NO = 4 WHERE RESERVE_NO = #{reserveNo}
 	</update>
+	<!-- 예약상태 이용완료 -->
+	<update id="completReservation" parameterType="hashmap">
+		UPDATE RESERVATION SET STATE_NO = 3 WHERE RESERVE_USE_DATE &lt; #{today} OR (RESERVE_USE_DATE =#{today} AND RESERVE_USE_END &lt;=#{time})
+	</update>
+	<!-- 예약상태 이용중 -->
+	<update id="startReservation" parameterType="hashmap">
+		UPDATE RESERVATION SET STATE_NO = 2 WHERE RESERVE_USE_DATE = #{today} AND RESERVE_USE_START = #{time}
+	</update>
 </mapper>
 
