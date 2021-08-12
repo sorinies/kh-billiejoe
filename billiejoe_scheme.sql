@@ -469,3 +469,16 @@ CREATE OR REPLACE FORCE VIEW PLACE_TAG_VIEW ("PLACE_NO", "TAG_NO", "TAG_NAME") A
   SELECT PLACE_NO, TAG_NO, TAG_NAME
                     FROM PLACE_TAG      
                     JOIN TAG USING (TAG_NO);
+
+-- place 목록 조회용 view
+CREATE OR REPLACE VIEW place_list AS
+    SELECT place_no, place_name, place_summary, place_addr, place_charge, place_is_available, place_status, member_no,
+        file_name, 
+        like_count,
+        review_count
+    FROM place
+    JOIN member USING(member_no)
+    JOIN (SELECT place_no, file_name FROM attachment WHERE file_level = 0) USING(place_no)
+    LEFT JOIN (SELECT place_no, COUNT(*) AS review_count FROM review GROUP BY place_no) USING(place_no)
+    LEFT JOIN (SELECT place_no, COUNT(*) AS like_count FROM likes GROUP BY place_no) USING(place_no)
+;
