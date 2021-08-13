@@ -13,7 +13,12 @@
 	<!-- VO클래스의 패키지명 + 클래스명 작성하는 것이 불편하기 때문에 짧은 별칭 부여 -->
 	<typeAliases>
 	
+		<!-- 지애 사용 -->
 		<typeAlias type="kr.co.billiejoe.member.model.vo.Member" alias="Member" />
+		<typeAlias type="kr.co.billiejoe.review.model.vo.Review" alias="Review1" />
+		<typeAlias type="kr.co.billiejoe.review.model.vo.Pagination" alias="Pagination1" />
+		
+		
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Place" alias="place" />
 		
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Attachment" alias="Attachment" />
@@ -27,6 +32,7 @@
 		<typeAlias type="kr.co.billiejoe.place.model.vo.MyReservation" alias="MyReservation" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.ReservationState" alias="ReservationState" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Review" alias="Review" />
+		<typeAlias type="kr.co.billiejoe.place.model.vo.Review" alias="Review" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Tag" alias="Tag" />
 		<typeAlias type="kr.co.billiejoe.chat.model.vo.ChatRoom" alias="ChatRoom" />
 		<typeAlias type="kr.co.billiejoe.chat.model.vo.ChatMsg" alias="ChatMsg" />
@@ -39,6 +45,7 @@
 		<mapper resource="/mappers/chat-mapper.xml" />
 		<mapper resource="/mappers/admin-mapper.xml" />
 		<mapper resource="/mappers/email-mapper.xml" />
+		<mapper resource="/mappers/review-mapper.xml"/>
 	</mappers>
 
 

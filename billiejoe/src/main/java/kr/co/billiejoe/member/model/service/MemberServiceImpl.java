@@ -123,16 +123,6 @@ public class MemberServiceImpl implements MemberService{
 		return result; // 탈퇴 실패
 	}
 
-	// 탈퇴 회원 목록 추가 Service
-	@Transactional(rollbackFor = Exception.class)
-	@Override
-	public int secessionInsert(Member loginMember) {
-		
-		  int result2 = dao.secesionInsert(loginMember);
-		 
-		return result2;
-	}
-
 	// 회원정보 수정 Service
 	@Transactional(rollbackFor = Exception.class)
 	@Override

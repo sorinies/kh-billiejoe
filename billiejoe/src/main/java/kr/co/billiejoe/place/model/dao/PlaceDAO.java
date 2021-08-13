@@ -17,8 +17,10 @@ import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
 import kr.co.billiejoe.place.model.vo.PlaceTag;
+import kr.co.billiejoe.place.model.vo.Report;
 import kr.co.billiejoe.place.model.vo.Reservation;
 import kr.co.billiejoe.place.model.vo.Tag;
+import kr.co.billiejoe.review.model.vo.Review;
 
 @Repository
 
@@ -208,4 +210,47 @@ public class PlaceDAO {
 		// TODO Auto-generated method stub
 		return session.update("placeMapper.startReservation", map);
 	}
+	
+	/** 장소에 대한 후기글 수 조회 DAO
+	 * @param placeNo
+	 * @return pagination
+	 */
+	public Pagination getListCountPlace(int placeNo) {
+		return session.selectOne("reviewMapper.placeListCount", placeNo);
+	}
+
+	/** 장소에 대한 후기 목록 조회
+	 * @param pagination
+	 * @param loginMember
+	 * @param placeNo
+	 * @return
+	 */
+	public List<Review> selectReviewListPlace(Pagination pagination, int placeNo) {
+		int offset = (pagination.getCurrentPage() -1) * pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return session.selectList("reviewMapper.placeReviewList", placeNo, rowBounds);
+	}
+
+	/** 장소에 대한 후기 평점 및 총 개수 DAO
+	 * @param placeNo
+	 * @return add
+	 */
+	public Review addReview(int placeNo) {
+		return session.selectOne("reviewMapper.addReview", placeNo);
+	}
+	
+	/** 후기 신고 DAO
+	 * @param reviewNo
+	 * @param memberNo
+	 * @param report
+	 * @return result
+	 */
+	public int insertReport(Report report) {
+		return session.insert("reviewMapper.insertReport", report);
+	}
+
+	
+	
+	
+	
 }

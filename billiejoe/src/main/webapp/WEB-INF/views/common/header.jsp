@@ -29,12 +29,13 @@
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <!-- Default Style -->
   <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+  <link href="${contextPath}/resources/css/admin_sidebars.css" rel="stylesheet">
 </head>
 
 <body>
   <header class="sticky-top shadow">
     <nav class="navbar navbar-light flex-md-nowrap p-0 container">
-      <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">billieJoe</a>
+      <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="${contextPath}/">billieJoe</a>
       <div class="input-group">
         <select class="form-select form-control-dark" id="placeSearchCond">
           <option value="1" selected>장소명</option>
@@ -57,7 +58,7 @@
 			<c:otherwise>
 			<%-- 로그아웃 버튼 --%>
 				<li class="nav-item text-nowrap">
-					<a class="nav-link px-3" href="${contextPath}/member/myPage">${loginMember.memberName}</a>
+					<a class="nav-link px-3" href="${contextPath}/member/updateMyPage">${loginMember.memberName}</a>
 				</li>
 				<li class="nav-item text-nowrap">
 					<a class="nav-link px-3" href="${contextPath}/member/logout">Logout</a>
