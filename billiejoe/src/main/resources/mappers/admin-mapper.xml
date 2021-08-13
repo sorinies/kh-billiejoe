@@ -41,6 +41,23 @@
 		
 	</resultMap>
 	
+		<!-- place 목록용 resultMap -->
+	<resultMap type="Place" id="place_list_rm2">
+		<id property="placeNo" column="PLACE_NO"/> 
+		<result property="placeName" column="PLACE_NAME" />
+		<result property="placeSummary" column="PLACE_SUMMARY"/>
+		<result property="placeAddr" column="PLACE_ADDR" />
+		<result property="placeContent" column="PLACE_CONTENT"/>
+		<result property="placeCharge" column="PLACE_CHARGE" />
+		<result property="placeDate" column="PLACE_DATE" />
+		<result property="memberNo" column="MEMBER_NO" />
+		<result property="likeCount" column="LIKE_COUNT" />
+		<result property="thumbnail" column="FILE_NAME" />
+		<result property="reviewCount" column="REVIEW_COUNT" />
+		
+		
+	</resultMap>
+	
 	<insert id="insertUnreg" parameterType="Member">
 		INSERT INTO UNREG_MEMBER VALUES(#{memberNo},#{memberEmail},#{memberPw},#{memberName},#{memberPhone},#{memberPic},#{regDate},DEFAULT,SYSTIMESTAMP)
 	</insert>
@@ -150,4 +167,16 @@
 	<update id="reportCheck" parameterType="_int">
 		UPDATE  REVIEW SET  REVIEW_STATUS = 'N' WHERE REVIEW_NO = #{reviewNo}
 	</update>
+	
+	<!-- 장소 게시글 수 구하기 -->
+	<select id="getBoardListCount" resultType="_int">
+	SELECT COUNT(*) FROM PLACE
+	</select>
+	
+	<!-- 전체 게시글 목록 -->
+	<select id="selectPlaceList" parameterType="_int" resultMap="place_list_rm2">
+	SELECT PLACE_NO, PLACE_NAME, PLACE_CHARGE, MEMBER_NO FROM PLACE
+	</select>
+	
 </mapper>
+

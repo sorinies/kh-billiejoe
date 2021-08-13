@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Pagination;
+import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.Report;
 
 @Repository
@@ -117,5 +118,25 @@ public class AdminDAO {
 	public int reportCheck(int reviewNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("adminMapper.reportCheck",reviewNo);
+	}
+
+	
+	/** 전체 게시글 수 조회
+	 * @return
+	 */
+	public int getBoardListCount() {
+		return sqlSession.selectOne("adminMapper.getBoardListCount", null);
+	}
+
+	
+	// 전체 게시글 목록 조회
+	public List<Place> selectPlaceList(Pagination pagination) {
+		int offset = (pagination.getCurrentPage() -1 ) * pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		// offset 만큼 건너 뛰고, limit만큼의 행을 얻어옴
+		
+		return sqlSession.selectList("adminMapper.selectPlaceList",null , rowBounds);
+		
 	}
 }

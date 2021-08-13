@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import kr.co.billiejoe.admin.model.dao.AdminDAO;
 import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Pagination;
+import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.Report;
 
 @Service
@@ -166,5 +167,24 @@ public class AdminServiceImpl implements AdminService{
 		// TODO Auto-generated method stub
 		return dao.reportCheck(reviewNo);
 	}
+
+	// 전체 게시글 수 조회
+	@Override
+	public Pagination getPagination(Pagination pg) {
+		
+		// 1) 전체 목록 수 조회
+		int boardListCount = dao.getBoardListCount();
+		
+		return new Pagination(pg.getCurrentPage(), boardListCount) ;
+		
+	}
+
+	// 전체 게시글 목록 조회
+	@Override
+	public List<Place> selectPlaceList(Pagination pagination) {
+		return dao.selectPlaceList(pagination);
+	}
+	
+	
 
 }

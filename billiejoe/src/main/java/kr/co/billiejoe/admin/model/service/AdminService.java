@@ -5,6 +5,7 @@ import java.util.Map;
 
 import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Pagination;
+import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.Report;
 
 public interface AdminService {
@@ -38,6 +39,10 @@ public interface AdminService {
 	public abstract List<Report> selectReportList(Pagination pg);
 
 	public abstract int reportCheck(int reviewNo);
+
+	public abstract Pagination getPagination(Pagination pg);
+
+	public abstract List<Place> selectPlaceList(Pagination pagination);
 
 
 }

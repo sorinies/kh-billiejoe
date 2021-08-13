@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kr.co.billiejoe.admin.model.service.AdminService;
 import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Pagination;
+import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.Report;
 
 @Controller
@@ -198,6 +199,25 @@ public class AdminController {
 		return "redirect:report";
 	}
 	
+	// 게시글 관리 목록
+	@RequestMapping(value="manageBoard", method=RequestMethod.GET)
+	public String manageBoard(@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+			Model model, Pagination pg) {
+		
+		// 1) pg에 cp를 세팅
+		pg.setCurrentPage(cp);
+		
+		// 2) 전체 목록 수를 조회하여 Pagination 관련 내용을 계산하고 값을 저장한 객체 반환 받기
+		Pagination pagination = service.getPagination(pg);
+		
+		// 3) 생성된 pagination을 이용하여 현재 목록 페이지에 보여질 게시글 목록 조회
+		List<Place> boardList = service.selectPlaceList(pagination);
+
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("pagination", pagination);
+		
+		return "admin/manageBoard";
+	}
 	
 	
 	
