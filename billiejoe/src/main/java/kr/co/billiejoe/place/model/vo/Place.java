@@ -17,6 +17,9 @@ public class Place {
 	private int likeCount; // 좋아요수
 	private List<Attachment> atList;
 	private List<Tag> tagList;
+	
+	private String thumbnail; // 썸네일 파일명
+	private int reviewCount; // 작성된 리뷰 개수
 
 	public Place() {
 	}
@@ -148,6 +151,22 @@ public class Place {
 
 	public void setMemberNo(int memberNo) {
 		this.memberNo = memberNo;
+	}
+	
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+
+	public int getReviewCount() {
+		return reviewCount;
+	}
+
+	public void setReviewCount(int reviewCount) {
+		this.reviewCount = reviewCount;
 	}
 
 	@Override

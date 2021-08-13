@@ -55,18 +55,18 @@ public class PlaceServiceImpl implements PlaceService{
 	 */
 	@Override
 	public List<Integer> reservationCheck(Reservation reservation) {
-//		예약가능시간 list
+		//		예약가능시간 list
 		List<Integer> time = new ArrayList<Integer>();
-//		판매자가 지정한 시작시간 마무리시간 구해서 for문으로 삽입
+		//		판매자가 지정한 시작시간 마무리시간 구해서 for문으로 삽입
 		PlaceAvailable available = dao.getAvailable(reservation.getPlaceNo());
 		for (int i = available.getStart(); i<available.getEnd(); i++) {
 			time.add(i);
 		}
 		
-//		조회해온 예약된 리스트 
+		//		조회해온 예약된 리스트 
 		List<Reservation> timeList = dao.getTimeList(reservation);
-//		리스트 하나씩 접급하면서 예약 시작시간부터 끝난시간 지우는 for문 진행시 list전부다 출력이안됨....
-//		System.out.println("timeList : " + timeList);
+		//		리스트 하나씩 접급하면서 예약 시작시간부터 끝난시간 지우는 for문 진행시 list전부다 출력이안됨....
+		//		System.out.println("timeList : " + timeList);
 		List<Integer> untime = new ArrayList<Integer>();
 		for(Reservation re : timeList) {
 			for(int i = re.getUseStart(); i<re.getUseEnd(); i++) {
@@ -89,6 +89,7 @@ public class PlaceServiceImpl implements PlaceService{
 		
 		return time;
 	}
+	
 	/**좋아요 추가하기
 	 *
 	 */
@@ -96,7 +97,8 @@ public class PlaceServiceImpl implements PlaceService{
 	public int insertLike(Likes likes) {
 		return dao.insertLike(likes);
 	}
-// 	좋아요 삭제하기
+	
+	// 	좋아요 삭제하기
 	@Override
 	public int deleteLike(Likes likes) {
 		return dao.deleteLike(likes);
@@ -112,7 +114,13 @@ public class PlaceServiceImpl implements PlaceService{
 	// 장소 목록 조회
 	@Override
 	public List<Place> selectPlaceList(Pagination pagination) {
-		return dao.selectPlaceList(pagination);
+		List<Place> placeList = dao.selectPlaceList(pagination);
+//		for(Place place : placeList) {
+//			System.out.println(place);
+//			place.setTagList(dao.selectPlaceTagList(place.getPlaceNo()));
+//			place.setAtList(dao.selectPlaceThumbnail(place.getPlaceNo()));
+//		}
+		return placeList;
 	}
 	
 	// 장소 추가
@@ -144,9 +152,6 @@ public class PlaceServiceImpl implements PlaceService{
 				PlaceTag placeTag = new PlaceTag();
 				int result = 0;
 				tag = dao.isExistTag(tagItem); // DB에 등록되어 있는 태그인지 확인
-				System.out.println(tag);
-				System.out.println("tag는 null이 아닙니껴?");
-				System.out.println(tag != null);
 				if(tag != null) { // 이미 존재하는 태그라면
 					placeTag.setPlaceNo(placeNo);
 					placeTag.setTagNo(tag.getTagNo());
@@ -182,48 +187,33 @@ public class PlaceServiceImpl implements PlaceService{
 			}
 		}
 		return placeNo;
-  }
-  
-		// 전체 목록 수 + 예약한 장소 조회
-		@Override
-		public Pagination getPagination(Pagination pg, int memberNo) {
-			// 1) 전체 목록 수 조회
-			int listCount = dao.getListCount(memberNo);
+	}
 
-			// 2) 계산이 완료된 Pagination 객체 생성 후 반환
-			return new Pagination(pg.getCurrentPage(), listCount) ;
-		}
-		
-		// 전체 목록 수 + 내가 좋아요한 장소 조회
-		@Override
-		public Pagination getLikePagination(Pagination pg, int memberNo) {
-			int listCount = dao.getLikeListCount(memberNo);
+	// 전체 목록 수 + 예약한 장소 조회
+	@Override
+	public Pagination getPagination(Pagination pg, int memberNo) {
+		// 1) 전체 목록 수 조회
+		int listCount = dao.getListCount(memberNo);
 
-			// 2) 계산이 완료된 Pagination 객체 생성 후 반환
-			return new Pagination(pg.getCurrentPage(), listCount) ;
-		}
+
+		// 2) 계산이 완료된 Pagination 객체 생성 후 반환
+		return new Pagination(pg.getCurrentPage(), listCount) ;
+	}
 		
-		// 내가 예약한 목록 조회
-		@Override
-		public List<MyReservation> selectReservationList(Pagination pagination, int memberNo) {
-			return dao.selectReservationList(pagination,memberNo);
-		}
+
 		
-		
-		
-		// 내가 찜한 장소 목록
-		@Override
-		public List<MyReservation> selectMyLikePlaceList(Pagination pagination, int memberNo) {
-			return dao.selectMyLikePlaceList(pagination, memberNo);
-		}
-		
+	// 내가 예약한 목록 조회
+	@Override
+	public List<MyReservation> selectReservationList(Pagination pagination, int memberNo) {
+		return dao.selectReservationList(pagination,memberNo);
+	}
 			
 	/**장소예약하기 
 	 *
 	 */
 	@Override
 	public int insertReservation(Reservation reservation, Payment payment) {
-//		예약 번호 구하기
+		//		예약 번호 구하기
 		int reserveNo = dao.getReserveNo();
 		reservation.setReserveNo(reserveNo);
 		int result = dao.insertReservation(reservation);
@@ -233,6 +223,7 @@ public class PlaceServiceImpl implements PlaceService{
 		}
 		return result;
 	}
+	
 	/**예약내용 조회
 	 *
 	 */
@@ -241,6 +232,7 @@ public class PlaceServiceImpl implements PlaceService{
 		// TODO Auto-generated method stub
 		return dao.getReservation(reserveNo);
 	}
+	
 	/**사용자 예약취소
 	 *
 	 */
@@ -271,6 +263,7 @@ public class PlaceServiceImpl implements PlaceService{
 		String ext = originFileName.substring(originFileName.lastIndexOf("."));
 		return date + str + ext;
 	}
+	
 	/**스케줄러 이용 예약상태변경
 	 *
 	 */
@@ -279,6 +272,17 @@ public class PlaceServiceImpl implements PlaceService{
 		int result = dao.startReservation(map);
 		result = dao.completReservation(map);
 		return result;
+	}
+	@Override
+	public List<MyReservation> selectMyLikePlaceList(Pagination pagination, int memberNo) {
+		return dao.selectMyLikePlaceList(pagination, memberNo);	
+	}
+	@Override
+	public Pagination getLikePagination(Pagination pg, int memberNo) {
+		int listCount = dao.getLikeListCount(memberNo);
+
+		// 2) 계산이 완료된 Pagination 객체 생성 후 반환
+		return new Pagination(pg.getCurrentPage(), listCount) ;
 	}
 	
 }

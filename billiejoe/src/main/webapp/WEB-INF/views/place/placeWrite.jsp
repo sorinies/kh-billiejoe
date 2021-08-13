@@ -124,7 +124,6 @@
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" defer></script>
   <script src="${contextPath}/resources/js/zipcode.js" defer></script>
   <script>
-  	const memberNo = ${loginMember.memberNo};
     let taggedList = (function() {
       const arr = [];
       <c:forEach items="${place.tagList}" var="tag">
