@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Report;
-import kr.co.billiejoe.review.model.vo.Pagination;
+import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.review.model.vo.Review;
 
 @Repository
@@ -19,34 +19,6 @@ public class ReviewDAO {
 	private SqlSessionTemplate sqlSession;
 	
 	
-	/** 장소에 대한 후기글 수 조회 DAO
-	 * @param placeNo
-	 * @return pagination
-	 */
-	public Pagination getListCountPlace(int placeNo) {
-		return sqlSession.selectOne("reviewMapper.placeListCount", placeNo);
-	}
-
-	/** 장소에 대한 후기 목록 조회
-	 * @param pagination
-	 * @param loginMember
-	 * @param placeNo
-	 * @return
-	 */
-	public List<Review> selectReviewListPlace(Pagination pagination, int placeNo) {
-		int offset = (pagination.getCurrentPage() -1) * pagination.getLimit();
-		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
-		return sqlSession.selectList("reviewMapper.placeReviewList", placeNo, rowBounds);
-	}
-
-	/** 장소에 대한 후기 평점 및 총 개수 DAO
-	 * @param placeNo
-	 * @return add
-	 */
-	public Review addReview(int placeNo) {
-		return sqlSession.selectOne("reviewMapper.addReview", placeNo);
-	}
-
 	/** 내가 작성한 전체 후기글 수 조회 DAO
 	 * @return pagination
 	 */
@@ -97,16 +69,6 @@ public class ReviewDAO {
 	 */
 	public int deleteReview(int reviewNo) {
 		return sqlSession.update("reviewMapper.deleteReview", reviewNo);
-	}
-
-	/** 후기 신고 DAO
-	 * @param reviewNo
-	 * @param memberNo
-	 * @param report
-	 * @return result
-	 */
-	public int insertReport(Report report) {
-		return sqlSession.insert("reviewMapper.insertReport", report);
 	}
 
 }

@@ -21,7 +21,7 @@ import kr.co.billiejoe.place.model.service.PlaceServiceImpl;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.Report;
 import kr.co.billiejoe.review.model.service.ReviewService;
-import kr.co.billiejoe.review.model.vo.Pagination;
+import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.review.model.vo.Review;
 
 
@@ -32,41 +32,6 @@ public class ReviewController {
 	
 	@Autowired
 	private ReviewService service;
-	
-	/** 장소에 대한 후기 목록 조회 Controller
-	 * @param cp
-	 * @param model
-	 * @param pg
-	 * @param loginMember
-	 * @return
-	 */
-	@RequestMapping(value = "{placeNo}/reviewListPlace", method = RequestMethod.GET)
-	public String reviewListPlace( @RequestParam(value="cp", required=false, defaultValue="1") int cp,
-									Model model, Pagination pg, 
-									@ModelAttribute("loginMember") Member loginMember,
-									@PathVariable("placeNo")int placeNo
-									) {
-		
-		pg.setCurrentPage(cp);
-		
-		Pagination pagination = null;
-		List<Review> reviewListPlace = null;
-		Review add = null;
-		
-		pagination = service.getPagination(pg, placeNo);
-		reviewListPlace = service.selectReviewListPlace(pagination, placeNo);
-		add = service.addReview(placeNo);
-		
-		System.out.println(pagination);
-		System.out.println(reviewListPlace);
-		
-		model.addAttribute("reviewListPlace", reviewListPlace);
-		model.addAttribute("pagination", pagination);
-		model.addAttribute("add", add);
-		
-		return "review/reviewListPlace";
-		
-	}
 	
 	/** 내가 작성한 후기 목록 조회 Controller
 	 * @param cp
@@ -87,10 +52,8 @@ public class ReviewController {
 		List<Review> reviewList = null;
 		
 		pagination = service.getPagination(pg, loginMember);
+		pagination.setLimit(5);
 		reviewList = service.selectReviewList(pagination,loginMember);
-		
-		System.out.println("컨트롤러 pg : " + pg);
-		System.out.println("컨트롤러 pagination : "+ pagination);
 		/*
 		 조회 결과 임시 확인 for(Review r : reviewList) { System.out.println(r); }
 		 */
@@ -242,40 +205,6 @@ public class ReviewController {
 		
 		return"redirect:reviewList";
 	}
-	
-	
-	/** 후기 신고 Controller
-	 * @param reviewNo
-	 * @param loginMember
-	 * @param report
-	 * @param ra
-	 * @return "review/reviewListPlace"
-	 */
-	@RequestMapping(value="report", method=RequestMethod.POST)
-	public String report( Report report, 
-						  @ModelAttribute("loginMember") Member loginMember,
-						  RedirectAttributes ra
-						) {
-		
-		
-		report.setMemberNo( loginMember.getMemberNo() );
-		
-		System.out.println(report);
-		
-		int result = service.insertReport( report );
-		
-		if(result>0) {
-			MemberController.swalSetMessage(ra, "success", "신고 완료", null);
-		}else {
-			MemberController.swalSetMessage(ra, "error", "신고 오류", null);
-		}
-		
-		
-		return "review/reviewListPlace";
-	}
-	
-	
-	
 	
 
 }// class end

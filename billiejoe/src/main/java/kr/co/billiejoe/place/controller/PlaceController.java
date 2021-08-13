@@ -78,11 +78,9 @@ public class PlaceController {
 	 * @return
 	 */
 	@GetMapping("{placeNo}/view")
-	public String placeView(@PathVariable("placeNo")int placeNo,Model model, @RequestParam(value = "cp", required = false, defaultValue = "1")int cp
+	public String placeView(@PathVariable("placeNo")int placeNo,Model model, Pagination pg, @RequestParam(value = "cp", required = false, defaultValue = "1")int cp
 							){
 		Member loginMember = (Member)model.getAttribute("loginMember");
-//		loginMember = new Member();
-//		loginMember.setMemberNo(500);
 		int like = 0;
 		if(loginMember !=null) {
 			like = service.likeCheck(loginMember.getMemberNo());
@@ -90,6 +88,24 @@ public class PlaceController {
 		Place place = service.placeView(placeNo);
 		model.addAttribute("like",like);
 		model.addAttribute("place",place);
+		
+		
+		pg.setCurrentPage(cp);
+		
+		Pagination pagination = null;
+		List<Review> reviewListPlace = null;
+		
+		
+		Review add = null;
+		pagination = service.getPagination2(pg, placeNo);
+		pagination.setLimit(5);
+		reviewListPlace = service.selectReviewListPlace(pagination, placeNo);
+		add = service.addReview(placeNo);
+		model.addAttribute("reviewListPlace", reviewListPlace);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("add", add);
+		
+		
 		return "place/placeView";
 				
 	}
@@ -318,7 +334,7 @@ public class PlaceController {
 	 * @param model
 	 * @param pg
 	 * @param loginMember
-	 * @return
+	 * @return "review/reviewListPlace"
 	 */
 	@RequestMapping(value = "{placeNo}/reviewListPlace", method = RequestMethod.GET)
 	public String reviewListPlace( @RequestParam(value="cp", required=false, defaultValue="1") int cp,
@@ -333,7 +349,7 @@ public class PlaceController {
 		List<Review> reviewListPlace = null;
 		Review add = null;
 		
-		pagination = service.getPagination2(pg, placeNo);
+		pagination = service.getPagination(pg, placeNo);
 		reviewListPlace = service.selectReviewListPlace(pagination, placeNo);
 		add = service.addReview(placeNo);
 		
@@ -353,7 +369,7 @@ public class PlaceController {
 	 * @param loginMember
 	 * @param report
 	 * @param ra
-	 * @return "review/reviewListPlace"
+	 * @return "redirect:" + request.getHeader("referer")"
 	 */
 	@RequestMapping(value="{placeNo}/report", method=RequestMethod.POST)
 	public String report( HttpServletRequest request, 

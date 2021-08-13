@@ -45,6 +45,7 @@
 </head>
 
 <body>
+${pagination }
   <!-- 본문 시작 -->
   <div class="container py-5">
     <div class="row ">
@@ -210,6 +211,7 @@
             
             
             <div class="my-5">
+                
                 <ul class="pagination">
             
                     <%-- 현재 페이지가 10페이지 초과인 경우 --%>
@@ -224,8 +226,9 @@
                         
                     <%-- 페이지 목록 --%>
                     <c:forEach var="p" begin="${pagination.startPage}" end="${pagination.endPage}">
+                    
                         <c:choose>
-
+	
                         <c:when test="${p == pagination.currentPage }">
                             <li class="page-item active"><a class="page-link">${p}</a></li>
                         </c:when>
