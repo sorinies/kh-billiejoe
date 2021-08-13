@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Report;
 import kr.co.billiejoe.review.model.dao.ReviewDAO;
-import kr.co.billiejoe.review.model.vo.Pagination;
+import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.review.model.vo.Review;
 
 @Service
@@ -18,31 +18,6 @@ public class ReviewServiceImpl implements ReviewService{
 	@Autowired
 	private ReviewDAO dao;
     
-
-	// 장소에 대한 후기글 수 조회
-	@Override
-	public Pagination getPagination(Pagination pg, int placeNo) {
-		
-		// 1) 장소에 대한 전체 후기글 수 조회
-		Pagination selectPlacePg = dao.getListCountPlace(placeNo);
-		
-		// 계산이 완료된 Pagination 객체 생성 후 반환
-		return new Pagination(pg.getCurrentPage(), selectPlacePg.getListCount() );
-	}
-	
-	// 장소에 대한 후기 목록 조회
-	@Override
-	public List<Review> selectReviewListPlace(Pagination pagination, int placeNo) {
-		return dao.selectReviewListPlace(pagination, placeNo);
-	}
-	
-	// 장소에 대한 후기 평점 및 총 개수Service
-	
-	@Override
-	public Review addReview(int placeNo) {
-		return dao.addReview(placeNo);
-	}
-	
 	// 내가 작성한 전체 후기글 수 조회 Service
 	@Override
 	public Pagination getPagination(Pagination pg, Member loginMember) {
@@ -115,15 +90,6 @@ public class ReviewServiceImpl implements ReviewService{
 		return result;
 	}
 	
-	// 후기 신고 Service
-	@Override
-	public int insertReport(Report report) {
-		
-		int result = dao.insertReport(report);
-		
-		return result;
-	}
-
 	// 크로스 사이트 스크립트 방지 처리 메소드
 	public static String replaceParameter(String param) {
 		String result = param;

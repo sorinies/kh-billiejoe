@@ -54,10 +54,11 @@
 	</resultMap>
 	
 	<!-- Pagination용 resultMap -->
-	<resultMap type="Pagination1" id="pg_rm">
+	<resultMap type="Pagination" id="pg_rm">
 		<result property="listCount" column="CNT" />
 	</resultMap>
 	
+
 	<!-- 파일 정보 조회용 resultMap -->
 	<resultMap type="Attachment" id="attachment_rm">
 		<id property="fileNo" column="FILE_NO" />
