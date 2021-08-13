@@ -62,11 +62,12 @@
 		INSERT INTO UNREG_MEMBER VALUES(#{memberNo},#{memberEmail},#{memberPw},#{memberName},#{memberPhone},#{memberPic},#{regDate},DEFAULT,SYSTIMESTAMP)
 	</insert>
 	
-	<!-- 로그인 -->
+	<!-- 관리자 로그인 -->
 	<select id="login" parameterType="string" resultMap="member_rm">
 		SELECT * FROM MEMBER
 		WHERE MEMBER_STATUS = 'Y'
 		AND MEMBER_EMAIL = #{memberEmail}
+		AND MEMBER_IS_ADMIN='Y'
 	</select>
 	
 	<!-- 회원수 조회 -->

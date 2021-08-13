@@ -148,28 +148,47 @@ public class MemberController {
 		return result;
 
 	}
-	
-	/*
-	 * // 마이페이지 화면 전환용 Controller
-	 * 
-	 * @RequestMapping(value="myPage", method=RequestMethod.GET) public String
-	 * myPage() { return "member/myPage"; }
+
+	/** 회원 탈퇴 화면 전환 Controller
+	 * @return "redirect:"
 	 */
-	// 마이페이지 Controller
+	@RequestMapping(value="secession", method=RequestMethod.GET)
+	public String secession() {
+		return "member/secession";
+	}
 	
-	@RequestMapping(value="myPage", method=RequestMethod.GET)
-	 public String myPage(@ModelAttribute("loginMember") Member loginMember, Model model) { 
-		  
-		MyReservation latestPlace = service.selectLatestPlace(loginMember.getMemberNo());
+	/** 회원 탈퇴 Controller
+	 * @param loginMember
+	 * @param memberPw
+	 * @param ra
+	 * @param status
+	 * @return path
+	 */
+	@RequestMapping(value="secession", method=RequestMethod.POST)
+	public String secession(@ModelAttribute("loginMember") Member loginMember, //  로그인 된 회원 정보
+							@RequestParam("memberPw") String memberPw, // 입력된 현재 비밀번호
+							RedirectAttributes ra, // 메세지 전달용 객체
+							SessionStatus status) { // 세션 상태 관리 객체(세션 만료용, 로그아웃 객체)
 		
-		model.addAttribute("latestPlace", latestPlace);
+		int result = service.secession(memberPw, loginMember);
 		
-		List<MyReservation> reservedPlace = service.selectReservedPlace(loginMember.getMemberNo());
+		String path = "redirect:";
 		
-		model.addAttribute("reservedPlace", reservedPlace);
-		  return "member/myPage";
-	  }
-	 
+		if( result > 0 ) { // 성공
+			
+			path += "/";
+			swalSetMessage(ra, "success", "회원탈퇴 성공", "이용해 주셔서 감사합니다.");
+
+			status.setComplete(); // 자동 로그아웃
+			
+		}else { // 실패
+			path+="secession";
+			swalSetMessage(ra, "error", "회원탈퇴 실패", "모든 예약건은 취소 후 진행해주세요.");
+		}
+		
+		return path;
+		
+	}// secession end
 	
 	// 내 정보 수정 화면 전환용 Controller 
 	// /member/myPage 주소로 요청이 오면
@@ -216,17 +235,6 @@ public class MemberController {
 		return "redirect:updateMyPage";
 	}
 	
-
-	// SweetAlert
-	public static void swalSetMessage(RedirectAttributes ra, String icon, String title, String text) {
-
-		ra.addFlashAttribute("icon", icon);
-		ra.addFlashAttribute("title", title);
-		ra.addFlashAttribute("text", text);
-	}
-
-	
-	
 	// 비밀번호 변경 화면 전환 Controller
 		@RequestMapping(value="changePwd", method=RequestMethod.GET)
 		public String changePwd() {
@@ -257,6 +265,16 @@ public class MemberController {
 			
 			return path;
 		}
+		
+
+		// SweetAlert
+		public static void swalSetMessage(RedirectAttributes ra, String icon, String title, String text) {
+
+			ra.addFlashAttribute("icon", icon);
+			ra.addFlashAttribute("title", title);
+			ra.addFlashAttribute("text", text);
+		}
+
 		
 		
 }

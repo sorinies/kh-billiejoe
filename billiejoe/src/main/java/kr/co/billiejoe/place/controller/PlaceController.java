@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -35,8 +36,10 @@ import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
+import kr.co.billiejoe.place.model.vo.Report;
 import kr.co.billiejoe.place.model.vo.Reservation;
 import kr.co.billiejoe.place.model.vo.Tag;
+import kr.co.billiejoe.review.model.vo.Review;
 
 @RequestMapping("/place/*")
 @SessionAttributes({"loginMember"})
@@ -310,26 +313,69 @@ public class PlaceController {
 		
 	}
 	
-	// 내가 찜한 장소 목록 조회
-		@RequestMapping("myLikePlace")
-		public String myLikePlace(@RequestParam(value="cp", required=false, defaultValue="1")int cp,
-				Model model, Pagination pg, 
-				@ModelAttribute("loginMember")Member loginMember) {
-			
-			// 1) pg에 cp를 세팅
-			pg.setCurrentPage(cp);
-			
-			// 2) 전체 목록 수를 조회하여 Pagination 관련 내용을 계산하고 값을 저장한 객체 반환 받기
-			Pagination pagination = service.getLikePagination(pg, loginMember.getMemberNo());
-			
-			// 3) 생성된 pagination을 이용하여 현재 목록 페이지에 보여질 게시글 목록 조회
-			List<MyReservation> myLikePlaceList = service.selectMyLikePlaceList(pagination,loginMember.getMemberNo());
-			
-			model.addAttribute("myLikePlaceList", myLikePlaceList);
-			model.addAttribute("pagination", pagination);
-			
-			
-			return "place/myLikePlace";
+
+	/** 장소에 대한 후기 목록 조회 Controller
+	 * @param cp
+	 * @param model
+	 * @param pg
+	 * @param loginMember
+	 * @return
+	 */
+	@RequestMapping(value = "{placeNo}/reviewListPlace", method = RequestMethod.GET)
+	public String reviewListPlace( @RequestParam(value="cp", required=false, defaultValue="1") int cp,
+									Model model, Pagination pg, 
+									@ModelAttribute("loginMember") Member loginMember,
+									@PathVariable("placeNo")int placeNo
+									) {
+		
+		pg.setCurrentPage(cp);
+		
+		Pagination pagination = null;
+		List<Review> reviewListPlace = null;
+		Review add = null;
+		
+		pagination = service.getPagination2(pg, placeNo);
+		reviewListPlace = service.selectReviewListPlace(pagination, placeNo);
+		add = service.addReview(placeNo);
+		
+		System.out.println(pagination);
+		System.out.println(reviewListPlace);
+		
+		model.addAttribute("reviewListPlace", reviewListPlace);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("add", add);
+		
+		return "review/reviewListPlace";
+		
+	}	
+	
+	/** 후기 신고 Controller
+	 * @param reviewNo
+	 * @param loginMember
+	 * @param report
+	 * @param ra
+	 * @return "review/reviewListPlace"
+	 */
+	@RequestMapping(value="{placeNo}/report", method=RequestMethod.POST)
+	public String report( HttpServletRequest request, 
+						  @ModelAttribute("loginMember") Member loginMember,
+						  RedirectAttributes ra, Report report
+						) {
+		report.setMemberNo( loginMember.getMemberNo() );
+		
+		int result = service.insertReport( report );
+		
+		if(result>0) {
+			MemberController.swalSetMessage(ra, "success", "신고 완료", null);
+		}else {
+			MemberController.swalSetMessage(ra, "error", "신고 오류", null);
 		}
+		
+		return  "redirect:" + request.getHeader("referer") ;
+	}
+
+	
+	
+	
 }
 

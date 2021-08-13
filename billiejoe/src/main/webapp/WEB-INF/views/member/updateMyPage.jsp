@@ -77,9 +77,9 @@ h6 {
 					<a href="#"><b>내 정보 수정</b></a><br> 
 					<a href="${contextPath}/member/changePwd">비밀번호 변경</a></li>
 				<hr>
-				<li class="mb-1"><a href="${contextPath}/place/myReservation">내가 예약한 장소 </a><br> 
-					<a href="${contextPath}/place/myLikePlace">내가 찜한 장소</a><br>
-					<a href="#">내가 작성한 후기</a></li>
+
+				<li class="mb-1"><a href="#">내가 예약한 장소 </a><br> <a
+					href="#">내가 찜한 장소</a><br> <a href="${contextPath}/review/reviewList">내가 작성한 후기</a></li>
 				<hr>
 				<li class="mb-1">
 					<a href="#">내가 등록한 장소</a><br> 
@@ -97,7 +97,7 @@ h6 {
 					role="form">
 
 
-					<a href="#" class="col-md-6 offset-md-7" style="color: gray;">탈퇴하기</a>
+					<a href="${contextPath}/member/secession" class="col-md-6 offset-md-7" style="color: gray;">탈퇴하기</a>
 					<br> <br>
 
 					<div class="row mb-3 form-row">

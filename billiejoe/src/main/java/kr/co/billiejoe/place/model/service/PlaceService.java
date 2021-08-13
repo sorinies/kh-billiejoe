@@ -11,7 +11,9 @@ import kr.co.billiejoe.place.model.vo.MyReservation;
 import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
+import kr.co.billiejoe.place.model.vo.Report;
 import kr.co.billiejoe.place.model.vo.Reservation;
+import kr.co.billiejoe.review.model.vo.Review;
 
 public interface PlaceService {
 
@@ -52,18 +54,34 @@ public interface PlaceService {
 
 	int updateReservation(Map<String, String> map);
 
-	/** 내가 찜한 장소 목록 조회
-	 * @param pagination
-	 * @param memberNo
-	 * @return selectMyLikePlaceList
-	 */
-	List<MyReservation> selectMyLikePlaceList(Pagination pagination, int memberNo);
-
-	/** 전체 목록 수 + 내가 좋아요한 장소 조회
+	/** 장소에 대한 전체 후기글 수 조회 Service
 	 * @param pg
-	 * @param memberNo
-	 * @return
+	 * @param loginMember 
+	 * @param placeNo
+	 * @return pagination
 	 */
-	Pagination getLikePagination(Pagination pg, int memberNo);
-
+	Pagination getPagination2(Pagination pg, int placeNo);
+	
+	/** 장소에 대한 후기 목록 조회
+	 * @param pagination
+	 * @param loginMember
+	 * @param placeNo 
+	 * @return reviewListPlace
+	 */
+	List<Review> selectReviewListPlace(Pagination pagination, int placeNo);
+	
+	/** 장소에 대한 후기 평점 및 총 개수
+	 * @param placeNo
+	 * @return add
+	 */
+	Review addReview(int placeNo);
+	
+	/** 후기 신고 Service
+	 * @param reviewNo
+	 * @param memberNo
+	 * @param report
+	 * @return result
+	 */
+	int insertReport(Report report);
+	
 }
