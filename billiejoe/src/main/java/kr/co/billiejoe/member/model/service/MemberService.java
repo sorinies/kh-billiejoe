@@ -34,12 +34,6 @@ public interface MemberService {
 	 */
 	public abstract int secession(String memberPw, Member loginMember);
 
-	/** 탈퇴 회원 목록 추가
-	 * @param loginMember
-	 * @return result2
-	 */
-	public abstract int secessionInsert(Member loginMember);
-
 	/** 회원 정보 수정
 	 * @param inputMember
 	 * @param image
