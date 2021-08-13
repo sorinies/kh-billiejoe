@@ -97,6 +97,8 @@
 		
 
 		<collection property="atList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Attachment" select="selectAttachment"/>
+		  <collection property="tagList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Tag" select="selectTag"/>
+	
 	</resultMap>
 	
 	<!-- 좋아요 확인 -->

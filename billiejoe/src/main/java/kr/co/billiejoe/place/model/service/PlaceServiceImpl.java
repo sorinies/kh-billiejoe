@@ -273,10 +273,14 @@ public class PlaceServiceImpl implements PlaceService{
 		result = dao.completReservation(map);
 		return result;
 	}
+	
+	// 내가 찜한 장소 목록
 	@Override
 	public List<MyReservation> selectMyLikePlaceList(Pagination pagination, int memberNo) {
 		return dao.selectMyLikePlaceList(pagination, memberNo);	
 	}
+	
+	// 전체 목록 수 + 내가 좋아요한 장소 조회
 	@Override
 	public Pagination getLikePagination(Pagination pg, int memberNo) {
 		int listCount = dao.getLikeListCount(memberNo);
