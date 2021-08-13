@@ -108,7 +108,12 @@
           </tbody>
         </table>
       </form>
-
+<c:if test="${list.status eq Y }">
+	<a class="btn"  href ="fasdf/sadf${placeNo }/"></a>
+</c:if>
+<c:if test="${list.status eq Y }">
+	<a class="btn"  href ="fasdf/sadf?placeNo=${placeNo }&status=${status }/"></a>
+</c:if>
       
           <c:if test="${!empty param.sk }">
      		 <c:set var="searchStr" value="&sk=${param.sk}&sv=${param.sv}"  />

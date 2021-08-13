@@ -265,6 +265,27 @@ public class MemberController {
 			
 			return path;
 		}
+		/*
+		 * // 마이페이지 화면 전환용 Controller
+		 * 
+		 * @RequestMapping(value="myPage", method=RequestMethod.GET) public String
+		 * myPage() { return "member/myPage"; }
+		 */
+		// 마이페이지 Controller
+		
+		@RequestMapping(value="myPage", method=RequestMethod.GET)
+		 public String myPage(@ModelAttribute("loginMember") Member loginMember, Model model) { 
+			  
+			MyReservation latestPlace = service.selectLatestPlace(loginMember.getMemberNo());
+			
+			model.addAttribute("latestPlace", latestPlace);
+			
+			List<MyReservation> reservedPlace = service.selectReservedPlace(loginMember.getMemberNo());
+			
+			model.addAttribute("reservedPlace", reservedPlace);
+			  return "member/myPage";
+		  }
+		
 		
 
 		// SweetAlert
