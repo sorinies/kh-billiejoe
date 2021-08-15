@@ -86,6 +86,7 @@ public class PlaceController {
 			like = service.likeCheck(loginMember.getMemberNo());
 		}
 		Place place = service.placeView(placeNo);
+		place.setPlaceAddr(place.getPlaceAddr().substring(5));
 		model.addAttribute("like",like);
 		model.addAttribute("place",place);
 		
