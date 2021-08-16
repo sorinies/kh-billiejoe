@@ -24,6 +24,13 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 
+		<!-- Sql Log -->
+		<dependency>
+		    <groupId>org.lazyluke</groupId>
+		    <artifactId>log4jdbc-remix</artifactId>
+		    <version>0.2.7</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
 		<dependency>
 			<groupId>com.sun.mail</groupId>

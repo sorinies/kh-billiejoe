@@ -36,14 +36,15 @@
   <header class="sticky-top shadow">
     <nav class="navbar navbar-light flex-md-nowrap p-0 container">
       <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="${contextPath}/">billieJoe</a>
-      <div class="input-group">
-        <select class="form-select form-control-dark" id="placeSearchCond">
-          <option value="1" selected>장소명</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
+      <form action="${contextPath}/place/list" method="get" class="input-group search-bar">
+        <select class="form-select form-control-dark" id="placeSearchCond" name="cond">
+          <option value="name" selected>장소명</option>
+          <option value="tag">태그</option>
+          <option value="addr">주소</option>
         </select>
-        <input class="form-control form-control-dark" type="text" placeholder="Search">
-      </div>
+        <input class="form-control form-control-dark" name="q" type="text" value="${param.q}" placeholder="Search">
+        <button type="submit">검색</button>
+      </form>
       <ul class="navbar-nav">
 		<c:choose>
 			<c:when test="${ empty loginMember }">

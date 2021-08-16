@@ -137,15 +137,54 @@
 		DELETE LIKES WHERE MEMBER_NO = #{memberNo} AND PLACE_NO = #{placeNo}
 	</delete>
 
-	<!-- 전체 장소 수 조회 -->
-	<select id="getListCount" resultType="_int">
-		SELECT COUNT(*) FROM place_list WHERE place_status = 'Y'
+	<!-- 검색 장소 수 조회 -->
+	<select id="getListCount" parameterType="Search" resultType="_int">
+		SELECT COUNT(*) FROM place_list 
+		<if test="cond == 'tag'">
+			JOIN place_tag USING(place_no)
+			JOIN tag USING(tag_no)
+		</if>
+		WHERE place_status = 'Y'
+	  <if test="q neq null">
+	  	AND
+	  	<bind name="val" value="'%' + q + '%'"/>
+	  	<choose>
+	  		<when test="cond == 'name'">
+	  			place_name LIKE #{val}
+	  		</when>
+	  		<when test="cond == 'addr'">
+	  			place_addr LIKE #{val}
+	  		</when>
+	  		<when test="cond == 'tag'">
+	  			tag_name LIKE #{q}
+	  		</when>
+	  	</choose>
+	  </if>
 	</select>
 	
-	<!-- 전체 장소 목록 조회 -->
-	<select id="selectPlaceList" resultMap="place_list_rm">
+	<!-- 검색 장소 목록 조회 -->
+	<select id="selectPlaceList" parameterType="Search" resultMap="place_list_rm">
 		SELECT * FROM place_list
+		<if test="cond == 'tag'">
+			JOIN place_tag USING(place_no)
+			JOIN tag USING(tag_no)
+		</if>
 		WHERE place_status = 'Y'
+	  <if test="q neq null">
+	  	AND
+	  	<bind name="val" value="'%' + q + '%'"/>
+	  	<choose>
+	  		<when test="cond == 'name'">
+	  			place_name LIKE #{val}
+	  		</when>
+	  		<when test="cond == 'addr'">
+	  			place_addr LIKE #{val}
+	  		</when>
+	  		<when test="cond == 'tag'">
+	  			tag_name LIKE #{q}
+	  		</when>
+	  	</choose>
+	  </if>
 		ORDER BY place_no DESC
 	</select>
 	
