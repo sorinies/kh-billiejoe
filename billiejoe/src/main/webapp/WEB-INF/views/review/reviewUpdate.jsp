@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" scope="application"
-	value="${pageContext.servletContext.contextPath}" />
+   value="${pageContext.servletContext.contextPath}" />
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
@@ -14,7 +14,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>billieJoe</title>
-	  <!-- Google Webfonts -->
+     <!-- Google Webfonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
@@ -56,7 +56,6 @@
           <h3>${review.placeName}</h3>
         </div>
         
-        <form action="updateReview" method="POST" role="form" onsubmit="return reviewValidate();">   
         <div class="row updateRate">
           
           <div class="col-1 updateAvgRate">
@@ -70,30 +69,31 @@
               <a value="3">★</a>
               <a value="4">★</a>
               <a value="5">★</a>
-            </div>
-            
           </div>
+            
+        </div>
           <hr>
           
           <div>
             <label for="content">내용</label>
           </div>
           
+        <form action="updateReview" method="POST" role="form" onsubmit="return reviewValidate();">   
           <div class="contentUpdate">
             <textarea class="form-control" id="reviewContent" name="reviewContent" rows="12" style="resize: none;">${review.reviewContent}</textarea>
           </div>
           
           <div class="btnArea text-end">
-            <input type="text" name="rate" class="reviewRate">
+            <input type="hidden" name="rate" id="rate"  class="reviewRate">
             <button type="submit" class="btn btn-primary" >수정</button>
             <a class="btn btn-primary" href="${contextPath}/review/reviewList?cp=${param.cp}">목록으로</a>
             <a class="btn btn-primary" href="${param.reviewNo}?cp=${param.cp}">이전</a>
           </div>
           
-        <input type="hidden" name="cp" value="${param.cp}">
-		<input type="hidden" name="reviewNo" value="${review.reviewNo}">
+           <input type="hidden" name="cp" value="${param.cp}">
+         <input type="hidden" name="reviewNo" id="reviewNo" value="${review.reviewNo}">
           
-	      </form> 
+         </form> 
         </div>
     </div>
     <hr>
@@ -102,41 +102,47 @@
 
   <script>
     // 별을 클릭했을 때 값이 input에 찍히는 이벤트
-		$('#star a').click(function () {
-			$(this).parent().children("a").removeClass("on");
-			$(this).addClass("on").prevAll("a").addClass("on");
-			
-		      console.log($(this).attr("value"));
-		      
-		      var rate = $(this).attr("value");
-		      
-		      $(document).ready(function() {
-		        $('.reviewRate').val(rate);
-		      });
+      $('#star a').click(function () {
+         $(this).parent().children("a").removeClass("on");
+         $(this).addClass("on").prevAll("a").addClass("on");
+         
+            console.log($(this).attr("value"));
+            
+            var rate = $(this).attr("value");
+            
+            $(document).ready(function() {
+              $('.reviewRate').val(rate);
+            });
       
-		});
+      });
 
-    // 유효성 검사 
-		function reviewValidate() {
-			if ($(".reviewContent").val().trim().length == 0) {
-				alert("내용을 입력해 주세요.");
-				console.log("확인");
-				$(".reviewContent").focus();
-				return false;
-			}
+    // 수정 내용 유효성 검사 
+      function reviewValidate() {
+         if ($("#rate").val().trim().length == 0) {
+            swal({
+               "icon" : "warning",
+               "title" : "별점을 선택해주세요."
+            })
+            return false;
+         }
 
-			if ($(".reviewRate").val().trim().length == 0) {
-				alert("별점을 선택해 주세요.");
-				return false;
-			}
-		}
-	</script>
+         if ($("#reviewContent").val().trim().length == 0) {
+            swal({
+               "icon" : "warning",
+               "title" : "내용을 입력해주세요."
+            }).then(function() {
+               $("#reviewContent").focus();
+            });
+            return false;
+         }
+      }
+   </script>
   <!-- 본문 끝 -->
-	
+   
   <!-- footer -->
 <jsp:include page="../common/footer.jsp"></jsp:include>
 
 </body>
 
 </html>
-<!-- //footer --><!-- //footer -->
+<!-- //footer -->

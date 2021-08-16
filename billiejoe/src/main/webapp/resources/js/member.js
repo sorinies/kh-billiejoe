@@ -5,7 +5,7 @@ const checkObj = {
 	"email": false,
 	"pwd1": false,
 	"pwd2": false,
-	"name": false
+	"inputName": false
 };
 
 // 이메일 유효성 검사
@@ -105,7 +105,7 @@ $("#pwd1, #pwd2").on("input", function() {
 });
 
 // 이름 유효성 검사
-$("#name").on("input", function() {
+$("#inputName").on("input", function() {
 		const regExp = /^[가-힣]{2,5}$/;
 		// 이벤트 핸들러 내부에 작성된 this == 이벤트가 발생한 요소 == $("name")
 		const inputName = $(this).val().trim();
@@ -146,7 +146,7 @@ function validate() {
 				case "pwd2":
 					msg = "비밀번호가 일치하지 않습니다. ";
 					break;
-				case "name":
+				case "inputName":
 					msg = "이름이 유효하지 않습니다.";
 					break;
 			}

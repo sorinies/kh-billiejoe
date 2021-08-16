@@ -68,7 +68,7 @@
 				<div class="row signRow">
 					<div class="col-4 ">* 이름</div>
 					<div class="col-8">
-						<input class="form-control" type="text" id="name" name="memberName" placeholder="이름(10자 이하)" autocomplete="off" required>
+						<input class="form-control" type="text" id="inputName" name="memberName" placeholder="이름(10자 이하)" autocomplete="off" required>
 						<div class="col-md-10 offset-md-3">
 							<span id="checkName">&nbsp;</span>
 						</div>

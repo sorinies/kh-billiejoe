@@ -41,7 +41,7 @@
               <a href="#" class="btn btn-toggle align-items-center rounded ">게시글 관리</a>
         </li>
         <li class="mb-1">
-              <a href="#" class="btn btn-toggle align-items-center rounded ">후기 관리</a>
+              <a href="${contextPath }/admin/review" class="btn btn-toggle align-items-center rounded ">후기 관리</a>
         </li>
         <li class="mb-1">
               <a href="${contextPath }/admin/report" class="btn btn-toggle align-items-center rounded ">신고내역</a>
@@ -55,7 +55,7 @@
           </button>
           <div class="collapse" id="account-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="link-dark rounded">Sign out</a></li>
+              <li><a href="${contextPath }/admin/logout" class="link-dark rounded">Sign out</a></li>
             </ul>
           </div>
         </li>
