@@ -93,7 +93,7 @@ h6 {
 			<div class="bg-white rounded container p-3">
 				<form method="POST" enctype="multipart/form-data"
 					action="${contextPath}/member/updateMyPage"
-					onsubmit="return memberUpdateValidate();" class="form-horizontal"
+					onsubmit="return updateValidate();" class="form-horizontal"
 					role="form">
 
 
@@ -196,4 +196,5 @@ h6 {
 	
 	</script>
 	<jsp:include page="../common/footer.jsp"></jsp:include>
+	<script src="${contextPath}/resources/js/updateMyPage.js"></script>
 	

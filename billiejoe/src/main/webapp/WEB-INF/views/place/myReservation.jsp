@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<jsp:include page="../common/header.jsp"></jsp:include>
 <!doctype html>
 <html lang="ko">
 
@@ -160,7 +160,7 @@
 	}
     
 	 .containerH{
-        margin-left: 300px;
+        margin-left: 100px;
         width : 600px;
         }
         
@@ -231,15 +231,21 @@
 	                <h6>${myReserv.placeName}</h6> 
 	                <h4>\<fmt:formatNumber value="${myReserv.placeCharge }" pattern="#,###" /></h4>
 	            </div>
+	            </a>
 	            <hr>
 	            <div class="listForm-area3">
 	                <p>${myReserv.placeAddr}</p>
-	                <h5>예약 완료</h5>
+	                
+	                <c:if test="${myReserv.stateNo == 3 }">
+	                <div class="text-end"> <a href="#">이용후기 작성하러 가기</a> </div>
+	                </c:if>
+	                
+	                <h5>${myReserv.stateName }</h5>
 	            </div>
 	
 	        </div>
         
-        </a>
+        
         </c:forEach>
 
       
@@ -282,7 +288,7 @@
   </main>
 
 
-
+   <jsp:include page="../common/footer.jsp"></jsp:include>
 </body>
 
 </html>

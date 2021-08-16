@@ -198,7 +198,7 @@
         }
         
         .containerH{
-        margin-left: 300px;
+        margin-left: 100px;
         }
         
         .place{

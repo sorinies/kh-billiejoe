@@ -15,6 +15,23 @@
 		<result property="memberIsAdmin" column="MEMBER_IS_ADMIN" />
 
 	</resultMap>
+	
+	
+	<!-- place 조회용 resultMap -->
+	<resultMap type="Place" id="place_rm">
+		<id property="placeNo" column="PLACE_NO"/> 
+
+		<result property="placeName" column="PLACE_NAME" />
+		<result property="placeSummary" column="PLACE_SUMMARY"/>
+		<result property="placeAddr" column="PLACE_ADDR" />
+		<result property="placeContent" column="PLACE_CONTENT"/>
+		<result property="placeCharge" column="PLACE_CHARGE" />
+		<result property="placeDate" column="PLACE_DATE" />
+		<result property="memberNo" column="MEMBER_NO" />
+		<result property="likeCount" column="LIKE_COUNT" />
+		
+	</resultMap>
+
 	<resultMap type="Member" id="unregMember_rm">
 		<id property="memberNo" column="MEMBER_NO" />
 
@@ -59,6 +76,13 @@
 		
 		
 	</resultMap>
+	
+	
+	<!-- Pagination용 resultMap -->
+	<resultMap type="Pagination" id="pg_rm">
+		<result property="listCount" column="CNT" />
+	</resultMap>
+	
 	
 	<insert id="insertUnreg" parameterType="Member">
 		INSERT INTO UNREG_MEMBER VALUES(#{memberNo},#{memberEmail},#{memberPw},#{memberName},#{memberPhone},#{memberPic},#{regDate},DEFAULT,SYSTIMESTAMP)
@@ -186,5 +210,22 @@
 	<update id="updateStatus" parameterType="Place">
 	 	UPDATE PLACE SET PLACE_STATUS =#{placeStatus} WHERE PLACE_NO = #{placeNo}
 	</update>
+	
+	<!-- 게시글 상세조회   -->	
+	<select id="placeDetailView" parameterType="_int" resultMap="place_rm">
+		SELECT * FROM PLACE_VIEW
+		WHERE PLACE_NO = #{placeNo} AND PLACE_IS_AVAILABLE = 'Y' AND PLACE_STATUS = 'Y'
+	</select>
+	
+	<!-- 장소에 대한 전체 후기글 수 -->
+	<select id="placeListCount" parameterType="_int" resultMap="pg_rm">
+        SELECT CNT 
+        FROM ( SELECT COUNT(*) CNT
+                   FROM REVIEW
+                   JOIN PLACE USING(PLACE_NO)
+                   WHERE PLACE_NO = #{placeNo} 
+                   AND REVIEW_STATUS = 'Y' )
+	</select>
+	
 </mapper>
 

@@ -7,6 +7,7 @@ import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.Report;
+import kr.co.billiejoe.review.model.vo.Review;
 
 public interface AdminService {
 
@@ -45,6 +46,14 @@ public interface AdminService {
 	public abstract List<Place> selectPlaceList(Pagination pagination);
 
 	public abstract int updateStatus(Place place);
+
+	public abstract Place placeDetailView(int placeNo);
+
+	public abstract Pagination getPagination2(Pagination pg, int placeNo);
+
+	public abstract List<Review> selectReviewListPlace(Pagination pagination, int placeNo);
+
+	public abstract Review addReview(int placeNo);
 
 
 }

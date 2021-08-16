@@ -12,6 +12,7 @@ import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.Report;
+import kr.co.billiejoe.review.model.vo.Review;
 
 @Repository
 public class AdminDAO {
@@ -142,5 +143,23 @@ public class AdminDAO {
 
 	public int updateStatus(Place place) {
 		return sqlSession.update("adminMapper.updateStatus", place);
+	}
+
+	public Place placeDetailView(int placeNo) {
+		return sqlSession.selectOne("adminMapper.placeDetailView", placeNo);
+	}
+
+	public Pagination getListCountPlace(int placeNo) {
+		return sqlSession.selectOne("adminMapper.placeListCount", placeNo);
+	}
+
+	public List<Review> selectReviewListPlace(Pagination pagination, int placeNo) {
+		int offset = (pagination.getCurrentPage() -1) * pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return sqlSession.selectList("reviewMapper.placeReviewList", placeNo, rowBounds);
+	}
+
+	public Review addReview(int placeNo) {
+		return sqlSession.selectOne("reviewMapper.addReview", placeNo);
 	}
 }

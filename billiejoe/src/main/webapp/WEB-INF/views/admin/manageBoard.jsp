@@ -103,9 +103,10 @@
           </thead>
           <tbody>
             <c:forEach items="${boardList}" var="board">
+            
 	            <tr>
 	              <td>${board.placeNo}</td>
-	              <td><a href="#">${board.placeName}</a></td>
+	              <td><a href="${contextPath }/admin/${board.placeNo}/detailView">${board.placeName}</a></td>
 	              <td>${board.placeCharge}</td>
 	              <td>${board.memberName}</td>
 	              <td>

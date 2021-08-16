@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,7 @@ import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.Report;
+import kr.co.billiejoe.review.model.vo.Review;
 
 @Controller
 @RequestMapping("/admin/*")
@@ -228,7 +230,42 @@ public class AdminController {
 		return service.updateStatus(place);
 	}
 	
-	
+	/** 장소 상세보기
+	 * @param placeNo
+	 * @param model
+	 * @param cp
+	 * @return
+	 */
+	@GetMapping("{placeNo}/detailView")
+	public String placeDetailView(@PathVariable("placeNo")int placeNo,Model model, Pagination pg, @RequestParam(value = "cp", required = false, defaultValue = "1")int cp
+							){
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		Place place = service.placeDetailView(placeNo);
+		place.setPlaceAddr(place.getPlaceAddr().substring(5));
+		model.addAttribute("place",place);
+		
+		
+		pg.setCurrentPage(cp);
+		
+		Pagination pagination = null;
+		List<Review> reviewListPlace = null;
+		
+		
+		Review add = null;
+		pagination = service.getPagination2(pg, placeNo);
+		pagination.setLimit(5);
+		reviewListPlace = service.selectReviewListPlace(pagination, placeNo);
+		add = service.addReview(placeNo);
+		model.addAttribute("reviewListPlace", reviewListPlace);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("add", add);
+		
+		System.out.println(place);
+		System.out.println(add);
+		return "place/placeDetailView";
+				
+	}
 	
 
 	// SweetAlert

@@ -13,6 +13,7 @@ import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.Report;
+import kr.co.billiejoe.review.model.vo.Review;
 
 @Service
 @Transactional
@@ -189,6 +190,32 @@ public class AdminServiceImpl implements AdminService{
 	public int updateStatus(Place place) {
 		return dao.updateStatus(place);
 	}
+
+	@Override
+	public Place placeDetailView(int placeNo) {
+		return dao.placeDetailView(placeNo);
+	}
+
+	@Override
+	public Pagination getPagination2(Pagination pg, int placeNo) {
+		// 1) 장소에 대한 전체 후기글 수 조회
+		Pagination selectPlacePg = dao.getListCountPlace(placeNo);
+		
+		// 계산이 완료된 Pagination 객체 생성 후 반환
+		return new Pagination(pg.getCurrentPage(), selectPlacePg.getListCount() );
+	}
+	
+	@Override
+	public List<Review> selectReviewListPlace(Pagination pagination, int placeNo) {
+		return dao.selectReviewListPlace(pagination, placeNo);
+	}
+
+	@Override
+	public Review addReview(int placeNo) {
+		return dao.addReview(placeNo);
+	}
+	
+	
 	
 	
 
