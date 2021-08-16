@@ -134,10 +134,17 @@ public class PlaceServiceImpl implements PlaceService{
 		return placeList;
 	}
 	
+	// 지역 목록 선택 
+	@Override
+	public List<Place> selectPlaceAddrList() {
+		List<Place> arrdList = dao.selectPlaceAddrList();
+		return arrdList;
+	}
+	
 	// 장소 추가
 	@Transactional(rollbackFor=Exception.class)
 	@Override
-	public int insertPlace(Place place, List<MultipartFile> images, String webPath, String savePath, String tagString) {
+	public int insertPlace(Place place, List<MultipartFile> images, String webPath, String savePath, String tagString, PlaceAvailable pa) {
 		place.setPlaceName(replaceParameter(place.getPlaceName()));
 		place.setPlaceSummary(replaceParameter(place.getPlaceSummary()));
 		int placeNo = dao.insertPlace(place);
@@ -180,6 +187,10 @@ public class PlaceServiceImpl implements PlaceService{
 				}
 				tagList.add(tag);
 			}
+			pa.setPlaceNo(placeNo);
+			System.out.println(pa);
+			dao.insertPlaceAvailable(pa);
+			
 			if(!atList.isEmpty()) {
 				int result = dao.insertAttachmentList(atList);
 				if(atList.size() == result) { // 모두 삽입 성공

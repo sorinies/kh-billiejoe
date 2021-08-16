@@ -11,24 +11,22 @@
       </c:if>
     </div>
     <div class="col-md-9 mx-auto">
-      <form action="" class="row mb-3">
+      <form action="${contextPath}/place/list" method="get" class="row mb-3">
         <div class="col-md-4">
           <select class="form-select">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            <option selected>지역</option>
+            <c:forEach items="${region}" var="region">
+              <option value="${region}">${region}</option>
+            </c:forEach>
           </select>
         </div>
         <div class="col-md-4">
           <input class="form-control" type="date">
         </div>
         <div class="col-md-4">
-          <select class="form-select">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+          <select class="form-select" name="sort">
+            <option value="sortnewest" selected>등록일 최신순</option>
+            <option value="sortlike">좋아요 많은 순</option>
           </select>
         </div>
       </form>
@@ -47,7 +45,7 @@
               <p class="card-text">${place.placeSummary}</p>
               <ul class="place-tag list-inline">
                 <c:forEach items="${place.tagList}" var="tag">
-                <li class="list-inline-item"><a class="badge rounded-pill bg-secondary" href="list?searchType=tag&q=${tag.tagName}"><i class="bi bi-hash"></i> ${tag.tagName}</a></li>
+                <li class="list-inline-item"><a class="badge rounded-pill bg-secondary" href="list?cond=tag&q=${tag.tagName}"><i class="bi bi-hash"></i> ${tag.tagName}</a></li>
                 </c:forEach>
               </ul>
             </div>

@@ -185,12 +185,22 @@
 		ORDER BY place_no DESC
 	</select>
 	
+	<!-- 지역 목록 선택 -->
+	<select id="selectPlaceAddrList" resultMap="place_list_rm">
+		SELECT place_addr FROM place_list ORDER BY place_addr
+	</select>
+	
 	<!-- 장소 추가 -->
 	<insert id="insertPlace" parameterType="Place" useGeneratedKeys="true">
 		<selectKey keyProperty="placeNo" resultType="_int" order="BEFORE">
 			SELECT SEQ_PLACE.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO place VALUES(#{placeNo}, #{placeName}, #{placeSummary}, #{placeAddr}, #{placeContent}, #{placeCharge}, DEFAULT, DEFAULT, DEFAULT, #{memberNo})
+	</insert>
+	
+	<!-- 이용 가능 시간 삽입 DAO -->
+	<insert id="insertPlaceAvailable" parameterType="PlaceAvailable">
+		INSERT INTO place_available VALUES(SEQ_AVAILABLE.NEXTVAL, #{placeNo}, #{start}, #{end})
 	</insert>
 	
 	<!-- 이미지 추가 -->

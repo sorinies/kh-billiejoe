@@ -216,6 +216,22 @@ public class PlaceDAO {
 		// TODO Auto-generated method stub
 		return session.update("placeMapper.startReservation", map);
 	}
+
+	/**
+	 * 지역 목록 선택 DAO
+	 * @return
+	 */
+	public List<Place> selectPlaceAddrList() {
+		return session.selectList("placeMapper.selectPlaceAddrList");
+	}
+
+	/**
+	 * 이용 가능 시간 삽입 DAO
+	 * @param pa
+	 */
+	public void insertPlaceAvailable(PlaceAvailable pa) {
+		session.insert("placeMapper.insertPlaceAvailable", pa);
+	}
 	
 	/** 장소에 대한 후기글 수 조회 DAO
 	 * @param placeNo
