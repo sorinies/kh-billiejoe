@@ -12,6 +12,7 @@ import kr.co.billiejoe.place.model.vo.MyReservation;
 import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
+import kr.co.billiejoe.place.model.vo.PlaceAvailable;
 import kr.co.billiejoe.place.model.vo.Reservation;
 import kr.co.billiejoe.place.model.vo.Search;
 
@@ -31,7 +32,7 @@ public interface PlaceService {
 
 	List<Place> selectPlaceList(Pagination pagination, Search search);
 
-	int insertPlace(Place place, List<MultipartFile> images, String webPath, String savePath, String tagString);
+	int insertPlace(Place place, List<MultipartFile> images, String webPath, String savePath, String tagString, PlaceAvailable pa);
 
 	/**  전체 목록 수 + 예약한 장소 조회
 	 * @param pg
@@ -53,5 +54,7 @@ public interface PlaceService {
 	int cancelRv(int reserveNo);
 
 	int updateReservation(Map<String, String> map);
+
+	List<Place> selectPlaceAddrList();
 
 }
