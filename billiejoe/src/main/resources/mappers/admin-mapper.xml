@@ -51,9 +51,11 @@
 		<result property="placeCharge" column="PLACE_CHARGE" />
 		<result property="placeDate" column="PLACE_DATE" />
 		<result property="memberNo" column="MEMBER_NO" />
+		<result property="memberName" column="MEMBER_NAME" />
 		<result property="likeCount" column="LIKE_COUNT" />
 		<result property="thumbnail" column="FILE_NAME" />
 		<result property="reviewCount" column="REVIEW_COUNT" />
+		<result property="placeStatus" column="PLACE_STATUS" />
 		
 		
 	</resultMap>
@@ -176,8 +178,13 @@
 	
 	<!-- 전체 게시글 목록 -->
 	<select id="selectPlaceList" parameterType="_int" resultMap="place_list_rm2">
-	SELECT PLACE_NO, PLACE_NAME, PLACE_CHARGE, MEMBER_NO FROM PLACE
+	SELECT PLACE_NO, PLACE_NAME, PLACE_CHARGE, A.MEMBER_NO, MEMBER_NAME, PLACE_STATUS FROM PLACE A
+	JOIN MEMBER B ON(A.MEMBER_NO = B.MEMBER_NO)
 	</select>
 	
+	
+	<update id="updateStatus" parameterType="Place">
+	 	UPDATE PLACE SET PLACE_STATUS =#{placeStatus} WHERE PLACE_NO = #{placeNo}
+	</update>
 </mapper>
 

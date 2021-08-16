@@ -14,6 +14,7 @@ public class Place {
 	private String placeStatus; // 삭제 상태
 	private Timestamp placeDate; // 작성일
 	private int memberNo;
+	private String memberName;
 	private int likeCount; // 좋아요수
 	private List<Attachment> atList;
 	private List<Tag> tagList;
@@ -42,6 +43,14 @@ public class Place {
 	}
 	
 	
+
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
 
 	public List<Attachment> getAtList() {
 		return atList;
@@ -174,9 +183,11 @@ public class Place {
 		return "Place [placeNo=" + placeNo + ", placeName=" + placeName + ", placeSummary=" + placeSummary
 				+ ", placeAddr=" + placeAddr + ", placeContent=" + placeContent + ", placeCharge=" + placeCharge
 				+ ", placeIsAvailable=" + placeIsAvailable + ", placeStatus=" + placeStatus + ", placeDate=" + placeDate
-				+ ", memberNo=" + memberNo + ", likeCount=" + likeCount + ", atList=" + atList + ", tagList=" + tagList
-				+ "]";
+				+ ", memberNo=" + memberNo + ", memberName=" + memberName + ", likeCount=" + likeCount + ", atList="
+				+ atList + ", tagList=" + tagList + ", thumbnail=" + thumbnail + ", reviewCount=" + reviewCount + "]";
 	}
+
+
 
 	
 

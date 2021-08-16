@@ -56,8 +56,17 @@
         text-align: center;
     }
 
-  
-    
+	  .flex-shrink-0{
+	
+		display : inline-block;
+		float :left;
+		
+		}
+	
+	 .containerH{
+	    margin-left: 200px;
+    	width: 900px;
+	      }    
   </style>
 </head>
 
@@ -81,8 +90,7 @@
         </ul>
       </div>
       <div class="b-example-divider"></div>
-    <div class="container py-5">
-      <form>
+    <div class="containerH py-5">
         <table class="table table-striped table-hover w-100">
           <thead>
             <tr>
@@ -94,27 +102,26 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-             <c:forEach items="${boardList}" var="list">
-              <td>${list.placeNo}</td>
-              <td><a href="#">${list.placeName}</a></td>
-              <td>${list.placeCharge}</td>
-              <td>0000년 00월 00일 00:00</td>
-              <td>
-                <a href="#" class="btn btn-primary btn-sm">수정</a>
-              </td>
-            </tr>
+            <c:forEach items="${boardList}" var="board">
+	            <tr>
+	              <td>${board.placeNo}</td>
+	              <td><a href="#">${board.placeName}</a></td>
+	              <td>${board.placeCharge}</td>
+	              <td>${board.memberName}</td>
+	              <td>
+	              	<c:if test="${board.placeStatus == 'Y' }">
+	              		<button type="button" class="btn btn-danger btn-sm" onclick="updateStatus(${board.placeNo}, 'N', this)">삭제</button>
+	              	</c:if>
+	              	<c:if test="${board.placeStatus == 'N' }">
+	              		<button type="button" class="btn btn-primary btn-sm" onclick="updateStatus(${board.placeNo}, 'Y', this)">복구</button>
+	              	</c:if>
+	              
+	              </td>
+	            </tr>
              </c:forEach>
           </tbody>
         </table>
-      </form>
-<c:if test="${list.status eq Y }">
-	<a class="btn"  href ="fasdf/sadf${placeNo }/"></a>
-</c:if>
-<c:if test="${list.status eq Y }">
-	<a class="btn"  href ="fasdf/sadf?placeNo=${placeNo }&status=${status }/"></a>
-</c:if>
-      
+
           <c:if test="${!empty param.sk }">
      		 <c:set var="searchStr" value="&sk=${param.sk}&sv=${param.sv}"  />
 		  </c:if>
@@ -152,6 +159,40 @@
       </nav>
     </div>
   </main>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script>
+		// 삭제버튼 클릭 시
+		function updateStatus(placeNo, placeStatus, btn){
+			$.ajax({
+				url : "updateStatus",
+				data : {"placeNo": placeNo, "placeStatus": placeStatus},
+				type : "POST",
+				success : function(result){
+
+					if(result > 0){
+						// 삭제 버튼이였을 경우 -> 복구로 변경
+						if( $(btn).hasClass("btn-danger") ){
+							$(btn).removeClass("btn-danger");
+							$(btn).addClass("btn-primary");
+							$(btn).text("복구");
+						}
+						
+						// 복구 버튼이였을 경우 -> 삭제로 변경
+						else{
+							$(btn).removeClass("btn-primary");
+							$(btn).addClass("btn-danger");
+							$(btn).text("삭제");
+						}
+					}
+				}
+				
+			});
+		}
+	
+	</script>
+
+
 
 </body>
 

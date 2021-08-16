@@ -44,5 +44,7 @@ public interface AdminService {
 
 	public abstract List<Place> selectPlaceList(Pagination pagination);
 
+	public abstract int updateStatus(Place place);
+
 
 }

@@ -139,4 +139,8 @@ public class AdminDAO {
 		return sqlSession.selectList("adminMapper.selectPlaceList",null , rowBounds);
 		
 	}
+
+	public int updateStatus(Place place) {
+		return sqlSession.update("adminMapper.updateStatus", place);
+	}
 }

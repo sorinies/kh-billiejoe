@@ -184,6 +184,11 @@ public class AdminServiceImpl implements AdminService{
 	public List<Place> selectPlaceList(Pagination pagination) {
 		return dao.selectPlaceList(pagination);
 	}
+
+	@Override
+	public int updateStatus(Place place) {
+		return dao.updateStatus(place);
+	}
 	
 	
 

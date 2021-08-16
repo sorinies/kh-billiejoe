@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -217,6 +218,14 @@ public class AdminController {
 		model.addAttribute("pagination", pagination);
 		
 		return "admin/manageBoard";
+	}
+	
+	
+	@RequestMapping(value="updateStatus", method=RequestMethod.POST)
+	@ResponseBody
+	public int updateStatus(Place place) {
+		
+		return service.updateStatus(place);
 	}
 	
 	
