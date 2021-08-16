@@ -1,5 +1,6 @@
 package kr.co.billiejoe.place.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.Report;
 import kr.co.billiejoe.place.model.vo.Reservation;
+import kr.co.billiejoe.place.model.vo.Search;
 import kr.co.billiejoe.review.model.vo.Review;
 
 public interface PlaceService {
@@ -27,9 +29,9 @@ public interface PlaceService {
 
 	int deleteLike(Likes likes);
 
-	Pagination getPagination(Pagination pg);
+	Pagination getPagination(Pagination pg, Search search);
 
-	List<Place> selectPlaceList(Pagination pagination);
+	List<Place> selectPlaceList(Pagination pagination, Search search);
 
 	int insertPlace(Place place, List<MultipartFile> images, String webPath, String savePath, String tagString);
 
