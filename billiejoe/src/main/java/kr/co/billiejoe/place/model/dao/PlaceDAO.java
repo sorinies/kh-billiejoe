@@ -1,6 +1,7 @@
 package kr.co.billiejoe.place.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
 import kr.co.billiejoe.place.model.vo.PlaceTag;
 import kr.co.billiejoe.place.model.vo.Reservation;
+import kr.co.billiejoe.place.model.vo.Search;
 import kr.co.billiejoe.place.model.vo.Tag;
 
 @Repository
@@ -52,22 +54,26 @@ public class PlaceDAO {
 	}
 
 	/**
-	 * 전체 장소 수 조회 DAO
+	 * 장소 수 조회 DAO
+	 * @param search
 	 * @return
 	 */
-	public int getListCount() {
-		return session.selectOne("placeMapper.getListCount");
+	public int getListCount(Search search) {
+		return session.selectOne("placeMapper.getListCount", search);
 	}
 
 	/**
-	 * 전체 장소 목록 조회 DAO
+	 * 장소 목록 조회 DAO
 	 * @param pagination
 	 * @return
 	 */
-	public List<Place> selectPlaceList(Pagination pagination) {
+	public List<Place> selectPlaceList(Pagination pagination, Search search) {
 		int offset = (pagination.getCurrentPage() -1) * pagination.getLimit();
 		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
-		return session.selectList("placeMapper.selectPlaceList", rowBounds);
+		System.out.println(search);
+		System.out.println(search == null);
+		System.out.println(search.isNotEmpty());
+		return session.selectList("placeMapper.selectPlaceList", search, rowBounds);
 	}
 
 	/**

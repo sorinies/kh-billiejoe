@@ -15,7 +15,7 @@
 	
 		<typeAlias type="kr.co.billiejoe.member.model.vo.Member" alias="Member" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Place" alias="place" />
-		
+		<typeAlias type="kr.co.billiejoe.place.model.vo.Search" alias="Search" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Attachment" alias="Attachment" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Likes" alias="Likes" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Pagination" alias="Pagination" />

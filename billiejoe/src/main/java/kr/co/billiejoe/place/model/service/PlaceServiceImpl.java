@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -27,6 +28,7 @@ import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
 import kr.co.billiejoe.place.model.vo.PlaceTag;
 import kr.co.billiejoe.place.model.vo.Reservation;
+import kr.co.billiejoe.place.model.vo.Search;
 import kr.co.billiejoe.place.model.vo.Tag;
 
 @Service
@@ -104,17 +106,24 @@ public class PlaceServiceImpl implements PlaceService{
 		return dao.deleteLike(likes);
 	}
 	
-	// 전체 장소 수 조회 Service
+	// 장소 수 조회 Service
 	@Override
-	public Pagination getPagination(Pagination pg) {
-		int selectPg = dao.getListCount();
-		return new Pagination(pg.getCurrentPage(), selectPg); 
+	public Pagination getPagination(Pagination pg, Search search) {
+		int selectPg = dao.getListCount(search);
+		return new Pagination(pg.getCurrentPage(), selectPg);
+	}
+	
+	// 전체 목록 수 + 예약한 장소 조회
+	@Override
+	public Pagination getPagination(Pagination pg, int memberNo) {
+		int listCount = dao.getListCount(memberNo);
+		return new Pagination(pg.getCurrentPage(), listCount) ;
 	}
 	
 	// 장소 목록 조회
 	@Override
-	public List<Place> selectPlaceList(Pagination pagination) {
-		List<Place> placeList = dao.selectPlaceList(pagination);
+	public List<Place> selectPlaceList(Pagination pagination, Search search) {
+		List<Place> placeList = dao.selectPlaceList(pagination, search);
 //		for(Place place : placeList) {
 //			System.out.println(place);
 //			place.setTagList(dao.selectPlaceTagList(place.getPlaceNo()));
@@ -189,16 +198,6 @@ public class PlaceServiceImpl implements PlaceService{
 		return placeNo;
 	}
   
-	// 전체 목록 수 + 예약한 장소 조회
-	@Override
-	public Pagination getPagination(Pagination pg, int memberNo) {
-		// 1) 전체 목록 수 조회
-		int listCount = dao.getListCount(memberNo);
-
-		// 2) 계산이 완료된 Pagination 객체 생성 후 반환
-		return new Pagination(pg.getCurrentPage(), listCount) ;
-	}
-		
 	// 내가 예약한 목록 조회
 	@Override
 	public List<MyReservation> selectReservationList(Pagination pagination, int memberNo) {

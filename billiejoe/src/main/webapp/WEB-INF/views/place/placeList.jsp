@@ -116,4 +116,12 @@
       </nav>
     </div>
   </div>
+  <script>
+    const searchCond = "${param.cond}";
+    $("#placeSearchCond > option").each(function (index, item) {
+      if ($(item).val() == searchCond) {
+        $(item).prop("selected", true);
+      }
+    })
+	</script>
 <jsp:include page="../common/footer.jsp"></jsp:include>

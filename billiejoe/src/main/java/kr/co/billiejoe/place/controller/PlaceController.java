@@ -36,6 +36,7 @@ import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
 import kr.co.billiejoe.place.model.vo.Reservation;
+import kr.co.billiejoe.place.model.vo.Search;
 import kr.co.billiejoe.place.model.vo.Tag;
 
 @RequestMapping("/place/*")
@@ -53,14 +54,13 @@ public class PlaceController {
 	 * @return
 	 */
 	@GetMapping("list")
-	public String placeList(@RequestParam(value = "cp", required = false, defaultValue = "1") int cp, Model model, Pagination pg) {
-		pg.setCurrentPage(cp);
-		
+	public String placeList(@RequestParam(value = "cp", required = false, defaultValue = "1") int cp, Model model, Pagination pg, Search search) {
 		Pagination pagination = null;
 		List<Place> placeList = null;
-		
-		pagination = service.getPagination(pg);
-		placeList = service.selectPlaceList(pagination);
+		pg.setCurrentPage(cp);
+
+		pagination = service.getPagination(pg, search);
+		placeList = service.selectPlaceList(pagination, search);
 
 		model.addAttribute("placeList", placeList);
 		model.addAttribute("pagination", pagination);
