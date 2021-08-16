@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -38,9 +39,11 @@ import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
+import kr.co.billiejoe.place.model.vo.Report;
 import kr.co.billiejoe.place.model.vo.Reservation;
 import kr.co.billiejoe.place.model.vo.Search;
 import kr.co.billiejoe.place.model.vo.Tag;
+import kr.co.billiejoe.review.model.vo.Review;
 
 @RequestMapping("/place/*")
 @SessionAttributes({"loginMember"})
@@ -82,18 +85,35 @@ public class PlaceController {
 	 * @return
 	 */
 	@GetMapping("{placeNo}/view")
-	public String placeView(@PathVariable("placeNo")int placeNo,Model model, @RequestParam(value = "cp", required = false, defaultValue = "1")int cp
+	public String placeView(@PathVariable("placeNo")int placeNo,Model model, Pagination pg, @RequestParam(value = "cp", required = false, defaultValue = "1")int cp
 							){
 		Member loginMember = (Member)model.getAttribute("loginMember");
-//		loginMember = new Member();
-//		loginMember.setMemberNo(500);
 		int like = 0;
 		if(loginMember !=null) {
 			like = service.likeCheck(loginMember.getMemberNo());
 		}
 		Place place = service.placeView(placeNo);
+		place.setPlaceAddr(place.getPlaceAddr().substring(5));
 		model.addAttribute("like",like);
 		model.addAttribute("place",place);
+		
+		
+		pg.setCurrentPage(cp);
+		
+		Pagination pagination = null;
+		List<Review> reviewListPlace = null;
+		
+		
+		Review add = null;
+		pagination = service.getPagination2(pg, placeNo);
+		pagination.setLimit(5);
+		reviewListPlace = service.selectReviewListPlace(pagination, placeNo);
+		add = service.addReview(placeNo);
+		model.addAttribute("reviewListPlace", reviewListPlace);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("add", add);
+		
+		
 		return "place/placeView";
 				
 	}
@@ -317,5 +337,69 @@ public class PlaceController {
 		return "redirect:reservationView?reserveNo="+reserveNo;
 		
 	}
+	
+	/** 장소에 대한 후기 목록 조회 Controller
+	 * @param cp
+	 * @param model
+	 * @param pg
+	 * @param loginMember
+	 * @return "review/reviewListPlace"
+	 */
+	@RequestMapping(value = "{placeNo}/reviewListPlace", method = RequestMethod.GET)
+	public String reviewListPlace( @RequestParam(value="cp", required=false, defaultValue="1") int cp,
+									Model model, Pagination pg, 
+									@ModelAttribute("loginMember") Member loginMember,
+									@PathVariable("placeNo")int placeNo
+									) {
+		
+		pg.setCurrentPage(cp);
+		
+		Pagination pagination = null;
+		List<Review> reviewListPlace = null;
+		Review add = null;
+		
+		pagination = service.getPagination(pg, placeNo);
+		reviewListPlace = service.selectReviewListPlace(pagination, placeNo);
+		add = service.addReview(placeNo);
+		
+		System.out.println(pagination);
+		System.out.println(reviewListPlace);
+		
+		model.addAttribute("reviewListPlace", reviewListPlace);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("add", add);
+		
+		return "review/reviewListPlace";
+		
+	}	
+	
+	/** 후기 신고 Controller
+	 * @param reviewNo
+	 * @param loginMember
+	 * @param report
+	 * @param ra
+	 * @return "redirect:" + request.getHeader("referer")"
+	 */
+	@RequestMapping(value="{placeNo}/report", method=RequestMethod.POST)
+	public String report( HttpServletRequest request, 
+						  @ModelAttribute("loginMember") Member loginMember,
+						  RedirectAttributes ra, Report report
+						) {
+		report.setMemberNo( loginMember.getMemberNo() );
+		
+		int result = service.insertReport( report );
+		
+		if(result>0) {
+			MemberController.swalSetMessage(ra, "success", "신고 완료", null);
+		}else {
+			MemberController.swalSetMessage(ra, "error", "신고 오류", null);
+		}
+		
+		return  "redirect:" + request.getHeader("referer") ;
+	}
+
+	
+	
+	
 }
 

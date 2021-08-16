@@ -27,9 +27,11 @@ import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
 import kr.co.billiejoe.place.model.vo.PlaceTag;
+import kr.co.billiejoe.place.model.vo.Report;
 import kr.co.billiejoe.place.model.vo.Reservation;
 import kr.co.billiejoe.place.model.vo.Search;
 import kr.co.billiejoe.place.model.vo.Tag;
+import kr.co.billiejoe.review.model.vo.Review;
 
 @Service
 @Transactional
@@ -278,6 +280,39 @@ public class PlaceServiceImpl implements PlaceService{
 	public int updateReservation(Map<String, String> map) {
 		int result = dao.startReservation(map);
 		result = dao.completReservation(map);
+		return result;
+	}
+	
+	// 장소에 대한 후기글 수 조회
+	@Override
+	public Pagination getPagination2(Pagination pg, int placeNo) {
+		
+		// 1) 장소에 대한 전체 후기글 수 조회
+		Pagination selectPlacePg = dao.getListCountPlace(placeNo);
+		
+		// 계산이 완료된 Pagination 객체 생성 후 반환
+		return new Pagination(pg.getCurrentPage(), selectPlacePg.getListCount() );
+	}
+	
+	// 장소에 대한 후기 목록 조회
+	@Override
+	public List<Review> selectReviewListPlace(Pagination pagination, int placeNo) {
+		return dao.selectReviewListPlace(pagination, placeNo);
+	}
+	
+	// 장소에 대한 후기 평점 및 총 개수Service
+	
+	@Override
+	public Review addReview(int placeNo) {
+		return dao.addReview(placeNo);
+	}
+	
+	// 후기 신고 Service
+	@Override
+	public int insertReport(Report report) {
+		
+		int result = dao.insertReport(report);
+		
 		return result;
 	}
 	

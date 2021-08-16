@@ -143,6 +143,11 @@
                 </div>
             </div>
         </div>
+        
+    <!-- 후기 본문시작 -->
+    <jsp:include page="../review/reviewListPlace.jsp"></jsp:include>
+    <!-- 후기 본문 끝 -->
+        
     </div>
     <jsp:include page="../../../resources/js/placeViewJs.jsp"></jsp:include> 
     <jsp:include page="../common/footer.jsp"></jsp:include>
