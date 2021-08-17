@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import kr.co.billiejoe.member.model.vo.Member;
-import kr.co.billiejoe.place.model.vo.Pagination;
+import kr.co.billiejoe.common.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Report;
 import kr.co.billiejoe.review.model.vo.Review;
 
