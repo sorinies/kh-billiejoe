@@ -70,7 +70,7 @@
 		<result property="placeNo" column="PLACE_NO" />
 	</resultMap>
 
-	<!-- 파일 정보 조회용 resultMap -->
+	<!-- 신고용 resultMap -->
 	<resultMap type="Report" id="report_rm">
 		<id property="reportNo" column="REPORT_NO" />
 

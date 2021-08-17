@@ -41,6 +41,46 @@
 		
 	</resultMap>
 	
+	<!-- review 조회용 resultMap -->
+	<resultMap type="Review1" id="review_rm">
+		<id property="reviewNo" column="REVIEW_NO" />
+
+		<result property="reviewContent" column="REVIEW_CONTENT" />
+		<result property="reviewRate" column="REVIEW_RATE" />
+		<result property="reviewDate" column="REVIEW_DATE" />
+		<result property="placeNo" column="PLACE_NO" />
+		<result property="memberNo" column="MEMBER_NO" />
+		<result property="memberName" column="MEMBER_NAME" />
+		<result property="memberPic" column="MEMBER_PIC" />
+		<result property="reviewStatus" column="REVIEW_STATUS" />
+		<result property="reviewAvg" column="REVIEW_AVG" />
+		<result property="reviewCount" column="REVIEW_COUNT" />
+		<result property="placeName" column="PLACE_NAME" />
+		<collection property="atList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Attachment" select="selectAttachment"/>
+	</resultMap>
+	
+		<!-- 특정 장소의 모든 이미지 정보 조회 -->
+	<select id="selectAttachment" parameterType="_int" resultMap="attachment_rm">
+		SELECT * FROM ATTACHMENT
+		WHERE PLACE_NO = #{placeNo}
+		ORDER BY FILE_LEVEL
+	</select>
+	
+		<!-- 파일 정보 조회용 resultMap -->
+	<resultMap type="Attachment" id="attachment_rm">
+		<id property="fileNo" column="FILE_NO" />
+
+		<result property="filePath" column="FILE_PATH" />
+		<result property="fileName" column="FILE_NAME" />
+		<result property="fileLevel" column="FILE_LEVEL" />
+		<result property="placeNo" column="PLACE_NO" />
+	</resultMap>
+	
+		<!-- Pagination용 resultMap -->
+	<resultMap type="Pagination" id="pg_rm">
+		<result property="listCount" column="CNT" />
+	</resultMap>
+	
 	<insert id="insertUnreg" parameterType="Member">
 		INSERT INTO UNREG_MEMBER VALUES(#{memberNo},#{memberEmail},#{memberPw},#{memberName},#{memberPhone},#{memberPic},#{regDate},DEFAULT,SYSTIMESTAMP)
 	</insert>
@@ -151,4 +191,30 @@
 	<update id="reportCheck" parameterType="_int">
 		UPDATE  REVIEW SET  REVIEW_STATUS = 'N' WHERE REVIEW_NO = #{reviewNo}
 	</update>
+	
+	<!-- 관리자 게시판 총 후기 개수 -->
+	<select id="getAdminReviewListCount" resultType="_int">
+		SELECT COUNT(*) FROM REVIEW
+		WHERE REVIEW_STATUS='Y'		
+	</select>
+	
+	<!-- 관리자 게시판 총 후기 목록 -->
+	<select id="selectAdminReviewList" resultMap="review_rm">
+		SELECT REVIEW_NO, REVIEW_CONTENT, MEMBER_NAME, REVIEW_AVG, PLACE_NO
+        FROM REVIEW
+        JOIN MEMBER USING(MEMBER_NO)
+        JOIN REVIEW_ADD USING(PLACE_NO)
+        WHERE REVIEW_STATUS='Y'
+        ORDER BY REVIEW_NO DESC
+	</select>
+	
+	<!-- 관리자 게시글 상세 조회 -->
+	<select id="selectAdminReview" parameterType="_int" resultMap="review_rm">
+		SELECT REVIEW_NO, REVIEW_CONTENT, REVIEW_RATE, REVIEW_DATE, a.MEMBER_NO, REVIEW_STATUS, PLACE_NO, PLACE_NAME
+        FROM REVIEW a
+		JOIN PLACE b USING(PLACE_NO)
+		WHERE REVIEW_NO = #{reviewNo}
+		AND REVIEW_STATUS = 'Y'
+	</select>
+	
 </mapper>

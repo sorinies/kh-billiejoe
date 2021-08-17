@@ -16,7 +16,6 @@
 		<!-- 지애 사용 -->
 		<typeAlias type="kr.co.billiejoe.member.model.vo.Member" alias="Member" />
 		<typeAlias type="kr.co.billiejoe.review.model.vo.Review" alias="Review1" />
-		<typeAlias type="kr.co.billiejoe.review.model.vo.Pagination" alias="Pagination1" />
 		
 		<typeAlias type="kr.co.billiejoe.review.model.vo.RecentReview" alias="RecentReview" />
 		
