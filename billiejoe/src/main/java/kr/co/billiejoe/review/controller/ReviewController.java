@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kr.co.billiejoe.member.controller.MemberController;
 import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.review.model.service.ReviewService;
-import kr.co.billiejoe.place.model.vo.Pagination;
+import kr.co.billiejoe.common.model.vo.Pagination;
 import kr.co.billiejoe.review.model.vo.Review;
 
 
