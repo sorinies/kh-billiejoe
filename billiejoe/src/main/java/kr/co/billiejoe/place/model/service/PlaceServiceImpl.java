@@ -123,6 +123,7 @@ public class PlaceServiceImpl implements PlaceService{
 		return new Pagination(pg.getCurrentPage(), listCount) ;
 	}
 	
+
 	// 장소 목록 조회
 	@Override
 	public List<Place> selectPlaceList(Pagination pagination, Search search) {
@@ -211,7 +212,7 @@ public class PlaceServiceImpl implements PlaceService{
 		}
 		return placeNo;
 	}
-  
+
 	// 내가 예약한 목록 조회
 	@Override
 	public List<MyReservation> selectReservationList(Pagination pagination, int memberNo) {
@@ -284,6 +285,7 @@ public class PlaceServiceImpl implements PlaceService{
 		return result;
 	}
 	
+
 	// 장소에 대한 후기글 수 조회
 	@Override
 	public Pagination getPagination2(Pagination pg, int placeNo) {
@@ -316,5 +318,31 @@ public class PlaceServiceImpl implements PlaceService{
 		
 		return result;
 	}
+	
+	// 내가 찜한 장소 목록
+	@Override
+	public List<MyReservation> selectMyLikePlaceList(Pagination pagination, int memberNo) {
+		return dao.selectMyLikePlaceList(pagination, memberNo);	
+	}
+	
+	// 전체 목록 수 + 내가 좋아요한 장소 조회
+	@Override
+	public Pagination getLikePagination(Pagination pg, int memberNo) {
+		int listCount = dao.getLikeListCount(memberNo);
+
+		// 2) 계산이 완료된 Pagination 객체 생성 후 반환
+		return new Pagination(pg.getCurrentPage(), listCount) ;
+
+	}
+	
+	// 내가 예약한 목록 목록 조회(정렬 조건 추가)
+	@Override
+	public List<MyReservation> selectReservationList(Pagination pagination, int memberNo, String sort) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberNo", memberNo);
+		map.put("sort", sort);
+		return dao.selectReservationList(pagination, map);
+	}
+	
 	
 }

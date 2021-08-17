@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<jsp:include page="../common/header.jsp"></jsp:include>
 <!doctype html>
 <html lang="ko">
 
@@ -10,14 +10,13 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>내가 찜한 장소</title>
+  <title>내가 예약한 장소</title>
   <!-- Bootstrap core CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
     crossorigin="anonymous"></script>
-  <link href="../dist/css/admin_sidebars.css" rel="stylesheet">
 
   <style>
     a {
@@ -155,14 +154,30 @@
     
     .flex-shrink-0{
 
-	display : inline-block;
-	float :left;
+		display : inline-block;
+		float :left;
 	
 	}
     
-
-
-   
+	 .containerH{
+        margin-left: 100px;
+        width : 600px;
+        }
+        
+	#navigation{
+	display : inline-block;
+	margin-top : 0;
+	margin-left : 300px;
+	}
+	
+	.pagination{
+	margin-top : 0;
+	}
+ 
+ 	main{
+ 		max-height: none;
+ 	}
+ 
  
   </style>
 </head>
@@ -171,45 +186,40 @@
   <main>
     <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
       <a href="#" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-        <span class="fs-5 fw-semibold">내가 예약한 장소</span>
+        <span class="fs-5 fw-semibold">마이페이지</span>
       </a>
-      <ul class="list-unstyled ">
-        <li class="mb-1">
-          <a href="#">내 정보 </a><br>
-          <a href="#">내 정보 수정</a><br>
-          <a href="#">비밀번호 변경 </button>
-        </li>
-        <hr>
-        <li class="mb-1">
-          <a href="#">내가 예약한 장소 </a><br>
-          <a href="#">내가 찜한 장소</a><br>
-          <a href="#">내가 작성한 후기</a>
-        </li>
-        <hr>
-        <li class="mb-1">
-          <a href="#">내가 등록한 장소</a><br>
-          <a href="#">예약 접수 내역</a><br>
-        </li>
-        <hr>
+		<ul class="list-unstyled ">
+				<li class="mb-1">
+					<a href="${contextPath}/member/myPage">내 정보 </a><br> 
+					<a href="${contextPath}/member/updateMyPage">내 정보 수정</a><br> 
+					<a href="${contextPath}/member/changePwd">비밀번호 변경</a></li>
+				<hr>
+				<li class="mb-1"><a href="#"><b>내가 예약한 장소 </b></a><br> 
+					<a href="${contextPath}/place/myLikePlace">내가 찜한 장소</a><br>
+					<a href="#">내가 작성한 후기</a></li>
+				<hr>
+				<li class="mb-1">
+					<a href="#">내가 등록한 장소</a><br> 
+					<a href="#">예약 접수 내역</a><br></li>
+				<hr>
 
 
-      </ul>
+			</ul>
     </div>
-    <div class="container py-5">
-        <form method="POST" enctype="multipart/form-data"
-					action="${contextPath}/place/myReservation"
-					onsubmit="return" class="form-horizontal"
-					role="form">
+    <div class="containerH py-5">
         <div class="input-group  mb-3 w-25">
          
+         
+         
+         
+         
             <select class="form-select" id="searchUserCond" name="searchUserCond">
-              <option selected>등록일 최신순</option>
-              <option value="userEmail">예약일시 최근순</option>
-              <option value="userNickname">이용일시 임박순</option>
+              <option value="uploadDate" <c:if test="${param.sort == 'uploadDate' }">selected</c:if>  >등록일 최신순</option>
+              <option value="reservatioinDate" <c:if test="${param.sort == 'reservatioinDate' }">selected</c:if> >예약일시 최근순</option>
+              <option value="useDate" <c:if test="${param.sort == 'useDate' }">selected</c:if> >이용일시 임박순</option>
             </select>
         </div>
         
-		
         <c:forEach items="${reservationList}" var="myReserv">
         <a href="${myReserv.placeNo}/reservationView?reserveNo=${myReserv.reserveNo }">
 	        <div class="listForm">
@@ -222,49 +232,81 @@
 	
 	            </div>
 	            <div class="listForm-area2">
-	                <h5><fmt:formatDate pattern= "MM월 dd일" value="${myReserv.reserveDate}"/>&ensp;</h5>
+	                <%-- <h5><fmt:formatDate pattern= "MM월 dd일" value="${myReserv.reserveDate}"/>&ensp;</h5> --%>
+	                <h5>${myReserv.useDate}&nbsp;</h5>
+	                (<fmt:formatDate pattern= "MM월 dd일" value="${myReserv.reserveDate}"/>)
 	                <p>(<fmt:formatDate value="${myReserv.reserveDate}" pattern="E"/>요일) ${myReserv.useStart}:00 ~ ${myReserv.useEnd }:00</p>
 	                <h6>${myReserv.placeName}</h6> 
 	                <h4>\<fmt:formatNumber value="${myReserv.placeCharge }" pattern="#,###" /></h4>
 	            </div>
+	            </a>
 	            <hr>
 	            <div class="listForm-area3">
 	                <p>${myReserv.placeAddr}</p>
-	                <h5>예약 완료</h5>
+	                
+	                <c:if test="${myReserv.stateNo == 3 }">
+	                <div class="text-end"> <a href="#">이용후기 작성하러 가기</a> </div>
+	                </c:if>
+	                
+	                <h5>${myReserv.stateName }</h5>
 	            </div>
 	
 	        </div>
         
-        </a>
+        
         </c:forEach>
 
       
-        <nav aria-label="Page navigation" id="Page-navigation">
-            <ul class="pagination justify-content-center">
-              <li class="page-item disabled">
-                <a class="page-link" href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              <li class="page-item active"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">4</a></li>
-              <li class="page-item"><a class="page-link" href="#">5</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-         
-    </form>
-    </div>
+          <c:if test="${!empty param.sort }">
+     		 <c:set var="sort" value="&sort==${param.sort}"  />
+		  </c:if>
+	    	  <c:set var="prev" value="myReservation?cp=${pagination.prevPage}${sort }" />
+			  <c:set var="next" value="myReservation?cp=${pagination.nextPage}${sort }" />
+		  
+      <!-- 페이징 -->
+      <nav aria-label="Page navigation" id="navigation">
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link" href="${prev}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <%-- 페이지 목록 --%>
+					<c:forEach var="p" begin="${pagination.startPage}" end="${pagination.endPage}">
+						
+							<c:choose>
+								<c:when test="${p == pagination.currentPage }">
+									<li class="page-item active"><a class="page-link">${p}</a></li>
+								</c:when>
+								
+								<c:otherwise>
+									<li><a class="page-link" href="${pageURL}?cp=${p}${sort}">${p}</a></li>
+								</c:otherwise>
+							</c:choose>						
+					</c:forEach>
+          <li class="page-item">
+            <a class="page-link" href="${next }" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+         </div>
   </main>
 
 
-
+  <jsp:include page="../common/footer.jsp"></jsp:include>
+   
+   
+	<script>
+		$("#searchUserCond").on("change", function(){
+			const sort = $("#searchUserCond").val();
+			
+			location.href = "myReservation?cp=1&sort=" + sort;
+			
+		});
+	</script>
+   
 </body>
 
 </html>

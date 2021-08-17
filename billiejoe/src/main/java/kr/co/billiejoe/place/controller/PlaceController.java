@@ -256,9 +256,10 @@ public class PlaceController {
 
 	// 내가 예약한 장소 목록 조회
 	@RequestMapping("myReservation")
-	public String myReservationList(@RequestParam(value="cp", required=false, defaultValue="1")int cp,
+	public String myReservationList(@RequestParam(value="cp", required=false, defaultValue="1") int cp,
 							Model model, Pagination pg, 
-							@ModelAttribute("loginMember")Member loginMember) {
+							@ModelAttribute("loginMember")Member loginMember,
+							@RequestParam(value="sort", required = false, defaultValue="uploadDate") String sort) {
 		// 1) pg에 cp를 세팅
 		pg.setCurrentPage(cp);
 		
@@ -266,12 +267,15 @@ public class PlaceController {
 		Pagination pagination = service.getPagination(pg, loginMember.getMemberNo());
 		
 		// 3) 생성된 pagination을 이용하여 현재 목록 페이지에 보여질 게시글 목록 조회
-		List<MyReservation> reservationList = service.selectReservationList(pagination,loginMember.getMemberNo());
+		List<MyReservation> reservationList = service.selectReservationList(pagination,loginMember.getMemberNo(), sort);
+		
+		
+		
 		
 		// 조회 결과 임시 확인
-		/*
-		 * for(MyReservation r : reservationList) { System.out.println(r); }
-		 */
+		System.out.println("sort : " + sort);
+		 for(MyReservation r : reservationList) { System.out.println(r); }
+		 
 		
 		model.addAttribute("reservationList", reservationList);
 		model.addAttribute("pagination", pagination);
@@ -332,6 +336,7 @@ public class PlaceController {
 		
 	}
 	
+
 	/** 장소에 대한 후기 목록 조회 Controller
 	 * @param cp
 	 * @param model
@@ -393,7 +398,27 @@ public class PlaceController {
 	}
 
 	
-	
+	// 내가 찜한 장소 목록 조회
+			@RequestMapping("myLikePlace")
+			public String myLikePlace(@RequestParam(value="cp", required=false, defaultValue="1")int cp,
+					Model model, Pagination pg, 
+					@ModelAttribute("loginMember")Member loginMember) {
+				
+				// 1) pg에 cp를 세팅
+				pg.setCurrentPage(cp);
+				
+				// 2) 전체 목록 수를 조회하여 Pagination 관련 내용을 계산하고 값을 저장한 객체 반환 받기
+				Pagination pagination = service.getLikePagination(pg, loginMember.getMemberNo());
+				
+				// 3) 생성된 pagination을 이용하여 현재 목록 페이지에 보여질 게시글 목록 조회
+				List<MyReservation> myLikePlaceList = service.selectMyLikePlaceList(pagination,loginMember.getMemberNo());
+				
+				model.addAttribute("myLikePlaceList", myLikePlaceList);
+				model.addAttribute("pagination", pagination);
+				
+				
+				return "place/myLikePlace";
+			}
 	
 }
 

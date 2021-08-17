@@ -72,14 +72,18 @@ h6 {
 				<span class="fs-5 fw-semibold">마이페이지</span>
 			</a>
 			<ul class="list-unstyled ">
-				<li class="mb-1"><a href="#">내 정보 </a><br> <a href="#">내
-						정보 수정</a><br> <a href="#">비밀번호 변경 </a></li>
+				<li class="mb-1">
+					<a href="${contextPath}/member/myPage">내 정보 </a><br> 
+					<a href="#"><b>내 정보 수정</b></a><br> 
+					<a href="${contextPath}/member/changePwd">비밀번호 변경</a></li>
 				<hr>
+
 				<li class="mb-1"><a href="#">내가 예약한 장소 </a><br> <a
 					href="#">내가 찜한 장소</a><br> <a href="${contextPath}/review/reviewList">내가 작성한 후기</a></li>
 				<hr>
-				<li class="mb-1"><a href="#">내가 등록한 장소</a><br> <a href="#">예약
-						접수 내역</a><br></li>
+				<li class="mb-1">
+					<a href="#">내가 등록한 장소</a><br> 
+					<a href="#">예약 접수 내역</a><br></li>
 				<hr>
 
 
@@ -89,7 +93,7 @@ h6 {
 			<div class="bg-white rounded container p-3">
 				<form method="POST" enctype="multipart/form-data"
 					action="${contextPath}/member/updateMyPage"
-					onsubmit="return memberUpdateValidate();" class="form-horizontal"
+					onsubmit="return updateValidate();" class="form-horizontal"
 					role="form">
 
 
@@ -145,8 +149,7 @@ h6 {
 						<div class="col-md-6" id="profileImg-area">
 							<div id="picture">
 								<img class="img-thumbnail rounded-circle" id="memberPic" src="${contextPath}/${loginMember.memberPic}">
-								<!-- <p>여기를 눌러 <br>
-                        이미지 선택</p> -->
+								
 							</div>
 						</div>
 
@@ -193,4 +196,5 @@ h6 {
 	
 	</script>
 	<jsp:include page="../common/footer.jsp"></jsp:include>
+	<script src="${contextPath}/resources/js/updateMyPage.js"></script>
 	
