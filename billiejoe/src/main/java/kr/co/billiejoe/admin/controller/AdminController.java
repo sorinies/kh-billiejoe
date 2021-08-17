@@ -31,7 +31,7 @@ import kr.co.billiejoe.admin.model.service.AdminService;
 import kr.co.billiejoe.member.controller.MemberController;
 import kr.co.billiejoe.member.model.vo.Member;
 
-import kr.co.billiejoe.place.model.vo.Pagination;
+import kr.co.billiejoe.common.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Place;
 
 import kr.co.billiejoe.place.model.vo.Report;
