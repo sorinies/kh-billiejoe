@@ -44,7 +44,7 @@
     
     <h1 class="display-4 text-center">최근에 등록된 후기</h1>
     <p class="text-center">이용자들의 생생한 후기를 만나보세요</p>
-    <div class="row">
+    <div class="row mb-3">
       <c:choose>
       <c:when test="${empty reviewList}">
         등록된 리뷰가 없습니다.
@@ -52,19 +52,19 @@
       <c:otherwise>
       <c:forEach items="${reviewList}" var="review">
       <div class="col-md-4">
-        <ul>
-          <li>${review.placeCharge}</li>
-          <li>${review.reviewRate}</li>
-          <li>${review.reviewContent}</li>
-          <li>${review.fileName}</li>
-          <li>
-            <ul>
-            <c:forEach items="${review.tagList}" var="tag">
-            <li>${tag.tagName}</li>
-            </c:forEach>
+        <div class="card text-white">
+          <img src="${contextPath}/resources/images/${review.fileName}" class="card-img">
+          <div class="card-img-overlay">
+            <h5 class="card-title">${review.placeName}</h5>
+            <p class="card-text">${review.reviewRate}</p>
+            <p class="card-text">${review.reviewContent}</p>
+            <ul class="place-tag list-inline">
+              <c:forEach items="${review.tagList}" var="tag">
+              <li class="list-inline-item"><a class="badge rounded-pill bg-secondary" href="place/list?cond=tag&q=${tag.tagName}"><i class="bi bi-hash"></i> ${tag.tagName}</a></li>
+              </c:forEach>
             </ul>
-          </li>
-        </ul>
+          </div>
+        </div>
       </div>
       </c:forEach>
       </c:otherwise>

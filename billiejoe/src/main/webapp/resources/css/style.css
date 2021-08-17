@@ -85,6 +85,11 @@ footer {
   color: #fff;
 }
 
+/* card */
+.card-img-overlay {
+	background-color: rgba(0,0,0,0.2);
+}
+
 /* place view */
 /* 화면전체 */
 #main{

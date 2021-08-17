@@ -4,6 +4,7 @@ apache-maven-3.8.1/repository/
 billiejoe/.settings/
 billiejoe/target/
 Servers/
+billiejoe/src/main/webapp/resources/images
 
 ### Java ###
 # Compiled class file
