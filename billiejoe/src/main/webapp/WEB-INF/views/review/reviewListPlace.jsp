@@ -170,11 +170,16 @@
 			          <div class="placeContent">
 						${review.reviewContent}
 			          </div>
+			          
+			    <c:choose>
+			    	<c:when test="${review.memberNo==place.memberNo}">
 			          <form method="POST" action="#modal-container-1">
 						  <div align="right" >
-						  	<a class="btn btn-primary"  data-toggle="modal" href="#modal-container-1" onclick="fnReviewNo(${review.reviewNo});">신고</a>
+						  	<a class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal" href="#exampleModal" onclick="fnReviewNo(${review.reviewNo});">신고</a>
 						  </div>
 					  </form>
+					</c:when>
+				</c:choose>
 		      </div>
 	      </div>
 	      
@@ -237,33 +242,30 @@
             </div>
             <%---------------------- Pagination end----------------------%>
         	<%---------------------- 신고하기 모달----------------------%>
-				<div class="modal" id="modal-container-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			        <div class="modal-dialog" role="document">
-			
+				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			        <div class="modal-dialog" >
 			            <div class="modal-content">
-			                <div class="modal-body">
-			                    <form class="report" method="POST" action="report">
-			                       	신고 사유
-			                        <div class="curse">
-			                        	<input class="form-control curse" maxlength="30" type="text" id="reportContent" name="reportContent" placeholder="30자내로 내용을 입력하세요.(ex. 욕설, 허위)">
-							          	<input type="hidden" name="reviewNo" id="reviewNo" >
-			                        </div>        
-			                        <button class="btn btn-lg btn-primary btn-block" type="submit" id=curse >신고하기</button>
-			                    </form>
-			                </div>
+	                        <div class="modal-body">
+			                	<h3>신고 사유</h3>
+	                        	<input class="form-control" maxlength="30" type="text" name="reportContent" placeholder="30자내로 내용을 입력하세요.(ex. 욕설, 허위)">
+	                        </div>        
 			                <div class="modal-footer">
-			                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			                    <form class="report" method="POST" action="report">
+						          	<input type="hidden" name="reviewNo" id="reviewNo" >
+			                        <button class="btn btn-primary modal-btn" type="submit" id=curse >신고하기</button>
+				                    <button type="button" class="btn btn-primary modal-btn" data-bs-dismiss="modal">취소</button>
+			                    </form>
 			                </div>
 			            </div>
 			        </div>
 			    </div>
 
-			    <script>
-					function fnReviewNo(rid){
-						$('#reviewNo').val(rid)
-						console.log(rid);
-					}
-			    </script>
+    <script>
+		function fnReviewNo(rid){
+			$('#reviewNo').val(rid)
+			console.log(rid);
+		}
+    </script>
 			    
 			    
 </body>
