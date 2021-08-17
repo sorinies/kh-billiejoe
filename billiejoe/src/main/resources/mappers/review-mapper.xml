@@ -20,23 +20,24 @@
 		<collection property="atList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Attachment" select="selectAttachment"/>
 	</resultMap>
 	
-	<!-- place 조회용 resultMap -->
-	<resultMap type="Place" id="place_rm">
-		<id property="placeNo" column="PLACE_NO"/> 
-
-		<result property="placeName" column="PLACE_NAME" />
-		<result property="placeSummary" column="PLACE_SUMMARY"/>
-		<result property="placeAddr" column="PLACE_ADDR" />
-		<result property="placeContent" column="PLACE_CONTENT"/>
-		<result property="placeCharge" column="PLACE_CHARGE" />
-		<result property="placeDate" column="PLACE_DATE" />
-		<result property="memberNo" column="MEMBERNO" />
-		<result property="likeCount" column="LIKE_COUNT" />
-		
-		<collection property="atList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Attachment" select="selectAttachment"/>
+	<!-- 메인용 리뷰 조회용 resultMap -->
+	<resultMap type="RecentReview" id="review_main_rm">
+		<id property="reviewNo" column="REVIEW_NO"/>
+		<result property="placeNo" column="PLACE_NO"/>
+		<result property="placeName" column="PLACE_NAME"/>
+		<result property="placeCharge" column="PLACE_CHARGE"/>
+		<result property="reviewRate" column="REVIEW_RATE"/>
+		<result property="reviewContent" column="REVIEW_CONTENT"/>
+		<result property="fileName" column="FILE_NAME"/>
 		<collection property="tagList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Tag" select="selectTag"/>
-		 
-	</resultMap >
+	</resultMap>
+	
+	<!-- 태그 resultMap -->
+	<resultMap type="Tag" id="tag_rm">
+		<id property="tagNo" column="TAG_NO"/>
+		<result property="tagName" column="TAG_NAME"/>
+		<result property="placeNo" column="PLACE_NO"/>
+	</resultMap>
 	
 	<!-- member 조회용 resultMap -->
 	<resultMap type="Member" id="member_rm">
@@ -69,7 +70,7 @@
 		<result property="placeNo" column="PLACE_NO" />
 	</resultMap>
 
-	<!-- 파일 정보 조회용 resultMap -->
+	<!-- 신고용 resultMap -->
 	<resultMap type="Report" id="report_rm">
 		<id property="reportNo" column="REPORT_NO" />
 
@@ -112,6 +113,27 @@
 		SELECT	REVIEW_AVG, REVIEW_COUNT
 		FROM REVIEW_ADD
 		WHERE PLACE_NO = #{placeNo}
+	</select>
+	
+	<!-- 전체 후기글 수 -->
+	<select id="getAllListCount" resultType="_int">
+		SELECT COUNT(*) FROM review 
+	</select>
+	
+	<!-- 메인 화면용 후기 조회 -->
+	<select id="selectMainReviewList" parameterType="_int" resultMap="review_main_rm">
+		SELECT *
+		  FROM (
+		    SELECT review_no, place_no, place_name, place_charge, review_rate, review_content, file_name
+		    FROM review
+		    JOIN place_list USING(place_no)
+		    ORDER BY review_no DESC
+		) WHERE ROWNUM &lt;= #{limit}
+	</select>
+	
+	<!-- 태그조회(후기용) -->
+	<select id="selectTag" parameterType="_int" resultMap="tag_rm">
+		SELECT TAG_NAME FROM PLACE_TAG_VIEW WHERE PLACE_NO = #{placeNo}
 	</select>
 	
 	<!-- 내가 작성한 전체 후기글 수 -->

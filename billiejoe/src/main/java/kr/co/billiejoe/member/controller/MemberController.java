@@ -90,12 +90,12 @@ public class MemberController {
 	 * 
 	 * @param status
 	 * @param referer
-	 * @return "redirect:" + referer
+	 * @return "redirect:/"
 	 */
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logout(SessionStatus status, @RequestHeader("referer") String referer) {
 		status.setComplete();
-		return "redirect:" + referer;
+		return "redirect:/";
 	}
 
 	/**
@@ -123,10 +123,13 @@ public class MemberController {
 
 		// DB에 회원 정보를 삽입하는 Service 호출
 		int result = service.signUp(inputMember, images, webPath, savePath);
-
+		System.out.println(inputMember);
+		
 		// 회원 가입 성공 또는 실패 경우에 따라 출력되는 메세지 제어(SweetAlert)
 		if (result > 0) {
 			swalSetMessage(ra, "success", "회원 가입 성공", inputMember.getMemberName() + "님 환영합니다.");
+			
+			
 		} else {
 			swalSetMessage(ra, "error", "회원 가입 실패", "고객센터로 문의해주세요.");
 

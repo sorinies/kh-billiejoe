@@ -41,19 +41,32 @@ public interface AdminService {
 
 	public abstract int reportCheck(int reviewNo);
 
-	public abstract Pagination getPagination(Pagination pg);
 
-	public abstract List<Place> selectPlaceList(Pagination pagination);
+	/** 관리자 게시판 총 후기 개수
+	 * @param pg
+	 * @return pagination
+	 */
+	public abstract Pagination getAdminReviewListCount(Pagination pg);
 
-	public abstract int updateStatus(Place place);
-
-	public abstract Place placeDetailView(int placeNo);
-
-	public abstract Pagination getPagination2(Pagination pg, int placeNo);
-
-	public abstract List<Review> selectReviewListPlace(Pagination pagination, int placeNo);
-
-	public abstract Review addReview(int placeNo);
+	
+	
+	/** 관리자 게시판 총 후기 목록
+	 * @param pg
+	 * @return adminReviewList
+	 */
+	public abstract List<Review> selectAdminReviewList(Pagination pg);
+	
+	/** 내가 작성한 후기 상세조회 Service
+	 * @param placeNo
+	 * @return reviewView
+	 */
+	Review selectAdminReview(int reviewNo);
+	
+	/** 후기글 삭제 Service
+	 * @param reviewNo
+	 * @return result
+	 */
+	int deleteReview(int reviewNo);
 
 
 }

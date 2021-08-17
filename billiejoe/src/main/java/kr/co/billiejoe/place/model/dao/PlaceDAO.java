@@ -1,7 +1,5 @@
 package kr.co.billiejoe.place.model.dao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import kr.co.billiejoe.place.model.vo.Attachment;
 import kr.co.billiejoe.place.model.vo.Likes;
 import kr.co.billiejoe.place.model.vo.MyReservation;
-import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
@@ -24,10 +21,7 @@ import kr.co.billiejoe.place.model.vo.Search;
 import kr.co.billiejoe.place.model.vo.Tag;
 import kr.co.billiejoe.review.model.vo.Review;
 
-/**
- * @author gotjs
- *
- */
+
 @Repository
 
 public class PlaceDAO {
@@ -76,9 +70,6 @@ public class PlaceDAO {
 	public List<Place> selectPlaceList(Pagination pagination, Search search) {
 		int offset = (pagination.getCurrentPage() -1) * pagination.getLimit();
 		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
-		System.out.println(search);
-		System.out.println(search == null);
-		System.out.println(search.isNotEmpty());
 		return session.selectList("placeMapper.selectPlaceList", search, rowBounds);
 	}
 
@@ -244,6 +235,22 @@ int offset = (pagination.getCurrentPage() -1 ) * pagination.getLimit();
 		return session.update("placeMapper.startReservation", map);
 	}
 
+
+	/**
+	 * 지역 목록 선택 DAO
+	 * @return
+	 */
+	public List<Place> selectPlaceAddrList() {
+		return session.selectList("placeMapper.selectPlaceAddrList");
+	}
+
+	/**
+	 * 이용 가능 시간 삽입 DAO
+	 * @param pa
+	 */
+	public void insertPlaceAvailable(PlaceAvailable pa) {
+		session.insert("placeMapper.insertPlaceAvailable", pa);
+	}
 	
 	/** 장소에 대한 후기글 수 조회 DAO
 	 * @param placeNo

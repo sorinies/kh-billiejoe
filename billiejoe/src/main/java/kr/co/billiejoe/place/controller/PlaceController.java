@@ -1,19 +1,16 @@
 package kr.co.billiejoe.place.controller;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,15 +29,15 @@ import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.service.PlaceService;
 import kr.co.billiejoe.place.model.vo.Likes;
 import kr.co.billiejoe.place.model.vo.MyReservation;
-import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
 import kr.co.billiejoe.place.model.vo.Report;
 import kr.co.billiejoe.place.model.vo.Reservation;
 import kr.co.billiejoe.place.model.vo.Search;
-import kr.co.billiejoe.place.model.vo.Tag;
 import kr.co.billiejoe.review.model.vo.Review;
+
+import kr.co.billiejoe.common.model.vo.Pagination;
 
 @RequestMapping("/place/*")
 @SessionAttributes({"loginMember"})
@@ -58,15 +55,19 @@ public class PlaceController {
 	 */
 	@GetMapping("list")
 	public String placeList(@RequestParam(value = "cp", required = false, defaultValue = "1") int cp, Model model, Pagination pg, Search search) {
-		Pagination pagination = null;
-		List<Place> placeList = null;
+		Pagination pagination = service.getPagination(pg, search);
+		List<Place> placeList = service.selectPlaceList(pagination, search);
 		pg.setCurrentPage(cp);
-
-		pagination = service.getPagination(pg, search);
-		placeList = service.selectPlaceList(pagination, search);
+		List<Place> addrList = service.selectPlaceAddrList();
+		Set<String> region = new HashSet<>();
+		for(Place place : addrList ) {
+			String[] splitAddr = place.getPlaceAddr().split(" ");
+			region.add(splitAddr[1]);
+		}
 
 		model.addAttribute("placeList", placeList);
 		model.addAttribute("pagination", pagination);
+		model.addAttribute("region", region);
 		
 		return "place/placeList";
 	}
@@ -186,11 +187,12 @@ public class PlaceController {
 	 * @return
 	 */
 	@PostMapping("write")
-	public String insertPlace(@ModelAttribute Place place, @ModelAttribute PlaceAvailable pa, @ModelAttribute("loginMember") Member loginMember, @RequestParam("images") List<MultipartFile> images, @RequestParam("tagString") String tagString, HttpServletRequest request, RedirectAttributes ra) {
+	public String insertPlace(Place place, PlaceAvailable pa, @ModelAttribute("loginMember") Member loginMember, @RequestParam("images") List<MultipartFile> images, @RequestParam("tagString") String tagString, HttpServletRequest request, RedirectAttributes ra) {
 		place.setMemberNo(loginMember.getMemberNo());
 		String webPath = "resources/images/";
 		String savePath = request.getSession().getServletContext().getRealPath(webPath);
-		int placeNo = service.insertPlace(place, images, webPath, savePath, tagString);
+		int placeNo = service.insertPlace(place, images, webPath, savePath, tagString, pa);
+
 		String path = null;
 		if(placeNo > 0) {
 			path = "redirect:" + placeNo + "/view";

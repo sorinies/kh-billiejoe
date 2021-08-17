@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.co.billiejoe.member.model.vo.Member;
+
 import kr.co.billiejoe.place.model.vo.Report;
-import kr.co.billiejoe.place.model.vo.Pagination;
+import kr.co.billiejoe.common.model.vo.Pagination;
+import kr.co.billiejoe.review.model.vo.RecentReview;
 import kr.co.billiejoe.review.model.vo.Review;
 
 @Repository
@@ -18,6 +20,13 @@ public class ReviewDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
+	/**
+	 * 전체 후기글 수 조회 DAO
+	 * @return
+	 */
+	public int getListCount() {
+		return sqlSession.selectOne("reviewMapper.getAllListCount");
+	}
 	
 	/** 내가 작성한 전체 후기글 수 조회 DAO
 	 * @return pagination
@@ -71,4 +80,12 @@ public class ReviewDAO {
 		return sqlSession.update("reviewMapper.deleteReview", reviewNo);
 	}
 
+	/**
+	 * 메인용 후기 조회 DAO
+	 * @param reviewPagination
+	 * @return
+	 */
+	public List<RecentReview> selectMainReviewList(int limit) {
+		return sqlSession.selectList("reviewMapper.selectMainReviewList", limit);
+	}
 }

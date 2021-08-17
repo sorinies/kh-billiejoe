@@ -22,7 +22,6 @@ import kr.co.billiejoe.place.model.vo.Attachment;
 import kr.co.billiejoe.place.model.vo.Likes;
 
 import kr.co.billiejoe.place.model.vo.MyReservation;
-import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
@@ -32,6 +31,8 @@ import kr.co.billiejoe.place.model.vo.Reservation;
 import kr.co.billiejoe.place.model.vo.Search;
 import kr.co.billiejoe.place.model.vo.Tag;
 import kr.co.billiejoe.review.model.vo.Review;
+
+import kr.co.billiejoe.common.model.vo.Pagination;
 
 @Service
 @Transactional
@@ -135,10 +136,17 @@ public class PlaceServiceImpl implements PlaceService{
 		return placeList;
 	}
 	
+	// 지역 목록 선택 
+	@Override
+	public List<Place> selectPlaceAddrList() {
+		List<Place> arrdList = dao.selectPlaceAddrList();
+		return arrdList;
+	}
+	
 	// 장소 추가
 	@Transactional(rollbackFor=Exception.class)
 	@Override
-	public int insertPlace(Place place, List<MultipartFile> images, String webPath, String savePath, String tagString) {
+	public int insertPlace(Place place, List<MultipartFile> images, String webPath, String savePath, String tagString, PlaceAvailable pa) {
 		place.setPlaceName(replaceParameter(place.getPlaceName()));
 		place.setPlaceSummary(replaceParameter(place.getPlaceSummary()));
 		int placeNo = dao.insertPlace(place);
@@ -181,6 +189,10 @@ public class PlaceServiceImpl implements PlaceService{
 				}
 				tagList.add(tag);
 			}
+			pa.setPlaceNo(placeNo);
+			System.out.println(pa);
+			dao.insertPlaceAvailable(pa);
+			
 			if(!atList.isEmpty()) {
 				int result = dao.insertAttachmentList(atList);
 				if(atList.size() == result) { // 모두 삽입 성공

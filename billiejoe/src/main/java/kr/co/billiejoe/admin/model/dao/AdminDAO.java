@@ -25,7 +25,7 @@ public class AdminDAO {
 	 * @return loginMember
 	 */
 	public Member login(String memberEmail) {
-		return sqlSession.selectOne("memberMapper.login", memberEmail);
+		return sqlSession.selectOne("adminMapper.login", memberEmail);
 	}
 
 	/**총회원수 조회
@@ -121,45 +121,40 @@ public class AdminDAO {
 		return sqlSession.update("adminMapper.reportCheck",reviewNo);
 	}
 
-	
-	/** 전체 게시글 수 조회
-	 * @return
+
+	/** 관리자 게시판 총 후기 개수
+	 * @return pg
 	 */
-	public int getBoardListCount() {
-		return sqlSession.selectOne("adminMapper.getBoardListCount", null);
+	public int getAdminReviewListCount() {
+		return sqlSession.selectOne("adminMapper.getAdminReviewListCount", null);
 	}
+
+	/** 관리자 게시판 총 후기 목록
+	 * @param pg
+	 * @return selectAdminReviewList
+	 */
+	public List<Review> selectAdminReviewList(Pagination pg) {
+		int offset = (pg.getCurrentPage()-1)*pg.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pg.getLimit());
+		return sqlSession.selectList("adminMapper.selectAdminReviewList",pg, rowBounds);
+	}
+	
+	/** 관리자 후기 상세조회
+	 * @param reviewNo
+	 * @return review
+	 */
+	public Review selectAdminReview(int reviewNo) {
+		return sqlSession.selectOne("adminMapper.selectAdminReview", reviewNo);
+	}
+	
+	/** 후기 삭제 DAO
+	 * @param reviewNo
+	 * @return result
+	 */
+	public int deleteReview(int reviewNo) {
+		return sqlSession.update("reviewMapper.deleteReview", reviewNo);
+	}
+
 
 	
-	// 전체 게시글 목록 조회
-	public List<Place> selectPlaceList(Pagination pagination) {
-		int offset = (pagination.getCurrentPage() -1 ) * pagination.getLimit();
-		
-		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
-		// offset 만큼 건너 뛰고, limit만큼의 행을 얻어옴
-		
-		return sqlSession.selectList("adminMapper.selectPlaceList",null , rowBounds);
-		
-	}
-
-	public int updateStatus(Place place) {
-		return sqlSession.update("adminMapper.updateStatus", place);
-	}
-
-	public Place placeDetailView(int placeNo) {
-		return sqlSession.selectOne("adminMapper.placeDetailView", placeNo);
-	}
-
-	public Pagination getListCountPlace(int placeNo) {
-		return sqlSession.selectOne("adminMapper.placeListCount", placeNo);
-	}
-
-	public List<Review> selectReviewListPlace(Pagination pagination, int placeNo) {
-		int offset = (pagination.getCurrentPage() -1) * pagination.getLimit();
-		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
-		return sqlSession.selectList("reviewMapper.placeReviewList", placeNo, rowBounds);
-	}
-
-	public Review addReview(int placeNo) {
-		return sqlSession.selectOne("reviewMapper.addReview", placeNo);
-	}
 }

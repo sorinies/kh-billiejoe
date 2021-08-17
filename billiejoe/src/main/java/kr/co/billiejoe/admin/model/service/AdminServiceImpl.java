@@ -35,6 +35,8 @@ public class AdminServiceImpl implements AdminService{
 		
 		Member loginMember = dao.login(inputMember.getMemberEmail());
 		
+		System.out.println(loginMember);
+		
 		if(loginMember != null) {
 			
 			if( !bCryptPasswordEncoder.matches(inputMember.getMemberPw(), loginMember.getMemberPw()) ) {
@@ -169,54 +171,43 @@ public class AdminServiceImpl implements AdminService{
 		return dao.reportCheck(reviewNo);
 	}
 
-	// 전체 게시글 수 조회
+
+	// 관리자 게시판 총 후기개수
 	@Override
-	public Pagination getPagination(Pagination pg) {
+	public Pagination getAdminReviewListCount(Pagination pg) {
+		int listCount = dao.getAdminReviewListCount();
+		pg.setListCount(listCount);
+		System.out.println("impl : " + listCount); // 9
+		System.out.println("impl : " + pg); // 9
+		return pg;
+	}
+
+	// 관리자 게시판 총 후기 목록
+	@Override
+	public List<Review> selectAdminReviewList(Pagination pg) {
+		return dao.selectAdminReviewList(pg);
+	}
+	
+	// 관리자 후기 상세조회
+	@Override
+	public Review selectAdminReview(int reviewNo) {
 		
-		// 1) 전체 목록 수 조회
-		int boardListCount = dao.getBoardListCount();
+		Review reviewView = dao.selectAdminReview(reviewNo);
 		
-		return new Pagination(pg.getCurrentPage(), boardListCount) ;
+		return reviewView;
+	}
+	
+	
+	// 후기글 삭제 Service
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int deleteReview(int reviewNo) {
 		
-	}
-
-	// 전체 게시글 목록 조회
-	@Override
-	public List<Place> selectPlaceList(Pagination pagination) {
-		return dao.selectPlaceList(pagination);
-	}
-
-	@Override
-	public int updateStatus(Place place) {
-		return dao.updateStatus(place);
-	}
-
-	@Override
-	public Place placeDetailView(int placeNo) {
-		return dao.placeDetailView(placeNo);
-	}
-
-	@Override
-	public Pagination getPagination2(Pagination pg, int placeNo) {
-		// 1) 장소에 대한 전체 후기글 수 조회
-		Pagination selectPlacePg = dao.getListCountPlace(placeNo);
+		int result = dao.deleteReview(reviewNo);
 		
-		// 계산이 완료된 Pagination 객체 생성 후 반환
-		return new Pagination(pg.getCurrentPage(), selectPlacePg.getListCount() );
-	}
-	
-	@Override
-	public List<Review> selectReviewListPlace(Pagination pagination, int placeNo) {
-		return dao.selectReviewListPlace(pagination, placeNo);
+		return result;
 	}
 
-	@Override
-	public Review addReview(int placeNo) {
-		return dao.addReview(placeNo);
-	}
-	
-	
-	
-	
+
 
 }
