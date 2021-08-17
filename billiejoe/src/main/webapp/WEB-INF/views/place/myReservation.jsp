@@ -23,6 +23,11 @@
       text-decoration: none;
       color: black;
     }
+    
+    .reviewA{
+	    color : blue;
+	    text-decoration-line: underline;
+    }
 
     
     hr {
@@ -245,7 +250,7 @@
 	                <p>${myReserv.placeAddr}</p>
 	                
 	                <c:if test="${myReserv.stateNo == 3 }">
-	                <div class="text-end"> <a href="#">이용후기 작성하러 가기</a> </div>
+	                <div class="text-end"> <a href="${contextPath}/review/insertReview" class="reviewA">이용후기 작성하러 가기</a> </div>
 	                </c:if>
 	                
 	                <h5>${myReserv.stateName }</h5>
