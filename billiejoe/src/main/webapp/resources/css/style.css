@@ -137,7 +137,7 @@ footer {
 
 
 /* 체크박스 안보이기 */
-input[type=checkbox]{
+input[name=checkbox]{
      display: none;
 }
 /* 글내용 */
