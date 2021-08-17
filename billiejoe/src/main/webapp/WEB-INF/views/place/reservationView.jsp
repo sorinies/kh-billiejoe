@@ -34,7 +34,7 @@
             	 <c:forEach items="${tagList}" var="tag"  >
                 	<span class="badge bg-primary">${tag.tagName}</span>
             	</c:forEach> 
-                <a href="${contextPath }/place/myReservation?cp=${param.cp}" class="btn btn-outline-secondary btn-lg"  id ="list">목록</a>
+                <a href="#" onclick="history.back()" class="btn btn-outline-secondary btn-lg"  id ="list">목록</a>
                 
                 <c:choose>
 	                <c:when test="${like==0 }">
