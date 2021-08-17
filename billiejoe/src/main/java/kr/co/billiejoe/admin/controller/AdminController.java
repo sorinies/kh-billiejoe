@@ -355,7 +355,7 @@ public class AdminController {
 			System.out.println(place);
 			System.out.println(add);
 			return "place/placeDetailView";
-	
+		}
 	// SweetAlert
 	public static void swalSetMessage(RedirectAttributes ra, String icon, String title, String text) {
 		ra.addFlashAttribute("icon", icon);
