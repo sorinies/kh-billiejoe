@@ -59,7 +59,7 @@
 			<c:otherwise>
 			<%-- 로그아웃 버튼 --%>
 				<li class="nav-item text-nowrap">
-					<a class="nav-link px-3" href="${contextPath}/member/updateMyPage">${loginMember.memberName}</a>
+					<a class="nav-link px-3" href="${contextPath}/member/myPage">${loginMember.memberName}</a>
 				</li>
 				<li class="nav-item text-nowrap">
 					<a class="nav-link px-3" href="${contextPath}/member/logout">Logout</a>
