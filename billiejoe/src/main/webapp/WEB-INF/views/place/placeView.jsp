@@ -42,30 +42,31 @@
                 
             </div>
         </div><br>
+        ${contextPath}/${place.atList[0].filePath }${place.atList[0].fileName }
         <div class="row">
             <div class="col-sm-8">
                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                     <c:if test="${!empty place.atList[0] }">
                       <div class="carousel-item active">
-                        <img src="${place.atList[0].filePath }${place.atList[0].fileName }" class="d-block w-100" alt="...">
+                        <img src="${contextPath}/${place.atList[0].filePath }${place.atList[0].fileName }" class="d-block w-100" alt="...">
                       </div>
                     </c:if>
                     
                     <c:if test="${!empty place.atList[1] }">
                       <div class="carousel-item">
-                        <img src="${place.atList[1].filePath }${place.atList[1].fileName }" class="d-block w-100" alt="...">
+                        <img src="${contextPath}${place.atList[1].filePath }${place.atList[1].fileName }" class="d-block w-100" alt="...">
                       </div>
                     </c:if>
                     
                     <c:if test="${!empty place.atList[2] }">
                       <div class="carousel-item">
-                        <img src="${place.atList[2].filePath }${place.atList[2].fileName }" class="d-block w-100" alt="...">
+                        <img src="${contextPath}${place.atList[2].filePath }${place.atList[2].fileName }" class="d-block w-100" alt="...">
                       </div>
                     </c:if>
                     <c:if test="${!empty place.atList[3] }">
                       <div class="carousel-item">
-                        <img src="${place.atList[3].filePath }${place.atList[3].fileName }" class="d-block w-100" alt="...">
+                        <img src="${contextPath}${place.atList[3].filePath }${place.atList[3].fileName }" class="d-block w-100" alt="...">
                       </div>
                     </c:if>
                     </div>
@@ -154,7 +155,7 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a523483cb174903a659b77049c5b0ee7&libraries=services"></script>
 <script type="text/javascript">
 //지도스크립트
-
+s
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = {
         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
