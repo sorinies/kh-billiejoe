@@ -16,7 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
         crossorigin="anonymous"></script>
-    <link href="../dist/css/admin_sidebars.css" rel="stylesheet">
+      <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
 
     <style>
         a {
@@ -210,7 +210,7 @@
 <body>
 
 
-    <!-- // header.jsp -->
+<!-- // header.jsp -->
 <!-- 본문 시작 -->
   <div class="containerH py-5">
     <div class="content-header row">
@@ -237,7 +237,7 @@
                     </div>
 
                     <div id="userDetail">
-                        <h4>${loginMember.memberName}</h5>
+                        <h4>${loginMember.memberName}</h4>
                         <h5>${loginMember.memberEmail}</h5>
                     </div>
                         <a href="${contextPath}/member/updateMyPage" id="updateDetail" class="btn btn-primary">내 정보 수정하기</a>

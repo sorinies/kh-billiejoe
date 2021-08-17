@@ -172,7 +172,7 @@
 			          </div>
 			          
 			    <c:choose>
-			    	<c:when test="${review.memberNo==place.memberNo}">
+			    	<c:when test="${loginMember.memberNo==place.memberNo}">
 			          <form method="POST" action="#modal-container-1">
 						  <div align="right" >
 						  	<a class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal" href="#exampleModal" onclick="fnReviewNo(${review.reviewNo});">신고</a>

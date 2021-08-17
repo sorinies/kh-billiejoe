@@ -19,6 +19,7 @@
 	}
 	
 	#rc{
+		width: 200px;
 		height: 25px;
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -52,7 +53,7 @@
         <table class="table table-striped table-hover w-100">
           <thead>
             <tr>
-              <th scope="col" style=>후기번호</th>
+              <th scope="col">후기번호</th>
               <th scope="col">후기 내용</th>
               <th scope="col">별점</th>
               <th scope="col">작성자</th>
@@ -64,8 +65,8 @@
           <c:forEach items="${adminReviewList}" var="adminReviewList">
           
             <tr>
-              <td width="10%">${adminReviewList.reviewNo }</td>
-              <td width="50%" id=ct>
+              <td width="20%">${adminReviewList.reviewNo }</td>
+              <td width="40%" id=ct>
     	          <div id="rc" align="left">
 	    	          <a href="${adminReviewList.reviewNo}?cp=${pagination.currentPage}">
 	    	          	${adminReviewList.reviewContent }
@@ -76,9 +77,9 @@
               <td width="20%">${adminReviewList.memberName }</td>
               <td width="10%">
                 <button type="button" class="btn btn-danger del-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                  <input type="hidden" class="report-no" value="${adminReviewList.reviewNo}">
                   삭제
                 </button>
+                  <input type="hidden" class="report-no" value="${adminReviewList.reviewNo}">
               </td>
             </tr>
 
