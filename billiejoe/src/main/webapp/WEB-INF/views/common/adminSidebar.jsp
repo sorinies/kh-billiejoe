@@ -16,6 +16,11 @@
     integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
     crossorigin="anonymous"></script>
   <link href="${contextPath}/resources/css/admin_sidebars.css" rel="stylesheet">
+  <style type="text/css">
+  	.w-100{
+  		text-align: center;
+  	}
+  </style>
 </head>
 
 <body>
