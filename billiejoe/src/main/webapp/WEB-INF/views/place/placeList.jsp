@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../common/header.jsp"></jsp:include>
   <div class="container py-5">
     <div class="content-header row">
@@ -51,7 +52,7 @@
             </div>
             <div class="card-footer">
               <ul class="list-inline place-info">
-                <li class="list-inline-item">${place.placeCharge}원<small>/시간</small></li>
+                <li class="list-inline-item"><fmt:formatNumber value="${place.placeCharge}" pattern="#,###" />원<small>/시간</small></li>
                 <li class="list-inline-item"><i class="bi bi-chat-square-text"></i> ${place.reviewCount}</li>
                 <li class="list-inline-item"><i class="bi bi-heart-fill"></i> ${place.likeCount}</li>
               </ul>

@@ -18,6 +18,7 @@
 		<typeAlias type="kr.co.billiejoe.review.model.vo.Review" alias="Review1" />
 		<typeAlias type="kr.co.billiejoe.review.model.vo.Pagination" alias="Pagination1" />
 		
+		<typeAlias type="kr.co.billiejoe.review.model.vo.RecentReview" alias="RecentReview" />
 		
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Place" alias="place" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Search" alias="Search" />
@@ -31,7 +32,6 @@
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Reservation" alias="Reservation" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.MyReservation" alias="MyReservation" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.ReservationState" alias="ReservationState" />
-		<typeAlias type="kr.co.billiejoe.place.model.vo.Review" alias="Review" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Review" alias="Review" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Tag" alias="Tag" />
 		<typeAlias type="kr.co.billiejoe.chat.model.vo.ChatRoom" alias="ChatRoom" />

@@ -22,7 +22,6 @@ import kr.co.billiejoe.place.model.vo.Attachment;
 import kr.co.billiejoe.place.model.vo.Likes;
 
 import kr.co.billiejoe.place.model.vo.MyReservation;
-import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
@@ -32,6 +31,8 @@ import kr.co.billiejoe.place.model.vo.Reservation;
 import kr.co.billiejoe.place.model.vo.Search;
 import kr.co.billiejoe.place.model.vo.Tag;
 import kr.co.billiejoe.review.model.vo.Review;
+
+import kr.co.billiejoe.common.model.vo.Pagination;
 
 @Service
 @Transactional
