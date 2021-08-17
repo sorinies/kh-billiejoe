@@ -61,12 +61,7 @@
             background-repeat: no-repeat;
         }
 
-        .flex-shrink-0 {
-
-            display: inline-block;
-            float: left;
-
-        }
+     
 
         #profileImg-area>div>p {
             margin-top: 50px;
@@ -204,35 +199,35 @@
         .place{
         	width : 750px;
         }
+          #Page-navigation{
+        clear:left;
+       margin-right: 200px;
+      
+    }
+    
+ 
+	
+	
+	
+	
     </style>
 </head>
 
 <body>
 
 
-    <main style="min-height:500px">
-        <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
-            <a href="#" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-                <span class="fs-5 fw-semibold">마이페이지</span>
-            </a>
-            <ul class="list-unstyled ">
-                <li class="mb-1"><a href="${contextPath}/member/myPage">내 정보 </a><br> 
-                <a href="${contextPath}/member/updateMyPage">내 정보 수정</a><br> 
-                <a href="${contextPath}/member/changePwd">비밀번호 변경 </a></li>
-                <hr>
-                <li class="mb-1"><a href="${contextPath}/place/myReservation">내가 예약한 장소 </a><br> 
-                <a href="#"><b>내가 찜한 장소</b></a><br>
-                 <a href="#">내가 작성한 후기</a>
-                </li>
-                <hr>
-                <li class="mb-1"><a href="#">내가 등록한 장소</a><br>
-                 <a href="#">예약 접수 내역</a><br></li>
-                <hr>
+  <body>
+<!-- // header.jsp -->
+<!-- 본문 시작 -->
+  <div class="containerH py-5">
+    <div class="content-header row">
+      <h2 class="col">내가 찜한 장소</h2>
+    </div>
+    <div class="row">
+         <jsp:include page="../common/mypageSidebar.jsp"></jsp:include>
 
-
-            </ul>
-        </div>
-        <div class="containerH py-5">
+        <div class="col-md-9">
+        
             
 
 		 <c:forEach items="${myLikePlaceList}" var="likePlace">
@@ -241,7 +236,7 @@
                       <div class="place-thumb col-md-4" style="background-image:url(${likePlace.atList[0].filePath }${likePlace.atList[0].fileName })"></div>
                       <div class="col-md-8">
                         <div class="card-body">
-                          <h3 class="card-title"><a href="#" class="stretched-link">${likePlace.placeName}</a></h3>
+                          <h3 class="card-title"><a href="${contextPath }/place/${likePlace.placeNo }/view" class="stretched-link">${likePlace.placeName}</a></h3>
                           <p class="card-text">${likePlace.placeSummary}</p>
                           <ul class="place-tag list-inline">
                           	 <c:forEach items="${tagList}" var="tag"  >
@@ -265,8 +260,41 @@
 
             
         </div>
+<!-- 페이징 -->
+      <nav aria-label="Page navigation" id="navigation">
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link" href="${prev}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <%-- 페이지 목록 --%>
+					<c:forEach var="p" begin="${pagination.startPage}" end="${pagination.endPage}">
+						
+							<c:choose>
+								<c:when test="${p == pagination.currentPage }">
+									<li class="page-item active"><a class="page-link">${p}</a></li>
+								</c:when>
+								
+								<c:otherwise>
+									<li><a class="page-link" href="${pageURL}?cp=${p}${sort}">${p}</a></li>
+								</c:otherwise>
+							</c:choose>						
+					</c:forEach>
+          <li class="page-item">
+            <a class="page-link" href="${next }" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+         </div>
+               </div>
 
-    </main>
+</body>
+
+</html>
+
     <jsp:include page="../common/footer.jsp"></jsp:include>
 </body>
 
