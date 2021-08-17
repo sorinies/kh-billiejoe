@@ -24,6 +24,10 @@ import kr.co.billiejoe.place.model.vo.Search;
 import kr.co.billiejoe.place.model.vo.Tag;
 import kr.co.billiejoe.review.model.vo.Review;
 
+/**
+ * @author gotjs
+ *
+ */
 @Repository
 
 public class PlaceDAO {
@@ -278,6 +282,18 @@ int offset = (pagination.getCurrentPage() -1 ) * pagination.getLimit();
 	public int insertReport(Report report) {
 		return session.insert("reviewMapper.insertReport", report);
 	}
+
+	/** 내가 예약한 목록 목록 조회(정렬 조건 추가)
+	 * @param pagination
+	 * @param map
+	 * @return 
+	 */
+	public List<MyReservation> selectReservationList(Pagination pagination, Map<String, Object> map) {
+		int offset = (pagination.getCurrentPage() -1) * pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return session.selectList("placeMapper.selectReservationSortList", map, rowBounds);
+	}
+
 
 	
 	

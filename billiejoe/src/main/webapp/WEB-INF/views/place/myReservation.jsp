@@ -174,6 +174,9 @@
 	margin-top : 0;
 	}
  
+ 	main{
+ 		max-height: none;
+ 	}
  
  
   </style>
@@ -206,14 +209,17 @@
     <div class="containerH py-5">
         <div class="input-group  mb-3 w-25">
          
+         
+         
+         
+         
             <select class="form-select" id="searchUserCond" name="searchUserCond">
-              <option selected>등록일 최신순</option>
-              <option value="userEmail">예약일시 최근순</option>
-              <option value="userNickname">이용일시 임박순</option>
+              <option value="uploadDate" <c:if test="${param.sort == 'uploadDate' }">selected</c:if>  >등록일 최신순</option>
+              <option value="reservatioinDate" <c:if test="${param.sort == 'reservatioinDate' }">selected</c:if> >예약일시 최근순</option>
+              <option value="useDate" <c:if test="${param.sort == 'useDate' }">selected</c:if> >이용일시 임박순</option>
             </select>
         </div>
         
-		
         <c:forEach items="${reservationList}" var="myReserv">
         <a href="${myReserv.placeNo}/reservationView?reserveNo=${myReserv.reserveNo }">
 	        <div class="listForm">
@@ -226,7 +232,9 @@
 	
 	            </div>
 	            <div class="listForm-area2">
-	                <h5><fmt:formatDate pattern= "MM월 dd일" value="${myReserv.reserveDate}"/>&ensp;</h5>
+	                <%-- <h5><fmt:formatDate pattern= "MM월 dd일" value="${myReserv.reserveDate}"/>&ensp;</h5> --%>
+	                <h5>${myReserv.useDate}&nbsp;</h5>
+	                (<fmt:formatDate pattern= "MM월 dd일" value="${myReserv.reserveDate}"/>)
 	                <p>(<fmt:formatDate value="${myReserv.reserveDate}" pattern="E"/>요일) ${myReserv.useStart}:00 ~ ${myReserv.useEnd }:00</p>
 	                <h6>${myReserv.placeName}</h6> 
 	                <h4>\<fmt:formatNumber value="${myReserv.placeCharge }" pattern="#,###" /></h4>
@@ -249,13 +257,12 @@
         </c:forEach>
 
       
-          <c:if test="${!empty param.sk }">
-     		 <c:set var="searchStr" value="&sk=${param.sk}&sv=${param.sv}"  />
+          <c:if test="${!empty param.sort }">
+     		 <c:set var="sort" value="&sort==${param.sort}"  />
 		  </c:if>
-	    	  <c:set var="prev" value="main?cp=${pagination.prevPage}${searchStr }" />
-			  <c:set var="next" value="main?cp=${pagination.nextPage}${searchStr }" />
+	    	  <c:set var="prev" value="myReservation?cp=${pagination.prevPage}${sort }" />
+			  <c:set var="next" value="myReservation?cp=${pagination.nextPage}${sort }" />
 		  
-	  
       <!-- 페이징 -->
       <nav aria-label="Page navigation" id="navigation">
         <ul class="pagination justify-content-center">
@@ -273,7 +280,7 @@
 								</c:when>
 								
 								<c:otherwise>
-									<li><a class="page-link" href="${pageURL}?cp=${p}${searchStr}">${p}</a></li>
+									<li><a class="page-link" href="${pageURL}?cp=${p}${sort}">${p}</a></li>
 								</c:otherwise>
 							</c:choose>						
 					</c:forEach>
@@ -288,7 +295,18 @@
   </main>
 
 
-   <jsp:include page="../common/footer.jsp"></jsp:include>
+  <jsp:include page="../common/footer.jsp"></jsp:include>
+   
+   
+	<script>
+		$("#searchUserCond").on("change", function(){
+			const sort = $("#searchUserCond").val();
+			
+			location.href = "myReservation?cp=1&sort=" + sort;
+			
+		});
+	</script>
+   
 </body>
 
 </html>

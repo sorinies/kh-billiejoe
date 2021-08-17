@@ -296,5 +296,45 @@
 	<update id="startReservation" parameterType="hashmap">
 		UPDATE RESERVATION SET STATE_NO = 2 WHERE RESERVE_USE_DATE = #{today} AND RESERVE_USE_START = #{time}
 	</update>
+	
+	<!-- 내가 예약한 장소(정렬 추가) -->
+	<select id="selectReservationSortList" parameterType="map" resultMap="myReservation_rm">
+	    SELECT * FROM(
+	        SELECT RESERVE_NO, RESERVE_DATE, RESERVE_USE_DATE, RESERVE_USE_START,RESERVE_USE_END,PLACE_NO,A.MEMBER_NO,STATE_NO,STATE_NAME,PLACE_NAME,PLACE_CHARGE,PLACE_ADDR
+	        , '1' DT
+	        FROM RESERVATION A
+	        JOIN RESERVATION_STATE USING (STATE_NO)
+	        JOIN PLACE USING (PLACE_NO)
+	        WHERE A.MEMBER_NO = #{memberNo}
+	        AND TO_DATE(RESERVE_USE_DATE, 'RRRR-MM-DD') - SYSDATE > 0
+	        
+	        UNION ALL
+	        
+	        SELECT RESERVE_NO, RESERVE_DATE, RESERVE_USE_DATE, RESERVE_USE_START,RESERVE_USE_END,PLACE_NO,A.MEMBER_NO,STATE_NO,STATE_NAME,PLACE_NAME,PLACE_CHARGE,PLACE_ADDR
+	        , '0' DT
+	        FROM RESERVATION A
+	        JOIN RESERVATION_STATE USING (STATE_NO)
+	        JOIN PLACE USING (PLACE_NO)
+	        WHERE A.MEMBER_NO = #{memberNo}
+	        AND TO_DATE(RESERVE_USE_DATE, 'RRRR-MM-DD') - SYSDATE &lt;= 0 
+	    )
+	    
+	    <choose>
+	    	<when test="sort == 'uploadDate'">
+	    		ORDER BY PLACE_NO DESC
+	    	</when>
+	    	<when test="sort == 'reservatioinDate'">
+	    		ORDER BY RESERVE_DATE DESC
+	    	</when>
+	    	<when test="sort == 'useDate'">
+	    		ORDER BY DT DESC, TO_DATE(RESERVE_USE_DATE, 'RRRR-MM-DD') - SYSDATE
+	    	</when>
+	    </choose>
+	<choose>
+	
+	</choose>
+	</select>
+
+	
 </mapper>
 

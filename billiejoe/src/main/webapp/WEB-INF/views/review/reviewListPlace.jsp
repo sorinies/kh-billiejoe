@@ -45,7 +45,7 @@
 </head>
 
 <body>
-${pagination }
+
   <!-- 본문 시작 -->
   <div class="container py-5">
     <div class="row ">

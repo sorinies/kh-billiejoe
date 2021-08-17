@@ -100,4 +100,13 @@ public interface PlaceService {
 	 * @return
 	 */
 	Pagination getLikePagination(Pagination pg, int memberNo);
+
+	/** 내가 예약한 목록 목록 조회(정렬 조건 추가)
+	 * @param pagination
+	 * @param memberNo
+	 * @param sort
+	 * @return
+	 */
+	List<MyReservation> selectReservationList(Pagination pagination, int memberNo, String sort);
+
 }
