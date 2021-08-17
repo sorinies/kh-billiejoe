@@ -66,6 +66,7 @@ $(function(){
             
             /* 예약일 데이터 넘기기 */
             $("#hidden-day").val(date)
+            console.log(date)
             
             $.ajax({
             	url :"reservationCheck",

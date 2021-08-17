@@ -36,6 +36,7 @@
 		<typeAlias type="kr.co.billiejoe.chat.model.vo.ChatRoom" alias="ChatRoom" />
 		<typeAlias type="kr.co.billiejoe.chat.model.vo.ChatMsg" alias="ChatMsg" />
 		<typeAlias type="kr.co.billiejoe.chat.model.vo.ChatList" alias="ChatList" />
+		<typeAlias type="kr.co.billiejoe.reservation.model.vo.BookedReservation" alias="BookedReservation" />
 	</typeAliases>
 	<!-- mapper 파일(SQL 작성되는파일) 위치 등록 부분 -->
 	<mappers>
@@ -45,6 +46,7 @@
 		<mapper resource="/mappers/admin-mapper.xml" />
 		<mapper resource="/mappers/email-mapper.xml" />
 		<mapper resource="/mappers/review-mapper.xml"/>
+		<mapper resource="/mappers/reservation-mapper.xml"/>
 	</mappers>
 
 
