@@ -1,9 +1,5 @@
 package kr.co.billiejoe.place.controller;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,11 +8,9 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,15 +29,15 @@ import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.service.PlaceService;
 import kr.co.billiejoe.place.model.vo.Likes;
 import kr.co.billiejoe.place.model.vo.MyReservation;
-import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Payment;
 import kr.co.billiejoe.place.model.vo.Place;
 import kr.co.billiejoe.place.model.vo.PlaceAvailable;
 import kr.co.billiejoe.place.model.vo.Report;
 import kr.co.billiejoe.place.model.vo.Reservation;
 import kr.co.billiejoe.place.model.vo.Search;
-import kr.co.billiejoe.place.model.vo.Tag;
 import kr.co.billiejoe.review.model.vo.Review;
+
+import kr.co.billiejoe.common.model.vo.Pagination;
 
 @RequestMapping("/place/*")
 @SessionAttributes({"loginMember"})
