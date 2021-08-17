@@ -61,12 +61,7 @@
             background-repeat: no-repeat;
         }
 
-        .flex-shrink-0 {
-
-            display: inline-block;
-            float: left;
-
-        }
+     
 
         #profileImg-area>div>p {
             margin-top: 50px;
@@ -210,11 +205,11 @@
       
     }
     
-    #navigation{
-	display : inline-block;
-	margin-top : 0;
-	margin-left : 300px;
-	}
+ 
+	
+	
+	
+	
     </style>
 </head>
 

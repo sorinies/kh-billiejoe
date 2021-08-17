@@ -44,13 +44,6 @@ h6 {
 	background-repeat: no-repeat;
 }
 
-.flex-shrink-0{
-
-	display : inline-block;
-	float :left;
-	
-	}
-
 #profileImg-area>div>p {
 	margin-top: 50px;
 }
@@ -59,38 +52,30 @@ h6 {
 	width: 150px;
 	height: 150px;
 }
+
+
+	
+	 .containerH{
+        margin-left: 100px;
+        }
+	
+	
 </style>
 </head>
 
 <body>
 
+<!-- // header.jsp -->
+<!-- 본문 시작 -->
+  <div class="containerH py-5">
+    <div class="content-header row">
+      <h2 class="col">내 정보 수정</h2>
+    </div>
+    <div class="row">
+         <jsp:include page="../common/mypageSidebar.jsp"></jsp:include>
 
-	<main>
-		<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
-			<a href="#"
-				class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-				<span class="fs-5 fw-semibold">마이페이지</span>
-			</a>
-			<ul class="list-unstyled ">
-				<li class="mb-1">
-					<a href="${contextPath}/member/myPage">내 정보 </a><br> 
-					<a href="#"><b>내 정보 수정</b></a><br> 
-					<a href="${contextPath}/member/changePwd">비밀번호 변경</a></li>
-				<hr>
-
-				<li class="mb-1"><a href="${contextPath}/place/myReservation">내가 예약한 장소 </a><br> <a
-					href="#">내가 찜한 장소</a><br> <a href="${contextPath}/review/reviewList">내가 작성한 후기</a></li>
-				<hr>
-				<li class="mb-1">
-					<a href="#">내가 등록한 장소</a><br> 
-					<a href="#">예약 접수 내역</a><br></li>
-				<hr>
-
-
-			</ul>
-		</div>
-		<div class="container py-5">
-			<div class="bg-white rounded container p-3">
+        <div class="col-md-9">
+        
 				<form method="POST" enctype="multipart/form-data"
 					action="${contextPath}/member/updateMyPage"
 					onsubmit="return updateValidate();" class="form-horizontal"
@@ -171,7 +156,7 @@ h6 {
 			</div>
 
 		</div>
-	</main>
+		</div>
 	<script>
 		// 선택시 프로필 이미지 선택
 		$(function() {
