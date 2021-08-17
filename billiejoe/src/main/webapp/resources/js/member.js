@@ -113,12 +113,12 @@ $("#inputName").on("input", function() {
 		if (regExp.test(inputName)) {
 			$("#checkName").text("유효한 이름입니다.").css("color", "green");
 			
-			checkObj.name = true;
+			checkObj.inputName = true;
 			
 		} else {
 			$("#checkName").text("한글 2~5글자 작성하세요.").css("color", "red");
 			
-			checkObj.name = false;
+			checkObj.inputName = false;
 			
 		}
 	});
