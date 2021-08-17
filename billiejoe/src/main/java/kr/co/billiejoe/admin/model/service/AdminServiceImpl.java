@@ -12,6 +12,7 @@ import kr.co.billiejoe.admin.model.dao.AdminDAO;
 import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Report;
+import kr.co.billiejoe.review.model.vo.Review;
 
 @Service
 @Transactional
@@ -32,6 +33,8 @@ public class AdminServiceImpl implements AdminService{
 		String encPw = bCryptPasswordEncoder.encode(inputMember.getMemberPw());
 		
 		Member loginMember = dao.login(inputMember.getMemberEmail());
+		
+		System.out.println(loginMember);
 		
 		if(loginMember != null) {
 			
@@ -166,5 +169,43 @@ public class AdminServiceImpl implements AdminService{
 		// TODO Auto-generated method stub
 		return dao.reportCheck(reviewNo);
 	}
+
+	// 관리자 게시판 총 후기개수
+	@Override
+	public Pagination getAdminReviewListCount(Pagination pg) {
+		int listCount = dao.getAdminReviewListCount();
+		pg.setListCount(listCount);
+		System.out.println("impl : " + listCount); // 9
+		System.out.println("impl : " + pg); // 9
+		return pg;
+	}
+
+	// 관리자 게시판 총 후기 목록
+	@Override
+	public List<Review> selectAdminReviewList(Pagination pg) {
+		return dao.selectAdminReviewList(pg);
+	}
+	
+	// 관리자 후기 상세조회
+	@Override
+	public Review selectAdminReview(int reviewNo) {
+		
+		Review reviewView = dao.selectAdminReview(reviewNo);
+		
+		return reviewView;
+	}
+	
+	
+	// 후기글 삭제 Service
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int deleteReview(int reviewNo) {
+		
+		int result = dao.deleteReview(reviewNo);
+		
+		return result;
+	}
+
+
 
 }

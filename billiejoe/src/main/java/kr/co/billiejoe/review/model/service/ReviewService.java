@@ -2,8 +2,9 @@ package kr.co.billiejoe.review.model.service;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import kr.co.billiejoe.member.model.vo.Member;
-import kr.co.billiejoe.place.model.vo.Report;
 import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.review.model.vo.Review;
 
@@ -51,5 +52,7 @@ public interface ReviewService {
 	 * @return result
 	 */
 	int deleteReview(int reviewNo);
+	
+
 
 }

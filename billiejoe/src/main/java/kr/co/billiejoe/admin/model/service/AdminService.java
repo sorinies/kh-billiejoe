@@ -6,6 +6,7 @@ import java.util.Map;
 import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Report;
+import kr.co.billiejoe.review.model.vo.Review;
 
 public interface AdminService {
 
@@ -38,6 +39,32 @@ public interface AdminService {
 	public abstract List<Report> selectReportList(Pagination pg);
 
 	public abstract int reportCheck(int reviewNo);
+
+	/** 관리자 게시판 총 후기 개수
+	 * @param pg
+	 * @return pagination
+	 */
+	public abstract Pagination getAdminReviewListCount(Pagination pg);
+
+	
+	
+	/** 관리자 게시판 총 후기 목록
+	 * @param pg
+	 * @return adminReviewList
+	 */
+	public abstract List<Review> selectAdminReviewList(Pagination pg);
+	
+	/** 내가 작성한 후기 상세조회 Service
+	 * @param placeNo
+	 * @return reviewView
+	 */
+	Review selectAdminReview(int reviewNo);
+	
+	/** 후기글 삭제 Service
+	 * @param reviewNo
+	 * @return result
+	 */
+	int deleteReview(int reviewNo);
 
 
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import kr.co.billiejoe.member.model.vo.Member;
 import kr.co.billiejoe.place.model.vo.Pagination;
 import kr.co.billiejoe.place.model.vo.Report;
+import kr.co.billiejoe.review.model.vo.Review;
 
 @Repository
 public class AdminDAO {
@@ -23,7 +24,7 @@ public class AdminDAO {
 	 * @return loginMember
 	 */
 	public Member login(String memberEmail) {
-		return sqlSession.selectOne("memberMapper.login", memberEmail);
+		return sqlSession.selectOne("adminMapper.login", memberEmail);
 	}
 
 	/**총회원수 조회
@@ -118,4 +119,40 @@ public class AdminDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.update("adminMapper.reportCheck",reviewNo);
 	}
+
+	/** 관리자 게시판 총 후기 개수
+	 * @return pg
+	 */
+	public int getAdminReviewListCount() {
+		return sqlSession.selectOne("adminMapper.getAdminReviewListCount", null);
+	}
+
+	/** 관리자 게시판 총 후기 목록
+	 * @param pg
+	 * @return selectAdminReviewList
+	 */
+	public List<Review> selectAdminReviewList(Pagination pg) {
+		int offset = (pg.getCurrentPage()-1)*pg.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pg.getLimit());
+		return sqlSession.selectList("adminMapper.selectAdminReviewList",pg, rowBounds);
+	}
+	
+	/** 관리자 후기 상세조회
+	 * @param reviewNo
+	 * @return review
+	 */
+	public Review selectAdminReview(int reviewNo) {
+		return sqlSession.selectOne("adminMapper.selectAdminReview", reviewNo);
+	}
+	
+	/** 후기 삭제 DAO
+	 * @param reviewNo
+	 * @return result
+	 */
+	public int deleteReview(int reviewNo) {
+		return sqlSession.update("reviewMapper.deleteReview", reviewNo);
+	}
+
+
+	
 }

@@ -84,7 +84,7 @@
           </div>
           
           <div class="btnArea text-end">
-            <input type="hidden" name="rate" class="reviewRate">
+            <input type="hidden" name="rate" id="rate" class="reviewRate">
             <button type="submit" class="btn btn-primary">등록</button>
             <a class="btn btn-primary" href="${contextPath}/review/reviewList?cp=${param.cp}">목록으로</a>
           </div>
@@ -112,20 +112,27 @@
       
 		});
 
-    // 유효성 검사 
-		function reviewValidate() {
-			if ($(".reviewContent").val().trim().length == 0) {
-				alert("내용을 입력해 주세요.");
-				$(".reviewContent").focus();
-				return false;
-			}
+	    // 후기작성 유효성 검사 
+	      function reviewValidate() {
+	         if ($("#rate").val().trim().length == 0) {
+	            swal({
+	               "icon" : "warning",
+	               "title" : "별점을 선택해주세요."
+	            })
+	            return false;
+	         }
 
-			if ($("#.reviewRate").val().trim().length == 0) {
-				alert("별점을 선택해 주세요.");
-				return false;
-			}
-		}
-	</script>
+	         if ($("#reviewContent").val().trim().length == 0) {
+	            swal({
+	               "icon" : "warning",
+	               "title" : "내용을 입력해주세요."
+	            }).then(function() {
+	               $("#reviewContent").focus();
+	            });
+	            return false;
+	         }
+	      }
+	   </script>
   <!-- 본문 끝 -->
 	
   <!-- footer -->
