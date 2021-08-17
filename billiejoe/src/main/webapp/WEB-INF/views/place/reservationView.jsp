@@ -34,7 +34,7 @@
             	 <c:forEach items="${tagList}" var="tag"  >
                 	<span class="badge bg-primary">${tag.tagName}</span>
             	</c:forEach> 
-                <a href="${contextPath }/place/myReservation" class="btn btn-outline-secondary btn-lg"  id ="list">목록</a>
+                <a href="${contextPath }/place/myReservation?cp=${param.cp}" class="btn btn-outline-secondary btn-lg"  id ="list">목록</a>
                 
                 <c:choose>
 	                <c:when test="${like==0 }">
@@ -140,6 +140,7 @@
             </div>
         </div>
     </div>
+    <jsp:include page="../review/reviewListPlace.jsp"></jsp:include>
      <jsp:include page="../common/footer.jsp"></jsp:include>
 
      <!-- Modal -->
@@ -191,7 +192,7 @@
         </div>
     </div>  
       
-      
+    
     <jsp:include page="../../../resources/js/placeViewJs.jsp"></jsp:include> 
     <script>
     $("#yesBtn").on("click", function(){

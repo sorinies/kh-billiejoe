@@ -70,7 +70,7 @@ h6 {
 				<hr>
 				<li class="mb-1"><a href="${contextPath}/place/myReservation">내가 예약한 장소 </a><br> 
 					<a href="${contextPath}/place/myLikePlace">내가 찜한 장소</a><br>
-					<a href="#">내가 작성한 후기</a></li>
+					<a href="${contextPath}/review/reviewList">내가 작성한 후기</a></li>
 				<hr>
 				<li class="mb-1">
 					<a href="#">내가 등록한 장소</a><br> 
