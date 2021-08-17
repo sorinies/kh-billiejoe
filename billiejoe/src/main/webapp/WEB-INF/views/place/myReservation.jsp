@@ -215,9 +215,6 @@
         <div class="input-group  mb-3 w-25">
          
          
-         
-         
-         
             <select class="form-select" id="searchUserCond" name="searchUserCond">
               <option value="uploadDate" <c:if test="${param.sort == 'uploadDate' }">selected</c:if>  >등록일 최신순</option>
               <option value="reservatioinDate" <c:if test="${param.sort == 'reservatioinDate' }">selected</c:if> >예약일시 최근순</option>
