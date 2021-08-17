@@ -53,24 +53,24 @@
                     <div class="carousel-inner">
                     <c:if test="${!empty place.atList[0] }">
                       <div class="carousel-item active">
-                        <img src="${place.atList[0].filePath }${place.atList[0].fileName }" class="d-block w-100" alt="...">
+                        <img src="${contextPath}/${place.atList[0].filePath }${place.atList[0].fileName }" class="d-block w-100" alt="...">
                       </div>
                     </c:if>
                     
                     <c:if test="${!empty place.atList[1] }">
                       <div class="carousel-item">
-                        <img src="${place.atList[1].filePath }${place.atList[1].fileName }" class="d-block w-100" alt="...">
+                        <img src="${contextPath}/${place.atList[1].filePath }${place.atList[1].fileName }" class="d-block w-100" alt="...">
                       </div>
                     </c:if>
                     
                     <c:if test="${!empty place.atList[2] }">
                       <div class="carousel-item">
-                        <img src="${place.atList[2].filePath }${place.atList[2].fileName }" class="d-block w-100" alt="...">
+                        <img src="${contextPath}/${place.atList[2].filePath }${place.atList[2].fileName }" class="d-block w-100" alt="...">
                       </div>
                     </c:if>
                     <c:if test="${!empty place.atList[3] }">
                       <div class="carousel-item">
-                        <img src="${place.atList[3].filePath }${place.atList[3].fileName }" class="d-block w-100" alt="...">
+                        <img src="${contextPath}/${place.atList[3].filePath }${place.atList[3].fileName }" class="d-block w-100" alt="...">
                       </div>
                     </c:if>
                     </div>

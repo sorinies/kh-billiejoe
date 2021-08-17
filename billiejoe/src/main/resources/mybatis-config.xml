@@ -23,7 +23,7 @@
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Search" alias="Search" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Attachment" alias="Attachment" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Likes" alias="Likes" />
-		<typeAlias type="kr.co.billiejoe.place.model.vo.Pagination" alias="Pagination" />
+		<typeAlias type="kr.co.billiejoe.common.model.vo.Pagination" alias="Pagination" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.Payment" alias="Payment" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.PlaceAvailable" alias="PlaceAvailable" />
 		<typeAlias type="kr.co.billiejoe.place.model.vo.PlaceTag" alias="PlaceTag" />

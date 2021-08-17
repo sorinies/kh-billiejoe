@@ -66,7 +66,20 @@ public interface AdminService {
 	 * @param reviewNo
 	 * @return result
 	 */
+	
 	int deleteReview(int reviewNo);
+	public abstract Pagination getPagination(Pagination pg);
 
+	public abstract List<Place> selectPlaceList(Pagination pagination);
+
+	public abstract int updateStatus(Place place);
+
+	public abstract Place placeDetailView(int placeNo);
+
+	public abstract Pagination getPagination2(Pagination pg, int placeNo);
+
+	public abstract List<Review> selectReviewListPlace(Pagination pagination, int placeNo);
+
+	public abstract Review addReview(int placeNo);
 
 }

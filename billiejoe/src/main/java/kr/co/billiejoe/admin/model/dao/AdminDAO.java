@@ -155,6 +155,45 @@ public class AdminDAO {
 		return sqlSession.update("reviewMapper.deleteReview", reviewNo);
 	}
 
+	/** 전체 게시글 수 조회
+	 * @return
+	 */
+	public int getBoardListCount() {
+		return sqlSession.selectOne("adminMapper.getBoardListCount", null);
+	}
 
+	
+	// 전체 게시글 목록 조회
+	public List<Place> selectPlaceList(Pagination pagination) {
+		int offset = (pagination.getCurrentPage() -1 ) * pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		// offset 만큼 건너 뛰고, limit만큼의 행을 얻어옴
+		
+		return sqlSession.selectList("adminMapper.selectPlaceList",null , rowBounds);
+		
+	}
+
+	public int updateStatus(Place place) {
+		return sqlSession.update("adminMapper.updateStatus", place);
+	}
+
+	public Place placeDetailView(int placeNo) {
+		return sqlSession.selectOne("adminMapper.placeDetailView", placeNo);
+	}
+
+	public Pagination getListCountPlace(int placeNo) {
+		return sqlSession.selectOne("adminMapper.placeListCount", placeNo);
+	}
+
+	public List<Review> selectReviewListPlace(Pagination pagination, int placeNo) {
+		int offset = (pagination.getCurrentPage() -1) * pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return sqlSession.selectList("reviewMapper.placeReviewList", placeNo, rowBounds);
+	}
+
+	public Review addReview(int placeNo) {
+		return sqlSession.selectOne("reviewMapper.addReview", placeNo);
+	}
 	
 }
