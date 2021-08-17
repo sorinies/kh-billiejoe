@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.billiejoe.member.model.vo.Member;
 
-import kr.co.billiejoe.place.model.vo.Report;
 import kr.co.billiejoe.common.model.vo.Pagination;
 import kr.co.billiejoe.review.model.vo.RecentReview;
 import kr.co.billiejoe.review.model.vo.Review;
