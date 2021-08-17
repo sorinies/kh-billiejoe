@@ -82,7 +82,7 @@
           <ul>
             <li><a href="${contextPath}/place/list">모든 장소</a></li>
             <li><a href="#">예약 접수 내역</a></li>
-            <li><a href="#">내가 남긴 후기</a></li>
+            <li><a href="${contextPath}/review/reviewList">내가 남긴 후기</a></li>
             <li><a href="#">찜한 장소</a></li>
           </ul>
         </div>
