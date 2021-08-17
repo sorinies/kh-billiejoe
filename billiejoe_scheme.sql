@@ -481,4 +481,14 @@ CREATE OR REPLACE VIEW place_list AS
     JOIN (SELECT place_no, file_name FROM attachment WHERE file_level = 0) USING(place_no)
     LEFT JOIN (SELECT place_no, COUNT(*) AS review_count FROM review GROUP BY place_no) USING(place_no)
     LEFT JOIN (SELECT place_no, COUNT(*) AS like_count FROM likes GROUP BY place_no) USING(place_no)
+    
+-- 장소에 대한 후기 평점 및 개수를 구하는 뷰 생성
+CREATE OR REPLACE VIEW REVIEW_ADD AS
+        SELECT  PLACE_NO, 
+                    ROUND( AVG(REVIEW_RATE), 0 ) AS REVIEW_AVG, 
+                    COUNT(*) AS REVIEW_COUNT 
+            FROM REVIEW 
+            JOIN PLACE USING(PLACE_NO)
+            WHERE REVIEW_STATUS='Y'
+            GROUP BY PLACE_NO;
 ;
