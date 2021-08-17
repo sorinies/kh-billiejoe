@@ -77,6 +77,27 @@
 		<collection property="atList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Attachment" select="selectAttachment"/>
 	</resultMap>
 	
+	<!-- place 목록용 resultMap -->
+	<resultMap type="Place" id="place_list_rm2">
+		<id property="placeNo" column="PLACE_NO"/> 
+		<result property="placeName" column="PLACE_NAME" />
+		<result property="placeSummary" column="PLACE_SUMMARY"/>
+		<result property="placeAddr" column="PLACE_ADDR" />
+		<result property="placeContent" column="PLACE_CONTENT"/>
+		<result property="placeCharge" column="PLACE_CHARGE" />
+		<result property="placeDate" column="PLACE_DATE" />
+		<result property="memberNo" column="MEMBER_NO" />
+		<result property="memberName" column="MEMBER_NAME" />
+		<result property="likeCount" column="LIKE_COUNT" />
+		<result property="thumbnail" column="FILE_NAME" />
+		<result property="reviewCount" column="REVIEW_COUNT" />
+		<result property="placeStatus" column="PLACE_STATUS" />
+		
+		
+	</resultMap>
+	
+	
+	
 		<!-- 특정 장소의 모든 이미지 정보 조회 -->
 	<select id="selectAttachment" parameterType="_int" resultMap="attachment_rm">
 		SELECT * FROM ATTACHMENT
@@ -236,6 +257,38 @@
 		WHERE REVIEW_NO = #{reviewNo}
 		AND REVIEW_STATUS = 'Y'
 	</select>
+	
+	<!-- 장소 게시글 수 구하기 -->
+	<select id="getBoardListCount" resultType="_int">
+	SELECT COUNT(*) FROM PLACE
+	</select>
+	
+	<!-- 전체 게시글 목록 -->
+	<select id="selectPlaceList" parameterType="_int" resultMap="place_list_rm2">
+	SELECT PLACE_NO, PLACE_NAME, PLACE_CHARGE, A.MEMBER_NO, MEMBER_NAME, PLACE_STATUS FROM PLACE A
+	JOIN MEMBER B ON(A.MEMBER_NO = B.MEMBER_NO)
+	</select>
+	
+	
+	<update id="updateStatus" parameterType="Place">
+	 	UPDATE PLACE SET PLACE_STATUS =#{placeStatus} WHERE PLACE_NO = #{placeNo}
+	</update>
+	
+	<!-- 게시글 상세조회   -->	
+	<select id="placeDetailView" parameterType="_int" resultMap="place_rm">
+		SELECT * FROM PLACE_VIEW
+		WHERE PLACE_NO = #{placeNo} AND PLACE_IS_AVAILABLE = 'Y' AND PLACE_STATUS = 'Y'
+	</select>
+	
+	<!-- 장소에 대한 전체 후기글 수 -->
+	<select id="placeListCount" parameterType="_int" resultMap="pg_rm">
+        SELECT CNT 
+        FROM ( SELECT COUNT(*) CNT
+                   FROM REVIEW
+                   JOIN PLACE USING(PLACE_NO)
+                   WHERE PLACE_NO = #{placeNo} 
+                   AND REVIEW_STATUS = 'Y' )
+     </select>
 	
 </mapper>
 

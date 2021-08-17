@@ -21,6 +21,8 @@ import kr.co.billiejoe.common.model.vo.Pagination;
 
 public interface PlaceService {
 
+	List<Place> selectPlaceAddrList();
+	
 	Place placeView(int placeNo);
 
 	List<Integer> reservationCheck(Reservation reservation);

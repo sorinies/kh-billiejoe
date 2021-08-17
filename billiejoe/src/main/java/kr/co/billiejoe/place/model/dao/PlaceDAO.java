@@ -20,7 +20,7 @@ import kr.co.billiejoe.place.model.vo.Reservation;
 import kr.co.billiejoe.place.model.vo.Search;
 import kr.co.billiejoe.place.model.vo.Tag;
 import kr.co.billiejoe.review.model.vo.Review;
-
+import kr.co.billiejoe.common.model.vo.Pagination;
 
 @Repository
 
