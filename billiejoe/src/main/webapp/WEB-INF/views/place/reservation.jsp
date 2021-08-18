@@ -21,7 +21,7 @@
   
         <h2>예약하기</h2><br>
         <span class="re-span">
-            <img src="${place.atList[0].filePath}${place.atList[0].fileName}" alt=""  class="re-img">
+            <img src="${contextPath}/${place.atList[0].filePath}${place.atList[0].fileName}" alt=""  class="re-img">
         </span>
         <span id="reservationContent" class="re-span">
             <p id="title">${place.placeName }</p>
