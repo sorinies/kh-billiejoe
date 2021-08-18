@@ -198,12 +198,26 @@
 		INSERT INTO place VALUES(#{placeNo}, #{placeName}, #{placeSummary}, #{placeAddr}, #{placeContent}, #{placeCharge}, DEFAULT, DEFAULT, DEFAULT, #{memberNo})
 	</insert>
 	
-	<!-- 이용 가능 시간 삽입 DAO -->
+	<!-- 장소 수정 -->
+	<update id="updatePlace" parameterType="Place">
+		UPDATE place 
+		SET 
+		place_name = #{placeName}, place_summary = #{placeSummary}, place_addr = #{placeAddr},
+		place_content = #{placeContent}, place_charge = #{placeCharge}
+		WHERE place_no = #{placeNo} AND member_no = #{memberNo}
+	</update>
+	
+	<!-- 이용 가능 시간 삽입 -->
 	<insert id="insertPlaceAvailable" parameterType="PlaceAvailable">
 		INSERT INTO place_available VALUES(SEQ_AVAILABLE.NEXTVAL, #{placeNo}, #{start}, #{end})
 	</insert>
 	
-	<!-- 이미지 추가 -->
+	<!-- 이용 가능 시간 수정 -->
+	<insert id="updatePlaceAvailable" parameterType="PlaceAvailable">
+		UPDATE place_available SET available_start = #{start}, available_end = #{end} WHERE place_no = #{placeNo}
+	</insert>
+	
+	<!-- 이미지 정보 추가 -->
 	<insert id="insertAttachmentList" parameterType="list">
 		INSERT INTO attachment
 		SELECT SEQ_FILE.NEXTVAL, A.* FROM (
@@ -231,6 +245,11 @@
 	<!-- 장소에 삽입된 태그 조회 -->
 	<select id="selectPlaceTagList" parameterType="_int" resultMap="tag_rm">
 		SELECT * FROM place_tag JOIN tag USING(tag_no) WHERE place_no = #{placeNo}
+	</select>
+	
+	<!-- 장소에 삽입된 태그 모두 삭제 -->
+	<select id="selectPlaceTagList" parameterType="_int">
+		DELETE * FROM place_tag WHERE place_no = #{placeNo}
 	</select>
 	
 	<!-- 장소 이미지 조회 -->

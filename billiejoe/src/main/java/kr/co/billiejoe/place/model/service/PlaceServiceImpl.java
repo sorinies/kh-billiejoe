@@ -142,13 +142,25 @@ public class PlaceServiceImpl implements PlaceService{
 		return arrdList;
 	}
 	
-	// 장소 추가
+	// 장소 추가/수정
 	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public int insertPlace(Place place, List<MultipartFile> images, String webPath, String savePath, String tagString, PlaceAvailable pa) {
 		place.setPlaceName(replaceParameter(place.getPlaceName()));
 		place.setPlaceSummary(replaceParameter(place.getPlaceSummary()));
-		int placeNo = dao.insertPlace(place);
+		int placeNo = 0;
+		boolean isNew = false;
+		if(place.getPlaceNo() > 0) {
+			placeNo = dao.updatePlace(place);
+			pa.setPlaceNo(placeNo);
+			dao.updatePlaceAvailable(pa);
+		} else {
+			placeNo = dao.insertPlace(place);
+			pa.setPlaceNo(placeNo);
+			dao.insertPlaceAvailable(pa);
+			isNew = true;
+		}
+		
 		if(placeNo > 0) {
 			List<Attachment> atList = new ArrayList<Attachment>();
 			for(int i = 0; i < images.size(); i++) {
@@ -169,6 +181,9 @@ public class PlaceServiceImpl implements PlaceService{
 			for(String tagItem : tagArr) {
 				Tag tag = new Tag();
 				PlaceTag placeTag = new PlaceTag();
+				if(!isNew) { // 지금 할 수 있는 가장 빠른 해결방법... (다 지우고 다시 등록)
+					dao.deleteAllPlaceTag(placeNo);
+				}
 				int result = 0;
 				tag = dao.isExistTag(tagItem); // DB에 등록되어 있는 태그인지 확인
 				if(tag != null) { // 이미 존재하는 태그라면
@@ -188,12 +203,15 @@ public class PlaceServiceImpl implements PlaceService{
 				}
 				tagList.add(tag);
 			}
-			pa.setPlaceNo(placeNo);
-			System.out.println(pa);
-			dao.insertPlaceAvailable(pa);
 			
 			if(!atList.isEmpty()) {
-				int result = dao.insertAttachmentList(atList);
+				int result = 0;
+				if(!isNew) {
+//					dao.deleteAttachmentList(atList);
+				} 
+				result = dao.insertAttachmentList(atList);
+				
+				
 				if(atList.size() == result) { // 모두 삽입 성공
 					// 파일을 서버에 저장(transfer())
 					for(int i = 0; i < atList.size(); i++) {
@@ -315,6 +333,12 @@ public class PlaceServiceImpl implements PlaceService{
 		int result = dao.insertReport(report);
 		
 		return result;
+	}
+	
+	//특정 장소 대여 가능 시간 조회 Service
+	@Override
+	public PlaceAvailable selectPlaceAvailable(Integer placeNo) {
+		return dao.selectPlaceAvailable(placeNo);
 	}
 	
 }

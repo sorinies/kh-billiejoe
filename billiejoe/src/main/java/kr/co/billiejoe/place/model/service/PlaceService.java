@@ -90,5 +90,12 @@ public interface PlaceService {
 	 * @return result
 	 */
 	int insertReport(Report report);
-	
+
+	/**
+	 * 특정 장소 대여 가능 시간 조회 Service
+	 * @param placeNo
+	 * @return
+	 */
+	PlaceAvailable selectPlaceAvailable(Integer placeNo);
+
 }

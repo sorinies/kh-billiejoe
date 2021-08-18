@@ -17,7 +17,7 @@
               <th scope="col">예약일시</th>
               <th scope="col">대여시간</th>
               <th scope="col">진행상태</th>
-              <th scope="col">예약취소</th>
+              <!-- <th scope="col">예약취소</th> -->
             </tr>
           </thead>
           <tbody>
@@ -34,11 +34,11 @@
               <td>${res.reserveDate}</td>
               <td>${res.useStart}시 ~ ${res.useEnd}시</td>
               <td>${res.stateName}</td>
-              <td>
+<%--               <td>
                 <c:if test="${res.stateNo == 1}">
-                <a href="" class="btn btn-danger">예약취소</a>
+                <a href="${res.reserveNo}/cancel" class="btn btn-danger">예약취소</a>
                 </c:if>
-              </td>
+              </td> --%>
             </tr>
             </c:forEach>
             </c:otherwise>
