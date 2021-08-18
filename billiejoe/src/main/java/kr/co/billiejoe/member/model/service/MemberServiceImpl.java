@@ -81,7 +81,7 @@ public class MemberServiceImpl implements MemberService{
 				}
 				
 			}else { // 업로드한 프로필 사진이 없는 경우(null방지)
-				inputMember.setMemberPic("/img/....png");
+				inputMember.setMemberPic("resources/images/member.jpg");
 			}
 			
 			int result = dao.signUp(inputMember);
