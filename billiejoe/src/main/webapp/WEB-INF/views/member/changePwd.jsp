@@ -50,34 +50,27 @@ h6 {
 	float :left;
 	
 	}
+	
+ .containerH{
+        margin-left: 100px;
+        }
 
 </style>
 
 </head>
 
 <body>
-	<main>
-		<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
-			<a href="#"
-				class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-				<span class="fs-5 fw-semibold">비밀번호 변경</span>
-			</a>
-			<ul class="list-unstyled ">
-				<li class="mb-1"><a href="#">내 정보 </a><br> <a href="#">내
-						정보 수정</a><br> <a href="#">비밀번호 변경
-						</button></li>
-				<hr>
-				<li class="mb-1"><a href="#">내가 예약한 장소 </a><br> <a
-					href="#">내가 찜한 장소</a><br> <a href="#">내가 작성한 후기</a></li>
-				<hr>
-				<li class="mb-1"><a href="#">내가 등록한 장소</a><br> <a href="#">예약
-						접수 내역</a><br></li>
-				<hr>
+<!-- // header.jsp -->
+<!-- 본문 시작 -->
+  <div class="containerH py-5">
+    <div class="content-header row">
+      <h2 class="col">비밀번호 변경</h2>
+    </div>
+    <div class="row">
+         <jsp:include page="../common/mypageSidebar.jsp"></jsp:include>
 
-
-			</ul>
-		</div>
-		<div class="container py-5">
+        <div class="col-md-9">
+        
 			<div class="bg-white rounded  container p-3">
 				<form method="POST" action="${contextPath}/member/changePwd"
 					onsubmit="return validate();" class="form-horizontal" role="form">
@@ -133,7 +126,8 @@ h6 {
 				</form>
 			</div>
 		</div>
-	</main>
+		</div>
+		</div>
 
 	<script src="../dist/js/admin_sidebars.js"></script>
 	<jsp:include page="../common/footer.jsp"></jsp:include>

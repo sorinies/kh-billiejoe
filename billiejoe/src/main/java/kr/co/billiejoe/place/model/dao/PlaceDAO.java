@@ -20,7 +20,6 @@ import kr.co.billiejoe.place.model.vo.Reservation;
 import kr.co.billiejoe.place.model.vo.Search;
 import kr.co.billiejoe.place.model.vo.Tag;
 import kr.co.billiejoe.review.model.vo.Review;
-
 import kr.co.billiejoe.common.model.vo.Pagination;
 
 @Repository
@@ -161,8 +160,17 @@ public class PlaceDAO {
 	 * @return
 	 */
 	public int getListCount(int memberNo) {
+
 		return session.selectOne("placeMapper.getReListCount", memberNo);
 	}
+	
+	/** 전체 목록 수 + 좋아요한 장소 조회
+	 * @param memberNo
+	 * @return
+	 */
+	public int getLikeListCount(int memberNo) {
+		return session.selectOne("placeMapper.getLikeListCount", memberNo);	
+		}
 
 	/**  내가 예약한 장소 목록 조회
 	 * @param pagination
@@ -178,6 +186,20 @@ public class PlaceDAO {
 		
 		return session.selectList("placeMapper.selectReservationList", memberNo, rowBounds);
 		
+	}
+	
+	/** 내가 좋아요한 장소 목록 조회
+	 * @param pagination
+	 * @param memberNo
+	 * @return selectMyLikePlaceList
+	 */
+	public List<MyReservation> selectMyLikePlaceList(Pagination pagination, int memberNo) {
+int offset = (pagination.getCurrentPage() -1 ) * pagination.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		// offset 만큼 건너 뛰고, limit만큼의 행을 얻어옴
+		
+		return session.selectList("placeMapper.selectMyLikePlaceList", memberNo, rowBounds);
 	}
 		
 	public int getReserveNo() {
@@ -226,6 +248,7 @@ public class PlaceDAO {
 		// TODO Auto-generated method stub
 		return session.update("placeMapper.startReservation", map);
 	}
+
 
 	/**
 	 * 지역 목록 선택 DAO
@@ -306,4 +329,14 @@ public class PlaceDAO {
 		session.delete("placeMapper", placeNo);
 	}
 
+	/** 내가 예약한 목록 목록 조회(정렬 조건 추가)
+	 * @param pagination
+	 * @param map
+	 * @return 
+	 */
+	public List<MyReservation> selectReservationList(Pagination pagination, Map<String, Object> map) {
+		int offset = (pagination.getCurrentPage() -1) * pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return session.selectList("placeMapper.selectReservationSortList", map, rowBounds);
+	}
 }

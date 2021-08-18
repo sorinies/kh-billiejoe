@@ -2,6 +2,7 @@ package kr.co.billiejoe.member.model.service;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.co.billiejoe.member.exception.SaveFileException;
 import kr.co.billiejoe.member.model.dao.MemberDAO;
 import kr.co.billiejoe.member.model.vo.Member;
+import kr.co.billiejoe.place.model.vo.MyReservation;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -188,6 +190,19 @@ public class MemberServiceImpl implements MemberService{
 			}
 			
 			return result;
+		}
+
+		// 이용 예정인 공간 조회
+		@Override
+		public MyReservation selectLatestPlace(int memberNo) {
+			return dao.selectLatestPlace(memberNo);
+		}
+
+		
+		// 내 장소에 예약된 장소 조회
+		@Override
+		public List<MyReservation> selectReservedPlace(int memberNo) {
+			return dao.selectReservedPlace(memberNo);
 		}
 
 	

@@ -21,6 +21,8 @@ import kr.co.billiejoe.common.model.vo.Pagination;
 
 public interface PlaceService {
 
+	List<Place> selectPlaceAddrList();
+	
 	Place placeView(int placeNo);
 
 	List<Integer> reservationCheck(Reservation reservation);
@@ -58,9 +60,7 @@ public interface PlaceService {
 
 	int updateReservation(Map<String, String> map);
 
-	List<Place> selectPlaceAddrList();
 
-	
 	/** 장소에 대한 전체 후기글 수 조회 Service
 	 * @param pg
 	 * @param loginMember 
@@ -90,7 +90,6 @@ public interface PlaceService {
 	 * @return result
 	 */
 	int insertReport(Report report);
-
 	/**
 	 * 특정 장소 대여 가능 시간 조회 Service
 	 * @param placeNo
@@ -98,4 +97,25 @@ public interface PlaceService {
 	 */
 	PlaceAvailable selectPlaceAvailable(Integer placeNo);
 
+	/** 내가 찜한 장소 목록 조회
+	 * @param pagination
+	 * @param memberNo
+	 * @return selectMyLikePlaceList
+	 */
+	List<MyReservation> selectMyLikePlaceList(Pagination pagination, int memberNo);
+
+	/** 전체 목록 수 + 내가 좋아요한 장소 조회
+	 * @param pg
+	 * @param memberNo
+	 * @return
+	 */
+	Pagination getLikePagination(Pagination pg, int memberNo);
+
+	/** 내가 예약한 목록 목록 조회(정렬 조건 추가)
+	 * @param pagination
+	 * @param memberNo
+	 * @param sort
+	 * @return
+	 */
+	List<MyReservation> selectReservationList(Pagination pagination, int memberNo, String sort);
 }

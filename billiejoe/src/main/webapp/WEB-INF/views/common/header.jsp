@@ -59,7 +59,7 @@
 			<c:otherwise>
 			<%-- 로그아웃 버튼 --%>
 				<li class="nav-item text-nowrap">
-					<a class="nav-link px-3" href="${contextPath}/member/updateMyPage">${loginMember.memberName}</a>
+					<a class="nav-link px-3" href="${contextPath}/member/myPage">${loginMember.memberName}</a>
 				</li>
 				<li class="nav-item text-nowrap">
 					<a class="nav-link px-3" href="${contextPath}/member/logout">Logout</a>
@@ -82,7 +82,7 @@
           <ul>
             <li><a href="${contextPath}/place/list">모든 장소</a></li>
             <li><a href="#">예약 접수 내역</a></li>
-            <li><a href="#">내가 남긴 후기</a></li>
+            <li><a href="${contextPath}/review/reviewList">내가 남긴 후기</a></li>
             <li><a href="#">찜한 장소</a></li>
           </ul>
         </div>

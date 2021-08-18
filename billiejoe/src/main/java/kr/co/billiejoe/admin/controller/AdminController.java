@@ -14,25 +14,30 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import kr.co.billiejoe.admin.model.service.AdminService;
 import kr.co.billiejoe.member.controller.MemberController;
 import kr.co.billiejoe.member.model.vo.Member;
+
+import kr.co.billiejoe.common.model.vo.Pagination;
+import kr.co.billiejoe.place.model.vo.Place;
+
 import kr.co.billiejoe.place.model.vo.Report;
 import kr.co.billiejoe.review.model.service.ReviewService;
 import kr.co.billiejoe.review.model.vo.Review;
 
-import kr.co.billiejoe.common.model.vo.Pagination;
 
 @Controller
 @RequestMapping("/admin/*")
@@ -222,6 +227,7 @@ public class AdminController {
 		return "redirect:report";
 	}
 	
+
 	/** 관리자 후기 관리 목록
 	 * @param cp
 	 * @param model
@@ -287,6 +293,69 @@ public class AdminController {
 		return"redirect:review";
 	}
 	
+	// 게시글 관리 목록
+		@RequestMapping(value="manageBoard", method=RequestMethod.GET)
+		public String manageBoard(@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+				Model model, Pagination pg) {
+			
+			// 1) pg에 cp를 세팅
+			pg.setCurrentPage(cp);
+			
+			// 2) 전체 목록 수를 조회하여 Pagination 관련 내용을 계산하고 값을 저장한 객체 반환 받기
+			Pagination pagination = service.getPagination(pg);
+			
+			// 3) 생성된 pagination을 이용하여 현재 목록 페이지에 보여질 게시글 목록 조회
+			List<Place> boardList = service.selectPlaceList(pagination);
+
+			model.addAttribute("boardList", boardList);
+			model.addAttribute("pagination", pagination);
+			
+			return "admin/manageBoard";
+		}
+		
+		
+		@RequestMapping(value="updateStatus", method=RequestMethod.POST)
+		@ResponseBody
+		public int updateStatus(Place place) {
+			
+			return service.updateStatus(place);
+		}
+		
+		/** 장소 상세보기
+		 * @param placeNo
+		 * @param model
+		 * @param cp
+		 * @return
+		 */
+		@GetMapping("{placeNo}/detailView")
+		public String placeDetailView(@PathVariable("placeNo")int placeNo,Model model, Pagination pg, @RequestParam(value = "cp", required = false, defaultValue = "1")int cp
+								){
+			Member loginMember = (Member)model.getAttribute("loginMember");
+			
+			Place place = service.placeDetailView(placeNo);
+			place.setPlaceAddr(place.getPlaceAddr().substring(5));
+			model.addAttribute("place",place);
+			
+			
+			pg.setCurrentPage(cp);
+			
+			Pagination pagination = null;
+			List<Review> reviewListPlace = null;
+			
+			
+			Review add = null;
+			pagination = service.getPagination2(pg, placeNo);
+			pagination.setLimit(5);
+			reviewListPlace = service.selectReviewListPlace(pagination, placeNo);
+			add = service.addReview(placeNo);
+			model.addAttribute("reviewListPlace", reviewListPlace);
+			model.addAttribute("pagination", pagination);
+			model.addAttribute("add", add);
+			
+			System.out.println(place);
+			System.out.println(add);
+			return "place/placeDetailView";
+		}
 	// SweetAlert
 	public static void swalSetMessage(RedirectAttributes ra, String icon, String title, String text) {
 		ra.addFlashAttribute("icon", icon);

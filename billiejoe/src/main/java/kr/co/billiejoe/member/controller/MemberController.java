@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.billiejoe.member.model.service.MemberService;
 import kr.co.billiejoe.member.model.vo.Member;
+import kr.co.billiejoe.place.model.vo.MyReservation;
 
 @Controller
 @RequestMapping("/member/*")
@@ -150,7 +151,7 @@ public class MemberController {
 		return result;
 
 	}
-	
+
 	/** 회원 탈퇴 화면 전환 Controller
 	 * @return "redirect:"
 	 */
@@ -196,7 +197,7 @@ public class MemberController {
 	// /member/myPage 주소로 요청이 오면
 	// /WEB-INF/views/member.myPage.jsp로 요청 위임(forward)
 	@RequestMapping(value="updateMyPage", method=RequestMethod.GET)
-	public String myPage() {
+	public String updateMyPage() {
 		return "member/updateMyPage";
 	}
 	
@@ -267,6 +268,27 @@ public class MemberController {
 			
 			return path;
 		}
+		/*
+		 * // 마이페이지 화면 전환용 Controller
+		 * 
+		 * @RequestMapping(value="myPage", method=RequestMethod.GET) public String
+		 * myPage() { return "member/myPage"; }
+		 */
+		// 마이페이지 Controller
+		
+		@RequestMapping(value="myPage", method=RequestMethod.GET)
+		 public String myPage(@ModelAttribute("loginMember") Member loginMember, Model model) { 
+			  
+			MyReservation latestPlace = service.selectLatestPlace(loginMember.getMemberNo());
+			
+			model.addAttribute("latestPlace", latestPlace);
+			
+			List<MyReservation> reservedPlace = service.selectReservedPlace(loginMember.getMemberNo());
+			
+			model.addAttribute("reservedPlace", reservedPlace);
+			  return "member/myPage";
+		  }
+		
 		
 
 		// SweetAlert

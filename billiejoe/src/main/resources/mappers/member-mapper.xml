@@ -16,6 +16,56 @@
 
 	</resultMap>
 	
+		<!-- 내가 예약한 장소 목록 상세조회 resultMap -->
+	<resultMap type="MyReservation" id="myReservation_rm">
+		
+		<id property="reserveNo" column="RESERVE_NO"/>
+		
+		<result property="useDate" column="RESERVE_USE_DATE"/>
+		<result property="useStart" column="RESERVE_USE_START"/>
+		<result property="useEnd" column="RESERVE_USE_END"/>
+		<result property="reserveDate" column="RESERVE_DATE"/>
+		<result property="placeNo" column="PLACE_NO"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="stateNo" column="STATE_NO"/>
+		<result property="stateName" column="STATE_NAME"/>
+
+		<result property="memberName" column="MEMBER_NAME"/>
+		<result property="memberPhone" column="MEMBER_PHONE"/>
+		
+		<result property="placeName" column="PLACE_NAME" />
+		<result property="placeSummary" column="PLACE_SUMMARY"/>
+		<result property="placeAddr" column="PLACE_ADDR" />
+		<result property="placeContent" column="PLACE_CONTENT"/>
+		<result property="placeCharge" column="PLACE_CHARGE" />
+		<result property="placeDate" column="PLACE_DATE" />
+		<result property="likeCount" column="LIKE_COUNT" />
+		<result property="reviewCount" column="REVIEW_COUNT" />
+		
+		
+		
+		 <collection property="atList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Attachment" select="selectAttachment"/>
+		 <collection property="tagList" column="PLACE_NO" javaType="java.util.ArrayList" ofType="Tag" select="selectTag"/>
+	
+	</resultMap>
+	
+	
+	<resultMap type="Tag" id="tag_rm">
+		<id property="tagNo" column="TAG_NO"/>
+		<result property="tagName" column="TAG_NAME"/>
+		<result property="placeNo" column="PLACE_NO"/>
+	</resultMap>
+	
+		<!-- 파일 정보 조회용 resultMap -->
+	<resultMap type="Attachment" id="attachment_rm">
+		<id property="fileNo" column="FILE_NO"/>
+		
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="fileName" column="FILE_NAME"/>
+		<result property="fileLevel" column="FILE_LEVEL"/>
+		<result property="boardNo" column="BOARD_NO"/>
+	</resultMap>
+	
 	<!-- 로그인 -->
 	<select id="login" parameterType="string" resultMap="member_rm">
 		SELECT * FROM MEMBER
@@ -85,4 +135,55 @@
 		MEMBER_PW = #{memberPw}
 		WHERE MEMBER_NO = #{memberNo}
 	</update>
+	
+	
+	<!-- 태그조회(게시글상세) -->
+	<select id="selectTag" parameterType="_int" resultMap="tag_rm">
+		SELECT TAG_NAME FROM PLACE_TAG_VIEW WHERE PLACE_NO = #{placeNo}
+	</select>
+	<!-- 업로드된 이미지 조회 -->
+	<select id="selectAttachment" parameterType="_int" resultMap="attachment_rm">
+		SELECT * FROM ATTACHMENT WHERE PLACE_NO = #{placeNo} ORDER BY FILE_LEVEL
+	</select>
+	
+	
+	
+	<!-- 이용 예정인 공간 조회 -->
+	<select id="selectLatestPlace" parameterType="_int" resultMap="myReservation_rm">
+	
+		SELECT RESERVE_NO, R.PLACE_NO, PLACE_NAME, PLACE_SUMMARY, PLACE_CHARGE, RESERVE_USE_DATE,
+			(SELECT COUNT(*) FROM LIKES L WHERE L.PLACE_NO = R.PLACE_NO) LIKE_COUNT,
+			(SELECT COUNT(*) FROM REVIEW V WHERE V.PLACE_NO = R.PLACE_NO) REVIEW_COUNT
+		FROM RESERVATION R
+		JOIN PLACE P ON(R.PLACE_NO = P.PLACE_NO)
+		LEFT JOIN PLACE_TAG PT ON(R.PLACE_NO = PT.PLACE_NO)
+		LEFT JOIN TAG USING(TAG_NO)
+		WHERE RESERVE_NO IN (
+		    SELECT RESERVE_NO FROM (
+		        SELECT RESERVE_NO
+		        FROM RESERVATION
+		        WHERE RESERVE_USE_DATE >= SYSDATE
+		        AND MEMBER_NO = #{memberNo} 
+		        ORDER BY RESERVE_USE_DATE)   
+		    WHERE ROWNUM = 1
+		)
+		
+	</select>
+	
+	
+	<!-- 내 장소에 예약된 공간 조회 -->
+	<select id="selectReservedPlace" parameterType="_int" resultMap="myReservation_rm">
+	SELECT A.PLACE_NO, RESERVE_USE_DATE,RESERVE_USE_START, RESERVE_USE_END,STATE_NAME, A.MEMBER_NO,
+	            MEMBER_NAME,MEMBER_PHONE, PLACE_CHARGE,PLACE_NAME
+	FROM RESERVATION A
+	JOIN RESERVATION_STATE USING (STATE_NO)
+	JOIN MEMBER B ON (A.MEMBER_NO = B.MEMBER_NO)
+	JOIN PLACE C ON (A.PLACE_NO = C.PLACE_NO)
+	WHERE A.PLACE_NO IN (SELECT PLACE_NO FROM PLACE
+	                                WHERE MEMBER_NO = #{memberNo})
+	AND A.RESERVE_USE_DATE >= SYSDATE
+	AND ROWNUM &lt;= 5
+	ORDER BY RESERVE_USE_DATE
+	</select>
+	
 </mapper>
