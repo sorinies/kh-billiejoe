@@ -251,7 +251,7 @@
 	</select>
 	
 	<!-- 장소에 삽입된 태그 모두 삭제 -->
-	<select id="selectPlaceTagList" parameterType="_int">
+	<select id="deleteAllPlaceTag" parameterType="_int">
 		DELETE * FROM place_tag WHERE place_no = #{placeNo}
 	</select>
 	
