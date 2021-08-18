@@ -1,5 +1,5 @@
 const tagObj = (function () {
-  let inputTag, tagContainer, deleteTags;
+  let inputTag, tagContainer;
   const regExp = /[0-1A-Za-zㄱ-힣]{0}\S+/;
   deleteTags = document.querySelectorAll('.tag');
   inputTag = document.querySelector('#inputTag');

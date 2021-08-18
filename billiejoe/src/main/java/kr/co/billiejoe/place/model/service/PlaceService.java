@@ -90,7 +90,12 @@ public interface PlaceService {
 	 * @return result
 	 */
 	int insertReport(Report report);
-	
+	/**
+	 * 특정 장소 대여 가능 시간 조회 Service
+	 * @param placeNo
+	 * @return
+	 */
+	PlaceAvailable selectPlaceAvailable(Integer placeNo);
 
 	/** 내가 찜한 장소 목록 조회
 	 * @param pagination
@@ -113,5 +118,4 @@ public interface PlaceService {
 	 * @return
 	 */
 	List<MyReservation> selectReservationList(Pagination pagination, int memberNo, String sort);
-
 }

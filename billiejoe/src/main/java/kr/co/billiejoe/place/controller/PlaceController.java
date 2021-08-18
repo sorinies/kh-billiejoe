@@ -168,12 +168,27 @@ public class PlaceController {
 	}
 	
 	/**
-	 * 장소 추가 페이지 
+	 * 장소 추가/수정 페이지 
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("addPlace")
-	public String insertPlace(Model model) {
+	@GetMapping({"addPlace", "addPlace/{placeNo}"})
+	public String insertPlace(@PathVariable(name="placeNo", required=false) Integer placeNo, Model model, RedirectAttributes ra) {
+		Member loginMember = (Member) model.getAttribute("loginMember");
+		if(loginMember == null) {
+			return "member/login";
+		}
+		if(placeNo != null) {
+			Place place = service.placeView(placeNo);
+			PlaceAvailable pa = service.selectPlaceAvailable(placeNo);
+			if(place.getMemberNo() == loginMember.getMemberNo()) {
+				model.addAttribute("place", place);
+				model.addAttribute("pa", pa);
+			} else {
+				MemberController.swalSetMessage(ra, "error", "잘못된 접근", "본인이 작성한 글만 수정할 수 있습니다.");
+				return "redirect:/";
+			}
+		} 
 		return "place/placeWrite";
 	}
 	
@@ -186,12 +201,15 @@ public class PlaceController {
 	 * @param ra
 	 * @return
 	 */
-	@PostMapping("write")
-	public String insertPlace(Place place, PlaceAvailable pa, @ModelAttribute("loginMember") Member loginMember, @RequestParam("images") List<MultipartFile> images, @RequestParam("tagString") String tagString, HttpServletRequest request, RedirectAttributes ra) {
+	@PostMapping({"write", "write/{placeNo}"})
+	public String insertPlace(@PathVariable(name="placeNo", required=false) Integer placeNo, Place place, PlaceAvailable pa, @ModelAttribute("loginMember") Member loginMember, @RequestParam("images") List<MultipartFile> images, @RequestParam("tagString") String tagString, HttpServletRequest request, RedirectAttributes ra) {
 		place.setMemberNo(loginMember.getMemberNo());
 		String webPath = "resources/images/";
 		String savePath = request.getSession().getServletContext().getRealPath(webPath);
-		int placeNo = service.insertPlace(place, images, webPath, savePath, tagString, pa);
+		if(placeNo != null) {
+			place.setPlaceNo(placeNo);
+		}
+		placeNo = service.insertPlace(place, images, webPath, savePath, tagString, pa);
 
 		String path = null;
 		if(placeNo > 0) {

@@ -87,6 +87,20 @@ public class PlaceDAO {
 			return 0;
 		}
 	}
+	
+	/**
+	 * 장소 수정 DAO
+	 * @param place
+	 * @return
+	 */
+	public int updatePlace(Place place) {
+		int result = session.update("placeMapper.updatePlace", place);
+		if(result > 0) {
+			return place.getPlaceNo();
+		} else {
+			return 0;
+		}
+	}
 
 	/**
 	 * 이미지 정보 삽입 DAO
@@ -96,7 +110,7 @@ public class PlaceDAO {
 	public int insertAttachmentList(List<Attachment> atList) {
 		return session.insert("placeMapper.insertAttachmentList", atList);
 	}
-
+	
 	/**
 	 * 태그 존재 여부 확인 DAO
 	 * @param tagItem
@@ -252,6 +266,14 @@ int offset = (pagination.getCurrentPage() -1 ) * pagination.getLimit();
 		session.insert("placeMapper.insertPlaceAvailable", pa);
 	}
 	
+	/** 
+	 * 이용 가능 시간 수정 DAO
+	 * @param pa
+	 */
+	public void updatePlaceAvailable(PlaceAvailable pa) {
+		session.insert("placeMapper.updatePlaceAvailable", pa);
+	}
+	
 	/** 장소에 대한 후기글 수 조회 DAO
 	 * @param placeNo
 	 * @return pagination
@@ -290,6 +312,23 @@ int offset = (pagination.getCurrentPage() -1 ) * pagination.getLimit();
 		return session.insert("reviewMapper.insertReport", report);
 	}
 
+	/**
+	 * 특정 장소 대여 가능 시간 조회 DAO
+	 * @param placeNo
+	 * @return
+	 */
+	public PlaceAvailable selectPlaceAvailable(Integer placeNo) {
+		return session.selectOne("placeMapper.getAvailable", placeNo);
+	}
+
+	/**
+	 * 장소에 등록된 태그 모두 삭제 
+	 * @param placeNo
+	 */
+	public void deleteAllPlaceTag(int placeNo) {
+		session.delete("placeMapper", placeNo);
+	}
+
 	/** 내가 예약한 목록 목록 조회(정렬 조건 추가)
 	 * @param pagination
 	 * @param map
@@ -300,10 +339,4 @@ int offset = (pagination.getCurrentPage() -1 ) * pagination.getLimit();
 		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
 		return session.selectList("placeMapper.selectReservationSortList", map, rowBounds);
 	}
-
-
-	
-	
-	
-	
 }
