@@ -71,9 +71,7 @@ public class AdminDAO {
 		return sqlSession.insert("adminMapper.insertUnreg",member);
 	}
 
-	public int deleteMember(int memberNo) {
-		return sqlSession.delete("adminMapper.deleteMember", memberNo);
-	}
+	
 
 	/** 탈퇴한 회원수 조회
 	 * @return
@@ -194,6 +192,11 @@ public class AdminDAO {
 
 	public Review addReview(int placeNo) {
 		return sqlSession.selectOne("reviewMapper.addReview", placeNo);
+	}
+
+	public List<Integer> selectunMemberNo() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("adminMapper.selectunMemberNo");
 	}
 	
 }
