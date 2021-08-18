@@ -79,7 +79,7 @@
           <ul>
             <li><a href="#">내 장소</a></li>
             <li><a href="#">내 예약</a></li>
-            <li><a href="#">채팅</a></li>
+            <li><a href="${contextPath}/chat/list">채팅</a></li>
           </ul>
           <ul>
             <li><a href="${contextPath}/place/list">모든 장소</a></li>
