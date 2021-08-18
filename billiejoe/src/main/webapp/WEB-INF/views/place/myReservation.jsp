@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="../common/header.jsp"></jsp:include>
+
   <style>
     a {
       text-decoration: none;
@@ -121,55 +122,54 @@
      
        /*  float: right;
         margin-left: -135px; */
-        display: block;
-        width: 30%;
-        float: left;
-      
-    }
-
-    .listForm-area3 > a{
-        text-decoration: underline;
-        color: blue;
-        text-align: right;
-        display: block;
-    }
-
-    .listForm-area3 > h5{
-        float: right;
-        margin-right: -230px;
-        color: blue;
-        margin-top: -25px;
-    }
-    
- 
-    
-	 .containerH{
-        margin-left: 100px;
-        width : 600px;
-        }
-        
-	#navigation{
-	display : inline-block;
-	margin-top : 0;
-	margin-left : 300px;
-	}
-	
-	.pagination{
-	margin-top : 0;
-	}
- 
- 	main{
- 		max-height: none;
- 	}
- 
- #col-md-9 {
-    flex: 0 0 auto;
-    width: 60%;
+	display: block;
+	width: 30%;
+	float: left;
 }
+
+.listForm-area3>a {
+	text-decoration: underline;
+	color: blue;
+	text-align: right;
+	display: block;
+}
+
+.listForm-area3>h5 {
+	float: right;
+	margin-right: -230px;
+	color: blue;
+	margin-top: -25px;
+}
+
+.containerH {
+	margin-left: 100px;
+	width: 600px;
+}
+
+#navigation {
+	display: inline-block;
+	margin-top: 0;
+	margin-left: 300px;
+}
+
+.pagination {
+	margin-top: 0;
+}
+
+main {
+	max-height: none;
+}
+
+#col-md-9 {
+	flex: 0 0 auto;
+	width: 60%;
+}
+
 .col-md-3 {
-    flex: 0 0 auto;
-    width: 40%;
+	flex: 0 0 auto;
+	width: 40%;
 }
+
   </style>
 
   <div class="containerH py-5">

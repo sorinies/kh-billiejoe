@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <jsp:include page="../common/header.jsp"></jsp:include>
 <style>
 a {
@@ -53,37 +53,34 @@ h6 {
 	height: 150px;
 }
 
-
-	
-	 .containerH{
-        margin-left: 100px;
-        }
-	
-	
+.containerH {
+	margin-left: 100px;
+}
 </style>
 </head>
 
 <body>
 
-<!-- // header.jsp -->
-<!-- 본문 시작 -->
-  <div class="containerH py-5">
-    <div class="content-header row">
-      <h2 class="col">내 정보 수정</h2>
-    </div>
-    <div class="row">
-         <jsp:include page="../common/mypageSidebar.jsp"></jsp:include>
+	<!-- // header.jsp -->
+	<!-- 본문 시작 -->
+	<div class="containerH py-5">
+		<div class="content-header row">
+			<h2 class="col">내 정보 수정</h2>
+		</div>
+		<div class="row">
+			<jsp:include page="../common/mypageSidebar.jsp"></jsp:include>
 
-        <div class="col-md-9">
-        
+			<div class="col-md-9">
+
 				<form method="POST" enctype="multipart/form-data"
 					action="${contextPath}/member/updateMyPage"
 					onsubmit="return updateValidate();" class="form-horizontal"
 					role="form">
 
 
-					<a href="${contextPath}/member/secession" class="col-md-6 offset-md-7" style="color: gray;">탈퇴하기</a>
-					<br> <br>
+					<a href="${contextPath}/member/secession"
+						class="col-md-6 offset-md-7" style="color: gray;">탈퇴하기</a> <br>
+					<br>
 
 					<div class="row mb-3 form-row">
 
@@ -133,8 +130,9 @@ h6 {
 
 						<div class="col-md-6" id="profileImg-area">
 							<div id="picture">
-								<img class="img-thumbnail rounded-circle" id="memberPic" src="${contextPath}/${loginMember.memberPic}">
-								
+								<img class="img-thumbnail rounded-circle" id="memberPic"
+									src="${contextPath}/${loginMember.memberPic}">
+
 							</div>
 						</div>
 
@@ -156,7 +154,7 @@ h6 {
 			</div>
 
 		</div>
-		</div>
+	</div>
 	<script>
 		// 선택시 프로필 이미지 선택
 		$(function() {
@@ -164,10 +162,9 @@ h6 {
 				$("#profileImg").click();
 			});
 		});
-		
-		
+
 		// 사진 미리보기 
-		
+
 		function LoadImg(value) {
 			if (value.files && value.files[0]) {
 				var reader = new FileReader();
@@ -177,9 +174,6 @@ h6 {
 				}
 			}
 		}
-
-	
 	</script>
 	<jsp:include page="../common/footer.jsp"></jsp:include>
 	<script src="${contextPath}/resources/js/updateMyPage.js"></script>
-	
