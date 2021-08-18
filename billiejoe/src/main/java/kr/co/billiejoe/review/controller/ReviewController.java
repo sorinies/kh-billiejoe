@@ -95,7 +95,9 @@ public class ReviewController {
 	 * @return
 	 */
 	@RequestMapping(value="insertReview", method=RequestMethod.GET)
-	public String insertForm( Model model ) {
+	public String insertForm( Model model, int placeNo ) {
+		System.out.println(placeNo);
+		model.addAttribute("placeNo",placeNo);
 		return "review/reviewInsert";
 	}
 	
@@ -106,7 +108,8 @@ public class ReviewController {
 	public String insertReview( @ModelAttribute Review review,
 								@ModelAttribute("loginMember") Member loginMember,
 								HttpServletRequest request,
-								RedirectAttributes ra
+								RedirectAttributes ra,
+								int placeNo
 			) {
 		// 요청으로부터 일단 review객체에 작성내용을 담아서 전달받고, 별점은 review객체와 자료형이 일치하지 않으므로
 		// 컨트롤러에 일반 파라미터로 전달받아 형변환 시켜준 뒤 review객체 값을 셋팅한다.
@@ -115,8 +118,8 @@ public class ReviewController {
 		
 		review.setMemberNo( loginMember.getMemberNo() );
 		
+		System.out.println(review);
 		int reviewNo = service.insertReview(review);
-		
 		String path = null;
 		if(reviewNo>0) {
 		
