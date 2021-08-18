@@ -10,7 +10,7 @@ CREATE TABLE member (
 	member_pw	VARCHAR2(200)		NOT NULL,
 	member_name	VARCHAR2(30)		NOT NULL,
 	member_phone	VARCHAR2(20)		NOT NULL,
-	member_pic	VARCHAR2(200)	DEFAULT '/img/....png'	NOT NULL,
+	member_pic	VARCHAR2(200)	DEFAULT 'https://via.placeholder.com/300.png?text=No%20Image'	NOT NULL,
 	reg_date	TIMESTAMP	DEFAULT SYSTIMESTAMP	NOT NULL,
 	member_status	CHAR(1)	DEFAULT 'Y'	CHECK(member_status IN('Y','N')) NOT NULL,
 	member_is_admin	CHAR(1)	DEFAULT 'N'	CHECK(member_is_admin IN('Y','N')) NOT NULL
