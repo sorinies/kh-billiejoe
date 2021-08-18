@@ -68,10 +68,10 @@ h6 {
 			<h2 class="col">내 정보 수정</h2>
 		</div>
 		<div class="row">
+		
 			<jsp:include page="../common/mypageSidebar.jsp"></jsp:include>
 
 			<div class="col-md-9">
-
 				<form method="POST" enctype="multipart/form-data"
 					action="${contextPath}/member/updateMyPage"
 					onsubmit="return updateValidate();" class="form-horizontal"

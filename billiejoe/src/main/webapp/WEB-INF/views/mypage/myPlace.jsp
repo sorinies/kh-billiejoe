@@ -12,7 +12,7 @@
       </c:if>
     </div>
     <div class="row">
-      <jsp:include page="../common/sidebar.jsp"></jsp:include>
+      <jsp:include page="../common/mypageSidebar.jsp"></jsp:include>
       <div class="col-md-9">
 <%--         <form action="${contextPath}/place/list" method="get" class="row mb-3">
           <div class="col-md-4">
