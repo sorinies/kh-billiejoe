@@ -3,21 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../common/header.jsp"></jsp:include>
-<!doctype html>
-<html lang="ko">
-
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>내가 예약한 장소</title>
-  <!-- Bootstrap core CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
-    crossorigin="anonymous"></script>
-
   <style>
     a {
       text-decoration: none;
@@ -28,7 +13,6 @@
 	    color : blue;
 	    text-decoration-line: underline;
     }
-
     
     hr {
       width: 70%;
@@ -187,11 +171,7 @@
     width: 40%;
 }
   </style>
-</head>
 
-<body>
-<!-- // header.jsp -->
-<!-- 본문 시작 -->
   <div class="containerH py-5">
     <div class="content-header row">
       <h2 class="col">내가 예약한 장소</h2>
@@ -287,19 +267,12 @@
          </div>
          </div>
 
+  <script>
+    $("#searchUserCond").on("change", function () {
+      const sort = $("#searchUserCond").val();
 
+      location.href = "myReservation?cp=1&sort=" + sort;
+
+    });
+  </script>
   <jsp:include page="../common/footer.jsp"></jsp:include>
-   
-   
-	<script>
-		$("#searchUserCond").on("change", function(){
-			const sort = $("#searchUserCond").val();
-			
-			location.href = "myReservation?cp=1&sort=" + sort;
-			
-		});
-	</script>
-   
-</body>
-
-</html>
