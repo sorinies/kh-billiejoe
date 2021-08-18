@@ -326,7 +326,7 @@ int offset = (pagination.getCurrentPage() -1 ) * pagination.getLimit();
 	 * @param placeNo
 	 */
 	public void deleteAllPlaceTag(int placeNo) {
-		session.delete("placeMapper", placeNo);
+		session.delete("placeMapper.deleteAllPlaceTag", placeNo);
 	}
 
 	/** 내가 예약한 목록 목록 조회(정렬 조건 추가)
