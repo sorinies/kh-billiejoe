@@ -6,7 +6,7 @@
       <h2 class="col">예약 접수 내역</h2>
     </div>
     <div class="row">
-      <jsp:include page="../common/sidebar.jsp"></jsp:include>
+      <jsp:include page="../common/mypageSidebar.jsp"></jsp:include>
       <div class="col-md-9">
         <table class="table table-striped">
           <thead>
