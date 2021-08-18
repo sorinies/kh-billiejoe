@@ -1,35 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath" scope="application"
-	value="${pageContext.servletContext.contextPath}" />
-
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<!DOCTYPE html>
-<html lang="ko">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>billieJoe</title>
-	  <!-- Google Webfonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700&display=swap" rel="stylesheet">
-    
-    
-    <!-- Default Style -->
-  	<link href="${contextPath}/resources/css/style.css" rel="stylesheet">
-  	<link href="${contextPath}/resources/css/reviewStyle.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    
-   
-</head>
-
-<body>
-  <!-- 본문 시작 -->
   <div class="container py-5">
     <div class="row ">
       <div>
@@ -190,57 +163,56 @@
 	</c:choose>	
 </div>	  
 <%---------------------- Pagination start----------------------%>
-            <%-- 페이징 처리 시 주소를 쉽게 작성할 수 있도록 필요한 변수를 미리 선언 --%>
-            
-            <c:set var="pageURL" value="view"  />
-            
-            <c:set var="prev" value="${pageURL}?cp=${pagination.prevPage}" />
-            <c:set var="next" value="${pageURL}?cp=${pagination.nextPage}" />
-            
-            
-            <div class="my-5">
-                
-                <ul class="pagination">
-            
-                    <%-- 현재 페이지가 10페이지 초과인 경우 --%>
-                    <c:if test="${pagination.currentPage > pagination.pageSize }">
-                    	<li><a class="page-link" href="${prev}">&lt;&lt;</a></li>
-                    </c:if>
-                    
-                    <%-- 현재 페이지가 2페이지 초과인 경우 --%>
-                    <c:if test="${pagination.currentPage > 2 }">
-                    	<li><a class="page-link" href="${pageURL}?cp=${pagination.currentPage - 1}">&lt;</a></li>
-                    </c:if>
-                        
-                    <%-- 페이지 목록 --%>
-                    <c:forEach var="p" begin="${pagination.startPage}" end="${pagination.endPage}">
-                    
-                        <c:choose>
-	
-                        <c:when test="${p == pagination.currentPage }">
-                            <li class="page-item active"><a class="page-link">${p}</a></li>
-                        </c:when>
-                        
-                        <c:otherwise>
-                            <li><a class="page-link" href="${pageURL}?cp=${p}">${p}</a></li>
-                        </c:otherwise>
-
-                        </c:choose>						
-                    </c:forEach>
-                    
-                    <%-- 현재 페이지가 마지막 페이지 미만인 경우 --%>
-                    <c:if test="${pagination.currentPage < pagination.maxPage }">
-                    <li><a class="page-link" href="${pageURL}?cp=${pagination.currentPage + 1}">&gt;</a></li>
-                    </c:if>
-                    
-                    <%-- 현재 페이지가 마지막 페이지가 아닌 경우 --%>
-                    <c:if test="${pagination.currentPage - pagination.maxPage + pagination.pageSize < 0}">
-                    <li><a class="page-link" href="${next}">&gt;&gt;</a></li>
-                    </c:if>
-
-                </ul>
-            </div>
-            <%---------------------- Pagination end----------------------%>
+<c:set var="pageURL" value="view" />
+<c:set var="prev" value="${pageURL}?cp=${pagination.prevPage}" />
+<c:set var="next" value="${pageURL}?cp=${pagination.nextPage}" />
+<nav>
+	<ul class="pagination justify-content-center">
+		<c:choose>
+			<c:when test="${pagination.currentPage > 2 }">
+				<li class="page-item">
+					<a class="page-link" href="${pageURL}?cp=${pagination.currentPage - 1}" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+			</c:when>
+			<c:otherwise>
+				<li class="page-item disabled">
+					<a class="page-link" href="#" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+			</c:otherwise>
+		</c:choose>
+		<c:forEach var="p" begin="${pagination.startPage}" end="${pagination.endPage}">
+			<c:choose>
+				<c:when test="${p == pagination.currentPage }">
+					<li class="page-item active"><a class="page-link" href="#">${p}</a></li>
+				</c:when>
+				<c:otherwise>
+					<li class="page-item"><a class="page-link" href="${pageURL}?cp=${p}">${p}</a></li>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+		<c:choose>
+			<c:when test="${pagination.currentPage < pagination.maxPage }">
+				<li class="page-item">
+					<a class="page-link" href="${pageURL}?cp=${pagination.currentPage + 1}${searchStr}" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			</c:when>
+			<c:otherwise>
+				<li class="page-item disabled">
+					<a class="page-link" href="#" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			</c:otherwise>
+		</c:choose>
+	</ul>
+</nav>
+<%---------------------- Pagination end----------------------%>
         	<%---------------------- 신고하기 모달----------------------%>
 				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			        <div class="modal-dialog" >
@@ -267,8 +239,3 @@
 		}
     </script>
 			    
-			    
-</body>
-
-</html>
-<!-- //footer -->
