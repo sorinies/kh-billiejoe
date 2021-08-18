@@ -46,7 +46,7 @@
 						<table>
 							<tr>
 								<td rowspan="2" id="prople-td">
-									<img class="prople"src="${chat.member.memberPic }"alt="">
+									<img class="prople"src="${contextPath}/${chat.member.memberPic }"alt="">
 								</td>
 								<td class="chatList-content">${chat.member.memberName }</td>
 								<td>${lastMsg}</td>
