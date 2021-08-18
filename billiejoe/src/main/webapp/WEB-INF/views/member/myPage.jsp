@@ -172,6 +172,7 @@
       <h2 class="col">내 정보</h2>
     </div>
     <div class="row">
+    
         <jsp:include page="../common/mypageSidebar.jsp"></jsp:include>
 
         <div class="col-md-9">
