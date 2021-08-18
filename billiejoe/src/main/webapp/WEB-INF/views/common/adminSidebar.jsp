@@ -43,7 +43,7 @@
           </div>
         </li>
         <li class="mb-1">
-              <a href="#" class="btn btn-toggle align-items-center rounded ">게시글 관리</a>
+              <a href="${contextPath }/admin/manageBoard" class="btn btn-toggle align-items-center rounded ">게시글 관리</a>
         </li>
         <li class="mb-1">
               <a href="${contextPath }/admin/review" class="btn btn-toggle align-items-center rounded ">후기 관리</a>

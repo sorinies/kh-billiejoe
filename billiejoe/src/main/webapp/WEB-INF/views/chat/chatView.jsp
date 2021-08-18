@@ -21,7 +21,7 @@
                 <table >
                     <tr>
                         <td rowspan="2">
-                            <img src="${chatPlace.atList[0].filePath }${chatPlace.atList[0].fileName}" alt="">
+                            <img src="${contextPath}/${chatPlace.atList[0].filePath }${chatPlace.atList[0].fileName}" alt="">
                         </td>
                         <td class="td">${chatPlace.placeName }</td>
                     </tr>

@@ -51,7 +51,7 @@
 								<td class="chatList-content">${chat.member.memberName }</td>
 								<td>${lastMsg}</td>
 								<td rowspan="2">
-									<img class="area" src="${chat.chatFilePath }${chat.chatFileName}"alt="">
+									<img class="area" src="${contextPath }/${chat.chatFilePath }${chat.chatFileName}"alt="">
 								</td>
 							</tr>
 							<tr>
