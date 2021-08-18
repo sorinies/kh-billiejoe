@@ -5,51 +5,65 @@
 
   <div class="container py-5">
     <div class="row ">
-      <div>
-        <h4>총 후기 : ${add.reviewCount}개</h4>
-      </div>
-      <span>
-        <h4>평점 : 
-		              <c:choose>
-			              <c:when test="${add.reviewAvg==1}">
-				              <i id="red">★</i>
-				              <i>★</i>
-				              <i>★</i>
-				              <i>★</i>
-				              <i>★</i>
-			              </c:when>
-			              <c:when test="${add.reviewAvg==2}">
-				              <i id="red">★</i>
-				              <i id="red">★</i>
-				              <i>★</i>
-				              <i>★</i>
-				              <i>★</i>
-			              </c:when>
-			              <c:when test="${add.reviewAvg==3}">
-				              <i id="red">★</i>
-				              <i id="red">★</i>
-				              <i id="red">★</i>
-				              <i>★</i>
-				              <i>★</i>
-			              </c:when>
-			              <c:when test="${add.reviewAvg==4}">
-				              <i id="red">★</i>
-				              <i id="red">★</i>
-				              <i id="red">★</i>
-				              <i id="red">★</i>
-				              <i>★</i>
-			              </c:when>
-			              <c:otherwise>
-				              <i id="red">★</i>
-				              <i id="red">★</i>
-				              <i id="red">★</i>
-				              <i id="red">★</i>
-				              <i id="red">★</i>
-			              </c:otherwise>
-		              </c:choose>
-                      <i>&nbsp;&nbsp;${add.reviewAvg}점</i></h4>
-      </span>
+   		<div class="row">
+	   		<div class="col-2">
+		        <c:choose>
+			        <c:when test="${add.reviewCount>0}">
+		        		<h4>총 후기 : ${add.reviewCount}개</h4>
+		    	    </c:when>
+	    	    
+		    	    <c:otherwise>
+		        		<h4>총 후기 : 0개</h4>
+		    	    </c:otherwise>
+		        </c:choose>
+	        </div>
       
+   		<div class="col-3">
+	        <h4>
+	        	평점 : 
+			              <c:choose>
+				              <c:when test="${add.reviewAvg==1}">
+					              <i id="red">★</i>
+					              <i>★</i>
+					              <i>★</i>
+					              <i>★</i>
+					              <i>★</i>
+				              </c:when>
+				              <c:when test="${add.reviewAvg==2}">
+					              <i id="red">★</i>
+					              <i id="red">★</i>
+					              <i>★</i>
+					              <i>★</i>
+					              <i>★</i>
+				              </c:when>
+				              <c:when test="${add.reviewAvg==3}">
+					              <i id="red">★</i>
+					              <i id="red">★</i>
+					              <i id="red">★</i>
+					              <i>★</i>
+					              <i>★</i>
+				              </c:when>
+				              <c:when test="${add.reviewAvg==4}">
+					              <i id="red">★</i>
+					              <i id="red">★</i>
+					              <i id="red">★</i>
+					              <i id="red">★</i>
+					              <i>★</i>
+				              </c:when>
+				              <c:when test="${add.reviewAvg==5}">
+					              <i id="red">★</i>
+					              <i id="red">★</i>
+					              <i id="red">★</i>
+					              <i id="red">★</i>
+					              <i id="red">★</i>
+				              </c:when>
+				              <c:otherwise>
+					              <i></i>
+				              </c:otherwise>
+			              </c:choose>
+	                      <i>&nbsp;&nbsp;${add.reviewAvg}점</i>
+	      	</h4>
+      	</div>
     </div>
     
     <hr>
@@ -156,11 +170,14 @@
 		      </div>
 	      </div>
 	      
+	      <div>
 			    <hr>
+	      </div>
 			    
 			</c:forEach>
 		</c:otherwise>				
 	</c:choose>	
+</div>	  
 </div>	  
 <%---------------------- Pagination start----------------------%>
 <c:set var="pageURL" value="view" />
@@ -217,17 +234,17 @@
 				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			        <div class="modal-dialog" >
 			            <div class="modal-content">
-	                        <div class="modal-body">
-			                	<h3>신고 사유</h3>
-	                        	<input class="form-control" maxlength="30" type="text" name="reportContent" placeholder="30자내로 내용을 입력하세요.(ex. 욕설, 허위)">
-	                        </div>        
-			                <div class="modal-footer">
-			                    <form class="report" method="POST" action="report">
-						          	<input type="hidden" name="reviewNo" id="reviewNo" >
-			                        <button class="btn btn-primary modal-btn" type="submit" id=curse >신고하기</button>
-				                    <button type="button" class="btn btn-primary modal-btn" data-bs-dismiss="modal">취소</button>
-			                    </form>
-			                </div>
+		                    <form class="report" method="POST" action="report">
+		                        <div class="modal-body">
+				                	<h3>신고 사유</h3>
+		                        	<input class="form-control" maxlength="30" type="text" name="reportContent" placeholder="30자내로 내용을 입력하세요.(ex. 욕설, 허위)">
+		                        </div>        
+				                <div class="modal-footer">
+							          	<input type="hidden" name="reviewNo" id="reviewNo" >
+				                        <button class="btn btn-primary modal-btn" type="submit" id=curse >신고하기</button>
+					                    <button type="button" class="btn btn-primary modal-btn" data-bs-dismiss="modal">취소</button>
+				                </div>
+		                    </form>
 			            </div>
 			        </div>
 			    </div>

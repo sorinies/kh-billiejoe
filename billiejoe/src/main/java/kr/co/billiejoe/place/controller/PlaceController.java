@@ -297,6 +297,8 @@ public class PlaceController {
 		
 		model.addAttribute("reservationList", reservationList);
 		model.addAttribute("pagination", pagination);
+		model.addAttribute("myReservation", "active");
+		
 		
 		return "place/myReservation";
 	}
@@ -446,7 +448,7 @@ public class PlaceController {
 				
 				model.addAttribute("myLikePlaceList", myLikePlaceList);
 				model.addAttribute("pagination", pagination);
-				
+				model.addAttribute("likePl", "active");
 				
 				return "place/myLikePlace";
 			}

@@ -58,6 +58,7 @@ public class ReviewController {
 		
 		 model.addAttribute("reviewList", reviewList);
 		 model.addAttribute("pagination", pagination);
+		 model.addAttribute("inserted", "active");
 		
 			/* place = service.selectPlaceName(reviewList.) */
 		 
