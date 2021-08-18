@@ -33,8 +33,8 @@
           <a href="${contextPath}/place/myLikePlace" class="list-group-item list-group-item-action">내가 찜한 장소</a>
           <a href="${contextPath}/review/reviewList" class="list-group-item list-group-item-action">내가 작성한 후기</a>
           <hr>
-          <a href="${contextPath}/review/reviewList" class="list-group-item list-group-item-action">내가 등록한 장소</a>
-          <a href="${contextPath}/place/myReservation" class="list-group-item list-group-item-action">예약 접수 내역</a>
+          <a href="${contextPath}/mypage/myPlace" class="list-group-item list-group-item-action ${myPlace}">내가 등록한 장소</a>
+          <a href="${contextPath}/mypage/bookedList" class="list-group-item list-group-item-action ${bookedList}">예약 접수 내역</a>
         </div>
       </nav>
       

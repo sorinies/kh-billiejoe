@@ -158,6 +158,9 @@
 	  		<when test="cond == 'tag'">
 	  			tag_name LIKE #{q}
 	  		</when>
+	  		<when test="cond == 'member'">
+	  			member_no LIKE #{q}
+	  		</when>
 	  	</choose>
 	  </if>
 	</select>
@@ -182,6 +185,9 @@
 	  		</when>
 	  		<when test="cond == 'tag'">
 	  			tag_name LIKE #{q}
+	  		</when>
+	  		<when test="cond == 'member'">
+	  			member_no LIKE #{q}
 	  		</when>
 	  	</choose>
 	  </if>
