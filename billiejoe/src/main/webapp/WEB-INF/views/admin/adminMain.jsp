@@ -12,7 +12,6 @@
 </head>
 
 <body>
-${unMemberNo }
   <main>
   <jsp:include page="../common/adminSidebar.jsp"></jsp:include>
    
