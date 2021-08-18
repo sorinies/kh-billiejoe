@@ -1,72 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
-<!doctype html>
-<html lang="ko">
-
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>비밀번호 변경</title>
-<!-- Bootstrap core CSS -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
-	crossorigin="anonymous">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
-	crossorigin="anonymous"></script>
-<link href="../dist/css/admin_sidebars.css" rel="stylesheet">
 <jsp:include page="../common/header.jsp"></jsp:include>
 <style>
-a {
+.changepw a {
 	text-decoration: none;
 	color: black;
 }
 
-hr {
-	width: 70%;
-}
-
-.border-bottom {
-	width: 70%;
-}
-
-h6 {
+.changepw h6 {
 	width: 110%;
 }
 
-#update-btn {
+.changepw #update-btn {
 	margin-left: 20%;
 	width: 25%;
 }
-
-.flex-shrink-0 {
-	display: inline-block;
-	float: left;
-}
-
-.containerH {
-	margin-left: 100px;
-}
 </style>
 
-</head>
-
-<body>
 	<!-- // header.jsp -->
 	<!-- 본문 시작 -->
-	<div class="containerH py-5">
+	<div class="container py-5">
 		<div class="content-header row">
 			<h2 class="col">비밀번호 변경</h2>
 		</div>
 		<div class="row">
 			<jsp:include page="../common/mypageSidebar.jsp"></jsp:include>
 
-			<div class="col-md-9">
+			<div class="col-md-9 changepw">
 
 				<div class="bg-white rounded  container p-3">
 					<form method="POST" action="${contextPath}/member/changePwd"
@@ -126,9 +86,5 @@ h6 {
 		</div>
 	</div>
 
-	<script src="../dist/js/admin_sidebars.js"></script>
 	<jsp:include page="../common/footer.jsp"></jsp:include>
 	<script src="${contextPath}/resources/js/changePwd.js"></script>
-</body>
-
-</html>
