@@ -12,7 +12,6 @@
 </head>
 
 <body>
-
   <main>
   <jsp:include page="../common/adminSidebar.jsp"></jsp:include>
    
@@ -51,13 +50,22 @@
               <fmt:formatDate var="regDate" value="${member.regDate}" pattern="yyyy.MM.dd"/>
               <td>${regDate }</td>
               <td>
-              <c:if test="${member.memberStatus =='N' }">
+              <c:if test="${member.memberStatus =='N'}">
               
                <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary del-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   
                   <input type="hidden" class="chat-no" value="${member.memberNo }">
                   회원탈퇴
+                </button>
+              </c:if>
+              <c:if test="${member.memberStatus =='n'}">
+              
+               <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary del-btn" >
+                  
+                  
+                  탈퇴완료
                 </button>
               </c:if>
               </td>

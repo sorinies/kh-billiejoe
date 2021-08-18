@@ -1,41 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="myPage" value="active"/>
 <jsp:include page="../common/header.jsp"></jsp:include>
-<!doctype html>
-<html lang="ko">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Mypage</title>
-    <!-- Bootstrap core CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
-        crossorigin="anonymous"></script>
-      <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
-
     <style>
-        a {
-            text-decoration: none;
-            color: black;
-        }
-
-        hr {
-            width: 70%;
-        }
-
-        .border-bottom {
-            width: 70%;
-        }
-
-        h6 {
-            width: 110%;
-        }
-
         #update-btn {
             margin-left: 30%;
             width: 20%;
@@ -62,10 +30,8 @@
         }
 
         .flex-shrink-0 {
-
             display: inline-block;
             float: left;
-
         }
 
         #profileImg-area>div>p {
@@ -76,9 +42,7 @@
             width: 150px;
             height: 150px;
         }
-
-      
-
+  
         .listForm {
             border: 1px solid black;
             border-radius: 30px;
@@ -197,27 +161,18 @@
             margin-bottom: 20px;
         }
         
-        .containerH{
-        margin-left: 100px;
-        }
-        
         .place{
         	width : 750px;
         }
     </style>
-</head>
 
-<body>
-
-
-<!-- // header.jsp -->
 <!-- 본문 시작 -->
-  <div class="containerH py-5">
+  <div class="container py-5">
     <div class="content-header row">
       <h2 class="col">내 정보</h2>
     </div>
     <div class="row">
-         <jsp:include page="../common/mypageSidebar.jsp"></jsp:include>
+        <jsp:include page="../common/mypageSidebar.jsp"></jsp:include>
 
         <div class="col-md-9">
             
@@ -302,6 +257,3 @@
         </div>
 
     <jsp:include page="../common/footer.jsp"></jsp:include>
-</body>
-
-</html>

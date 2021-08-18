@@ -72,24 +72,9 @@
 
 <body>
   <main>
-    <div class="flex-shrink-0 p-3 bg-white" style="width: 200px;">
-       
-        <ul class="list-unstyled ">
-            <br>
-            <br>
-            <br>
-            <br>
-          <li class="mb-1">
-            <a href="#">회원관리</a><br><br>
-            <a href="#">게시물 관리</a><br><br>
-            <a href="#">후기관리</a><br><br>
-            <a href="#">신고내역</a><br><br>
-          </li>
-  
-  
-        </ul>
-      </div>
+   <jsp:include page="../common/adminSidebar.jsp"></jsp:include>
       <div class="b-example-divider"></div>
+      
     <div class="containerH py-5">
         <table class="table table-striped table-hover w-100">
           <thead>

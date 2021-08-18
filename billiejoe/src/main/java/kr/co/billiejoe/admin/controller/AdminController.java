@@ -141,7 +141,16 @@ public class AdminController {
 			pg = service.getMemberPg(pg,search);
 			memberList = service.selectMemberList(pg,search);
 		}
+		List<Integer> unMemberNo = service.selectunMemberNo();
 		
+		for(Member m : memberList) {
+			if(unMemberNo.contains(m.getMemberNo())) {
+				System.out.println(m.getMemberNo());
+				m.setMemberStatus("n");
+			}
+		}
+		
+		model.addAttribute("unMemberNo",unMemberNo);
 		model.addAttribute("pg",pg);
 		model.addAttribute("memberList",memberList);
 		return "admin/adminMain";
@@ -184,7 +193,7 @@ public class AdminController {
 	@PostMapping("deleteMember")
 	public String deleteMember(int memberNo ,Model model,RedirectAttributes ra) {
 		int result = service.deleteMember(memberNo);
-		System.out.println(result);
+		
 		if(result>0) {
 			swalSetMessage(ra, "susess", "정상승인 되었습니다", null);
 		}else{

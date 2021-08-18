@@ -97,9 +97,7 @@ public class AdminServiceImpl implements AdminService{
 		int result = 0;
 		if(member != null) {
 			result = dao.insertUnreg(member);
-			if(result >0) {
-				result = dao.deleteMember(memberNo);
-			}
+			
 		}
 		return result;
 	}
@@ -251,6 +249,12 @@ public class AdminServiceImpl implements AdminService{
 		@Override
 		public Review addReview(int placeNo) {
 			return dao.addReview(placeNo);
+		}
+
+		@Override
+		public List<Integer> selectunMemberNo() {
+			// TODO Auto-generated method stub
+			return dao.selectunMemberNo();
 		}
 		
 		

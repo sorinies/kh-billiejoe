@@ -40,6 +40,7 @@ public class ReservationController {
 		
 		model.addAttribute("resList", resList);
 		model.addAttribute("pagination", pagination);
+		model.addAttribute("bookedList", "active");
 		
 		return "mypage/bookedList";
 	}

@@ -105,13 +105,14 @@ footer {
 
 /* 날짜 시간예약 div */
 #datebox{
-    width: 350px;
-    height: 700px;
-    margin-left : 60px;
-    border: black 1px solid;
-    align-items: center;
-    padding-left: 25px;
+    width: 300px;
+    /* height: 700px; */
+    /* margin-left : 60px; */
+    /* border: black 1px solid; */
+    /* align-items: center; */
+    /* padding-left: 25px; */
 }
+
 /* 라벨 디자인 */
 #datebox input[type=checkbox]+label{
     border: 1px solid grey;
@@ -146,10 +147,6 @@ input[name=checkbox]{
      display: none;
 }
 /* 글내용 */
-#content{
-    width: 100%;
-    
-}
 #price{
     font-size: 20px;
     font-weight: bold;

@@ -82,4 +82,6 @@ public interface AdminService {
 
 	public abstract Review addReview(int placeNo);
 
+	public abstract List<Integer> selectunMemberNo();
+
 }

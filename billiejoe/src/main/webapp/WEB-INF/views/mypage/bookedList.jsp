@@ -3,7 +3,7 @@
 <jsp:include page="../common/header.jsp"></jsp:include>
   <div class="container py-5">
     <div class="content-header row">
-      <h2 class="col">장소 등록</h2>
+      <h2 class="col">예약 접수 내역</h2>
     </div>
     <div class="row">
       <jsp:include page="../common/sidebar.jsp"></jsp:include>

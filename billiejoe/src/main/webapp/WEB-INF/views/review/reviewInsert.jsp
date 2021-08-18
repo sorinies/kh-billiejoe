@@ -85,6 +85,7 @@
           
           <div class="btnArea text-end">
             <input type="hidden" name="rate" id="rate" class="reviewRate">
+            <input type="hidden" name="placeNo" value="${placeNo }">
             <button type="submit" class="btn btn-primary">등록</button>
             <a class="btn btn-primary" href="${contextPath}/review/reviewList?cp=${param.cp}">목록으로</a>
           </div>

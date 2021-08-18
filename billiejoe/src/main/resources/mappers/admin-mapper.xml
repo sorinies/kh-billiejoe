@@ -176,9 +176,7 @@
 		SELECT * FROM MEMBER WHERE MEMBER_NO = #{memberNo}
 	</select>
 	
-	<delete id="deleteMember" parameterType="_int">
-		DELETE FROM MEMBER WHERE MEMBER_NO = #{memberNo} 
-	</delete>
+	
 	
 	<!--탈퇴한 회원수 조회 -->
 	<select id="getUnRegListCount" resultType="_int">
@@ -288,6 +286,9 @@
                    JOIN PLACE USING(PLACE_NO)
                    WHERE PLACE_NO = #{placeNo} 
                    AND REVIEW_STATUS = 'Y' )
+     </select>
+     <select id="selectunMemberNo" resultType="_int">
+     	SELECT MEMBER_NO FROM UNREG_MEMBER
      </select>
 	
 </mapper>
