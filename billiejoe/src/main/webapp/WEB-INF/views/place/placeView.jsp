@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-9">
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
           <c:if test="${!empty place.atList[0] }">
@@ -73,7 +73,7 @@
         <div id="map" style="width:100%;height:350px;"></div>
         <br><br>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3 border">
         <form action="payMent" method="POST"  onsubmit="return check()">
           <div id="datebox" class="mx-auto">
             <!-- 달력 -->
