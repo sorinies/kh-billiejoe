@@ -310,8 +310,6 @@ public class PlaceController {
 	@GetMapping("{placeNo}/reservationView")
 	public String reserveNo(@PathVariable("placeNo")int placeNo, int reserveNo, Model model,Pagination pg,@RequestParam(value = "cp", required = false, defaultValue = "1")int cp) {
 		Member loginMember = (Member)model.getAttribute("loginMember");
-//			loginMember = new Member();
-//			loginMember.setMemberNo(500);
 		int like = 0;
 		if(loginMember !=null) {
 			like = service.likeCheck(loginMember.getMemberNo());
@@ -329,6 +327,7 @@ public class PlaceController {
 		model.addAttribute("map",map);
 		model.addAttribute("reservation", reservation);
 		model.addAttribute("like",like);
+		place.setPlaceAddr(place.getPlaceAddr().substring(5));
 		model.addAttribute("place",place);
 		pg.setCurrentPage(cp);
 		

@@ -87,7 +87,7 @@
             <div id="price-zone">
               <p>가격</p>
               <p>
-                <fmt:formatNumber value="${place.placeCharge}" pattern="#,###" />/시간
+                <fmt:formatNumber value="${place.placeCharge}" pattern="#,###" />원/시간
               </p>
               <p id="price">예약 시간을 선택해주세요</p>
             </div>
