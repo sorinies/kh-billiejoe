@@ -146,10 +146,6 @@ input[name=checkbox]{
      display: none;
 }
 /* 글내용 */
-#content{
-    width: 100%;
-    
-}
 #price{
     font-size: 20px;
     font-weight: bold;
