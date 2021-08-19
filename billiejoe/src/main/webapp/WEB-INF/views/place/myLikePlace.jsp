@@ -15,7 +15,7 @@
 					<div class="card mb-3 place">
 						<div class="row g-0">
 							<div class="place-thumb col-md-4"
-								style="background-image:url(${likePlace.atList[0].filePath }${likePlace.atList[0].fileName })"></div>
+								style="background-image:url(${contextPath}/${likePlace.atList[0].filePath }${likePlace.atList[0].fileName })"></div>
 							<div class="col-md-8">
 								<div class="card-body">
 									<h3 class="card-title">
