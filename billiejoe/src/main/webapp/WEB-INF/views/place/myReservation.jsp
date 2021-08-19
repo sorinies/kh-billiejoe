@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="../common/header.jsp"></jsp:include>
+
 <div class="container py-5">
   <div class="content-header row">
     <h2 class="col">내가 예약한 장소</h2>

@@ -65,7 +65,7 @@
 				</div>
 				
 				<div class="col">
-					<a href="#">비밀번호 찾기</a>
+					<a href="${contextPath}/mail/findPwd">비밀번호 찾기</a>
 				</div>
 			</div>
 		</form>
