@@ -77,6 +77,8 @@
         </div>
         <div class="offcanvas-body">
           <div class="row sidemenu-memberinfo">
+            <c:choose>
+            <c:when test="${!empty loginMember}">
             <div class="col-md-3 flex-shrink-0 member_pic">
               <img src="${contextPath}/${loginMember.memberPic}" class="img-fluid rounded-circle">
             </div>
@@ -84,6 +86,13 @@
               <li>${loginMember.memberName}</li>
               <li>${loginMember.memberEmail}</li>
             </ul>
+            </c:when>
+            <c:otherwise>
+            <div class="d-grid">
+              <a class="btn btn-light" href="${contextPath}/member/login">로그인</a>
+            </div>
+            </c:otherwise>
+            </c:choose>
           </div>
           <ul class="row sidemenu-top list-unstyled">
             <li class="col">
