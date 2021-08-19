@@ -150,24 +150,15 @@
 	
 	<!-- 이용 예정인 공간 조회 -->
 	<select id="selectLatestPlace" parameterType="_int" resultMap="myReservation_rm">
-	
-		SELECT RESERVE_NO, R.PLACE_NO, PLACE_NAME, PLACE_SUMMARY, PLACE_CHARGE, RESERVE_USE_DATE,
-			(SELECT COUNT(*) FROM LIKES L WHERE L.PLACE_NO = R.PLACE_NO) LIKE_COUNT,
-			(SELECT COUNT(*) FROM REVIEW V WHERE V.PLACE_NO = R.PLACE_NO) REVIEW_COUNT
-		FROM RESERVATION R
-		JOIN PLACE P ON(R.PLACE_NO = P.PLACE_NO)
-		LEFT JOIN PLACE_TAG PT ON(R.PLACE_NO = PT.PLACE_NO)
-		LEFT JOIN TAG USING(TAG_NO)
-		WHERE RESERVE_NO IN (
-		    SELECT RESERVE_NO FROM (
-		        SELECT RESERVE_NO
-		        FROM RESERVATION
-		        WHERE RESERVE_USE_DATE >= SYSDATE
-		        AND MEMBER_NO = #{memberNo} 
-		        ORDER BY RESERVE_USE_DATE)   
-		    WHERE ROWNUM = 1
+		SELECT * FROM (
+			SELECT place_no, place_name, place_summary, place_charge, R.member_no, file_name, like_count, review_count, reserve_use_date
+			FROM place_list P
+			JOIN reservation R USING(place_no)
+			WHERE R.member_no = #{memberNo}
+			AND reserve_use_date >= SYSDATE
+			ORDER BY reserve_use_date
 		)
-		
+		WHERE ROWNUM = 1
 	</select>
 	
 	
