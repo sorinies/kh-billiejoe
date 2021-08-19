@@ -75,7 +75,7 @@
 						</div>
 
 						<input type="file" id="profileImg" name="profileImg"
-							onchange="LoadImg(this,0)">
+							onchange="LoadImg(this,0)" style="display:none;">
 
 					</div>
 
