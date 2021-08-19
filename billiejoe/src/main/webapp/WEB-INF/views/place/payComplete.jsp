@@ -17,7 +17,7 @@
 	            <p>예약 날짜 : ${reservation.useDate}</p>
 	            <p>예약 시간 : ${reservation.useStart}시 ~ ${reservation.useEnd}시</p>
 	            <p>주소 : ${place.placeAddr }</p>
-	            <a href="#" class="btn btn-primary pay-a"  >예약 내역 확인</a>
+	            <a href="${contextPath}/place/${place.placeNo}/reservationView?reserveNo=${reservation.reserveNo}" class="btn btn-primary pay-a"  >예약 내역 확인</a>
 	            <a href="${contextPath}/chat/room?placeMemberNo=${place.memberNo}&placeNo=${place.placeNo}&joinMemberNo=${loginMember.memberNo}" class="btn btn-secondary pay-a">호스트와 채팅하기</a>
 	        </div>
 	

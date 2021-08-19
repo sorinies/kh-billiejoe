@@ -1,77 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <jsp:include page="../common/header.jsp"></jsp:include>
-<style>
-a {
-	text-decoration: none;
-	color: black;
-}
-
-hr {
-	width: 70%;
-}
-
-.border-bottom {
-	width: 70%;
-}
-
-h6 {
-	width: 110%;
-}
-
-#update-btn {
-	margin-left: 30%;
-	width: 20%;
-}
-
-#profileImg {
-	display: none;
-}
-
-#profileImg-area {
-	text-align: center;
-}
-
-#profileImg-area>div {
-	width: 150px;
-	height: 150px;
-	background-color: #eee;
-	border-radius: 50%;
-	display: inline-block;
-	border: 1px solid black;
-	background-size: 120%;
-	background-position: center;
-	background-repeat: no-repeat;
-}
-
-#profileImg-area>div>p {
-	margin-top: 50px;
-}
-
-#memberPic {
-	width: 150px;
-	height: 150px;
-}
-
-.containerH {
-	margin-left: 100px;
-}
-</style>
-</head>
-
-<body>
-
-	<!-- // header.jsp -->
-	<!-- 본문 시작 -->
-	<div class="containerH py-5">
+	<div class="container py-5">
 		<div class="content-header row">
 			<h2 class="col">내 정보 수정</h2>
 		</div>
 		<div class="row">
+		
 			<jsp:include page="../common/mypageSidebar.jsp"></jsp:include>
 
 			<div class="col-md-9">
-
 				<form method="POST" enctype="multipart/form-data"
 					action="${contextPath}/member/updateMyPage"
 					onsubmit="return updateValidate();" class="form-horizontal"
@@ -130,7 +68,7 @@ h6 {
 
 						<div class="col-md-6" id="profileImg-area">
 							<div id="picture">
-								<img class="img-thumbnail rounded-circle" id="memberPic"
+								<img class="img-thumbnail rounded-circle" width="200px" id="memberPic"
 									src="${contextPath}/${loginMember.memberPic}">
 
 							</div>

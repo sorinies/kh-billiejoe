@@ -40,8 +40,6 @@
   <jsp:include page="../common/header.jsp"></jsp:include>
   
     <!-- 본문 시작 -->
-  <!-- 각 페이지의 jsp 파일은 header와 footer를 제외한 본문만 남겨서 작성해주세요. (이클립스에서 보여주는 빨간줄 표시는 무시하셔도 됩니다.) -->
-  <!-- !!! 강사님은 알아서 합쳐주니 괜찮다고 하셨지만 세 부분으로 나누어 졌을 때 겹치는 곳이 없고 셋이 합쳐 하나의 완성된 html 파일이 되도록 include 되어야 합니다 !!! -->
   <div class="container py-5">
     <hr>
     <div class="row UpdateWrapper">

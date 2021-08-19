@@ -197,7 +197,8 @@ public class MemberController {
 	// /member/myPage 주소로 요청이 오면
 	// /WEB-INF/views/member.myPage.jsp로 요청 위임(forward)
 	@RequestMapping(value="updateMyPage", method=RequestMethod.GET)
-	public String updateMyPage() {
+	public String updateMyPage( Model model) {
+		model.addAttribute("updMyPage", "active");
 		return "member/updateMyPage";
 	}
 	
@@ -240,7 +241,9 @@ public class MemberController {
 	
 	// 비밀번호 변경 화면 전환 Controller
 		@RequestMapping(value="changePwd", method=RequestMethod.GET)
-		public String changePwd() {
+		public String changePwd( Model model ) {
+			
+			model.addAttribute("change", "active");
 			
 			return "member/changePwd";
 		}
@@ -250,7 +253,8 @@ public class MemberController {
 		public String changePwd(@RequestParam("currentPwd") String currentPwd,
 								@RequestParam("newPwd1") String newPwd,
 								@ModelAttribute("loginMember") Member loginMember,
-								RedirectAttributes ra) {
+								RedirectAttributes ra
+								) {
 			
 			int result = service.changePwd(currentPwd, newPwd, loginMember);
 		
@@ -286,6 +290,7 @@ public class MemberController {
 			List<MyReservation> reservedPlace = service.selectReservedPlace(loginMember.getMemberNo());
 			
 			model.addAttribute("reservedPlace", reservedPlace);
+			model.addAttribute("mpg", "active");
 			  return "member/myPage";
 		  }
 		

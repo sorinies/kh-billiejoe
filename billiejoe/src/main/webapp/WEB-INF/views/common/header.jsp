@@ -76,16 +76,31 @@
           <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-          <ul>
-            <li><a href="#">내 장소</a></li>
-            <li><a href="#">내 예약</a></li>
-            <li><a href="#">채팅</a></li>
+          <div class="row sidemenu-memberinfo">
+            <div class="col-md-3 flex-shrink-0 member_pic">
+              <img src="${contextPath}/${loginMember.memberPic}" class="img-fluid rounded-circle">
+            </div>
+            <ul class="col-md-9 list-unstyled my-auto">
+              <li>${loginMember.memberName}</li>
+              <li>${loginMember.memberEmail}</li>
+            </ul>
+          </div>
+          <ul class="row sidemenu-top list-unstyled">
+            <li class="col">
+              <a href="${contextPath}/mypagq/myPlace"><i class="bi bi-shop"></i><br>내 장소</a>
+            </li>
+            <li class="col">
+              <a href="${contextPath}/place/myReservation"><i class="bi bi-calendar-check-fill"></i><br>내 예약</a>
+            </li>
+            <li class="col">
+              <a href="${contextPath}/chat/list"><i class="bi bi-chat-fill"></i><br>채팅</a>
+            </li>
           </ul>
-          <ul>
-            <li><a href="${contextPath}/place/list">모든 장소</a></li>
-            <li><a href="#">예약 접수 내역</a></li>
-            <li><a href="${contextPath}/review/reviewList">내가 남긴 후기</a></li>
-            <li><a href="#">찜한 장소</a></li>
+          <ul class="sidemenu-list list-group list-group-flush">
+            <li class="list-group-item"><a href="${contextPath}/place/list" class="stretched-link">모든 장소</a></li>
+            <li class="list-group-item"><a href="${contextPath}/mypage/bookedList" class="stretched-link">예약 접수 내역</a></li>
+            <li class="list-group-item"><a href="${contextPath}/review/reviewList" class="stretched-link">내가 남긴 후기</a></li>
+            <li class="list-group-item"><a href="${contextPath}/place/myLikePlace" class="stretched-link">찜한 장소</a></li>
           </ul>
         </div>
       </div>

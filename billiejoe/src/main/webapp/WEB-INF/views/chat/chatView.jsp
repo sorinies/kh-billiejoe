@@ -14,7 +14,7 @@
         <div id="chat-header" class="row">
             <div class="col-sm-6" id="header-left">
                 <a href="list"><i class="bi bi-arrow-left"></i></a>
-                <img src="${member.memberPic }" alt="" id ="prople"style="border-radius: 50%;">
+                <img src="${contextPath}/${member.memberPic }" alt="" id ="prople"style="border-radius: 50%;">
                 <strong id="name" >${member.memberName }</strong>
             </div>
             <div class="col-sm-6" id="chat-content">

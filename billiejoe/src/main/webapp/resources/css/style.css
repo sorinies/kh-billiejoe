@@ -55,6 +55,37 @@ footer {
   padding: 3rem 0;
 }
 
+.sidemenu-top {
+	background-color: #ffc107;
+}
+.sidemenu-top li {
+	text-align: center;
+	border-left: 1px solid rgba(0,0,0,0.2);
+}
+.sidemenu-top li:first-child {
+	border-left: none;
+}
+.sidemenu-top li a {
+	padding: 30px 0;
+	width: 100%;
+	color: #000;
+	font-weight: bold;
+	font-size: 1.2rem;
+	text-decoration: none;
+	display: inline-block;
+}
+.sidemenu-list a {
+	text-decoration: none;
+	font-size: 1.1rem;
+	color: #000;
+}
+.sidemenu-memberinfo {
+	background-color: #ffc107;
+	padding: 30px 0;
+	border-bottom: 1px solid rgba(0,0,0,0.2); 
+}
+
+
 /* place */
 .place .card-title {
   font-weight: bold;
