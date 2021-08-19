@@ -68,38 +68,7 @@ h5, p{
 
 
 <body>
-  <header class="sticky-top shadow">
-    <nav class="navbar navbar-light flex-md-nowrap p-0 container">
-      <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">billieJoe</a>
-      <div class="input-group">
-        <select class="form-select form-control-dark" id="placeSearchCond">
-          <option value="1" selected>장소명</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-        <input class="form-control form-control-dark" type="text" placeholder="Search">
-      </div>
-      <ul class="navbar-nav">
-        <li class="nav-item text-nowrap">
-          <a class="nav-link px-3" href="#">로그인</a>
-        </li>
-        <li class="nav-item text-nowrap">
-          <a class="nav-link px-3" href="#">회원가입</a>
-        </li>
-      </ul>
-      <button class="navbar-toggler me-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" type="button"><span class="navbar-toggler-icon"></span></button>
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
-          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-          대충 메뉴 들어가는 부분
-        </div>
-      </div>
-    </nav>
-  </header>
-<!-- // header.jsp -->
+  <jsp:include page="../common/header.jsp"></jsp:include>
 
 <!-- 본문 시작 -->
 <!-- 각 페이지의 jsp 파일은 header와 footer를 제외한 본문만 남겨서 작성해주세요. (이클립스에서 보여주는 빨간줄 표시는 무시하셔도 됩니다.) -->
@@ -122,12 +91,7 @@ h5, p{
   </div>
 <!-- // 본문 끝 -->
 
-<!-- footer -->
-  <footer>
-    <div class="container">
-      © 2021 billieJoe All Rights Reserved.
-    </div>
-  </footer>
+
   
   <%-- 	비밀번호 찾기 실패와 같은 메세지가 서버로 부터 전달되어 온 경우 출력 --%>
 	<c:if test="${!empty title }">
@@ -141,6 +105,7 @@ h5, p{
 		</script>
 		
 	</c:if>
+	<jsp:include page="../common/footer.jsp"></jsp:include>
 </body>
 </html>
 <!-- //footer -->
