@@ -56,7 +56,7 @@
           <img src="${contextPath}/resources/images/${review.fileName}" class="card-img">
           <div class="card-img-overlay">
             <h5 class="card-title">${review.placeName}</h5>
-            <p class="card-text">${review.reviewRate}</p>
+            <p class="card-text"><c:forEach begin="0" end="${review.reviewRate}"><i class="bi bi-star-fill text-warning"></i> </c:forEach></p>
             <p class="card-text">${review.reviewContent}</p>
             <ul class="place-tag list-inline">
               <c:forEach items="${review.tagList}" var="tag">
