@@ -45,7 +45,11 @@
                   <li class="list-inline-item"><fmt:formatNumber value="${myReserv.placeCharge }" pattern="#,###" /><small>원</small></li>
                   <li class="list-inline-item"><i class="bi bi-calendar-check"></i> ${myReserv.useDate}</li>
                   <li class="list-inline-item"><i class="bi bi-clock"></i> ${myReserv.useStart}:00 ~ ${myReserv.useEnd }:00</li>
+                  <li class="list-inline-item">${myReserv.stateName}</li>
                 </ul>
+                <c:if test="${myReserv.stateNo == 1 }">
+                <p class="card-text stretched-link-block"><a class="btn btn-sm btn-primary" href="${contextPath}/review/insertReview?placeNo=${myReserv.placeNo}">이용후기 작성하기</a></p>
+                </c:if>
               </div>
             </div>
           </div>

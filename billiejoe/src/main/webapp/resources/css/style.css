@@ -171,6 +171,10 @@ footer {
     margin-bottom: 0px;
  }
 
+.stretched-link-block .btn {
+	position: relative;
+	z-index: 100;
+}
 
 
 /* 체크박스 안보이기 */
