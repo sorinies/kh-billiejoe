@@ -291,15 +291,8 @@
 	
 	<!-- 내가 좋아요한 장소 -->
 	<select id="selectMyLikePlaceList"  parameterType="_int" resultMap="myReservation_rm" >
-	SELECT P.PLACE_NO, PLACE_NAME, PLACE_SUMMARY, PLACE_CHARGE,
-    (SELECT COUNT(*) FROM LIKES LK WHERE LK.PLACE_NO = P.PLACE_NO) LIKE_COUNT,
-    (SELECT COUNT(*) FROM REVIEW V WHERE V.PLACE_NO = P.PLACE_NO) REVIEW_COUNT
-	FROM LIKES L
-	JOIN PLACE P ON(L.PLACE_NO = P.PLACE_NO)
-	LEFT JOIN PLACE_TAG PT ON(P.PLACE_NO = PT.PLACE_NO)
-	LEFT JOIN TAG USING(TAG_NO)
-	WHERE L.MEMBER_NO = #{memberNo}
-	
+		SELECT * FROM place_list P JOIN likes L USING(place_no) 
+		WHERE L.member_no = #{memberNo} ORDER BY liked_date DESC
 	</select>
 	
 	<!-- 내가 예약한 장소 -->

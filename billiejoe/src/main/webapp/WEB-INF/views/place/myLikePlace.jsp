@@ -24,7 +24,7 @@
 									</h3>
 									<p class="card-text">${likePlace.placeSummary}</p>
 									<ul class="place-tag list-inline">
-										<c:forEach items="${tagList}" var="tag">
+										<c:forEach items="${likePlace.tagList}" var="tag">
 											<li class="list-inline-item"><a
 												class="badge rounded-pill bg-secondary" href="#"><i
 													class="bi bi-hash"></i>${tag.tagName}</a></li>
