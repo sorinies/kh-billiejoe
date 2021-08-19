@@ -87,7 +87,7 @@
           </div>
           <ul class="row sidemenu-top list-unstyled">
             <li class="col">
-              <a href="${contextPath}/mypagq/myPlace"><i class="bi bi-shop"></i><br>내 장소</a>
+              <a href="${contextPath}/mypage/myPlace"><i class="bi bi-shop"></i><br>내 장소</a>
             </li>
             <li class="col">
               <a href="${contextPath}/place/myReservation"><i class="bi bi-calendar-check-fill"></i><br>내 예약</a>
